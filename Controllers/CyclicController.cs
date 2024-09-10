@@ -63,23 +63,21 @@ namespace CSHARP_SocialMediaAPP.Controllers
                         CellUp = false,
                         CellDown = false
                     };
-                    if (i > leftColumn)
+
+                    if (i > leftColumn && i < rightColumn)
                     {
                         table[bottomRow, i].CellLeft = true;
-                    }
-                    if (i < rightColumn)
-                    {
                         table[bottomRow, i].CellRight = true;
                     }
-                    if (bottomRow < rows - 1)
-                    {
-                        table[bottomRow, i].CellUp = true;
-                    }
-
-                    if (i == leftColumn && bottomRow == rows - 1)
+                    else if (i == leftColumn)
                     {
                         table[bottomRow, i].CellUp = true;
                         table[bottomRow, i].CellRight = true;
+                    }
+                    else if (i == rightColumn)
+                    {
+                        table[bottomRow, i].CellRight = true;
+                        table[bottomRow, i].CellLeft = true;
                     }
 
                     if (currentNum == 1)
@@ -89,6 +87,10 @@ namespace CSHARP_SocialMediaAPP.Controllers
                         table[bottomRow, i].CellUp = false;
                         table[bottomRow, i].CellDown = false;
                         table[bottomRow, i].CellBgColor = "#FFF";
+                    }
+                    if (currentNum == rows * columns)
+                    {
+                        table[bottomRow, i].CellUp = false;
                     }
                     currentNum++;
                 }
@@ -104,6 +106,22 @@ namespace CSHARP_SocialMediaAPP.Controllers
                         CellUp = false,
                         CellDown = false
                     };
+
+                    if (i > topRow && i < bottomRow)
+                    {
+                        table[i, leftColumn].CellUp = true;
+                        table[i, leftColumn].CellDown = true;
+                    }
+                    else if (i == topRow)
+                    {
+                        table[i, leftColumn].CellDown = true;
+                        table[i, leftColumn].CellRight = true;
+                    }
+                    else if (i == bottomRow)
+                    {
+                        table[i, leftColumn].CellUp = true;
+                        table[i, leftColumn].CellDown = true;
+                    }
                     currentNum++;
                 }
                 leftColumn++;
@@ -120,6 +138,22 @@ namespace CSHARP_SocialMediaAPP.Controllers
                             CellUp = false,
                             CellDown = false
                         };
+
+                        if (i > leftColumn && i < rightColumn)
+                        {
+                            table[topRow, i].CellLeft = true;
+                            table[topRow, i].CellRight = true;
+                        }
+                        else if (i == leftColumn)
+                        {
+                            table[topRow, i].CellLeft = true;
+                            table[topRow, i].CellRight = true;
+                        }
+                        else if (i == rightColumn)
+                        {
+                            table[topRow, i].CellDown = true;
+                            table[topRow, i].CellLeft = true;
+                        }
                         currentNum++;
                     }
                     topRow++;
@@ -137,6 +171,22 @@ namespace CSHARP_SocialMediaAPP.Controllers
                             CellUp = false,
                             CellDown = false
                         };
+
+                        if (i > topRow && i < bottomRow)
+                        {
+                            table[i, rightColumn].CellUp = true;
+                            table[i, rightColumn].CellDown = true;
+                        }
+                        else if (i == topRow && rightColumn == rows - 1)
+                        {
+                            table[i, rightColumn].CellUp = true;
+                            table[i, rightColumn].CellDown = true;
+                        }
+                        else if (i == bottomRow)
+                        {
+                            table[i, rightColumn].CellUp = true;
+                            table[i, rightColumn].CellLeft = true;
+                        }
                         currentNum++;
                     }
                     rightColumn--;
