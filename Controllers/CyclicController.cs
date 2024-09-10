@@ -4,12 +4,12 @@ namespace CSHARP_SocialMediaAPP.Controllers
 {
     public class CellData
     {
-        public int Number { get; set; }
-        public bool MoveUp { get; set; }
-        public bool MoveDown { get; set; }
-        public bool MoveLeft { get; set; }
-        public bool MoveRight { get; set; }
-        public string BackgroundColor { get; set; } = "#333";
+        public int CellNumber { get; set; }
+        public bool CellUp { get; set; }
+        public bool CellDown { get; set; }
+        public bool CellLeft { get; set; }
+        public bool CellRight { get; set; }
+        public string CellBgColor { get; set; } = "#333";
     }
     [ApiController]
     [Route("api/v1/Cyclic")]
@@ -57,10 +57,39 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 {
                     table[bottomRow, i] = new CellData
                     {
-                        Number = currentNum,
-                        MoveLeft = true,
-                        BackgroundColor = currentNum == 1 ? "#FFF" : "#333"
+                        CellNumber = currentNum,
+                        CellLeft = false,
+                        CellRight = false,
+                        CellUp = false,
+                        CellDown = false
                     };
+                    if (i > leftColumn)
+                    {
+                        table[bottomRow, i].CellLeft = true;
+                    }
+                    if (i < rightColumn)
+                    {
+                        table[bottomRow, i].CellRight = true;
+                    }
+                    if (bottomRow < rows - 1)
+                    {
+                        table[bottomRow, i].CellUp = true;
+                    }
+
+                    if (i == leftColumn && bottomRow == rows - 1)
+                    {
+                        table[bottomRow, i].CellUp = true;
+                        table[bottomRow, i].CellRight = true;
+                    }
+
+                    if (currentNum == 1)
+                    {
+                        table[bottomRow, i].CellLeft = false;
+                        table[bottomRow, i].CellRight = false;
+                        table[bottomRow, i].CellUp = false;
+                        table[bottomRow, i].CellDown = false;
+                        table[bottomRow, i].CellBgColor = "#FFF";
+                    }
                     currentNum++;
                 }
                 bottomRow--;
@@ -69,9 +98,11 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 {
                     table[i, leftColumn] = new CellData
                     {
-                        Number = currentNum,
-                        MoveUp = true,
-                        BackgroundColor = currentNum == 1 ? "#FFF" : "#333"
+                        CellNumber = currentNum,
+                        CellLeft = false,
+                        CellRight = false,
+                        CellUp = false,
+                        CellDown = false
                     };
                     currentNum++;
                 }
@@ -83,9 +114,11 @@ namespace CSHARP_SocialMediaAPP.Controllers
                     {
                         table[topRow, i] = new CellData
                         {
-                            Number = currentNum,
-                            MoveRight = true,
-                            BackgroundColor = currentNum == 1 ? "#FFF" : "#333"
+                            CellNumber = currentNum,
+                            CellLeft = false,
+                            CellRight = false,
+                            CellUp = false,
+                            CellDown = false
                         };
                         currentNum++;
                     }
@@ -98,9 +131,11 @@ namespace CSHARP_SocialMediaAPP.Controllers
                     {
                         table[i, rightColumn] = new CellData
                         {
-                            Number = currentNum,
-                            MoveDown = true,
-                            BackgroundColor = currentNum == 1 ? "#FFF" : "#333"
+                            CellNumber = currentNum,
+                            CellLeft = false,
+                            CellRight = false,
+                            CellUp = false,
+                            CellDown = false
                         };
                         currentNum++;
                     }
