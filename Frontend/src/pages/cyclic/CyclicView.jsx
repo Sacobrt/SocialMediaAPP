@@ -27,8 +27,8 @@ export default function CyclicView() {
     };
 
     return (
-        <div className="container mx-auto py-4 grid grid-cols-1 lg:grid-cols-2">
-            <div className="flex flex-row items-center justify-center">
+        <div className="container mx-auto py-4 grid grid-cols-1 2xl:grid-cols-2">
+            <div className="grid grid-flow-col items-center justify-center">
                 <span className="text-4xl font-bold rotate-90 text-gray-800">INPUT</span>
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {["rows", "columns"].map((field, index) => (
@@ -42,7 +42,7 @@ export default function CyclicView() {
                                 value={formData[field]}
                                 max={10}
                                 onChange={handleInputChange}
-                                className="mt-2 h-[40px] w-[200px] rounded-md border-2 text-center font-semibold focus:ring-0"
+                                className="mt-2 h-[40px] w-[200px] rounded-md border-2 border-gray-800 text-center font-bold focus:ring-0"
                             />
                         </div>
                     ))}
@@ -56,19 +56,19 @@ export default function CyclicView() {
                 {cyclic && (
                     <>
                         <span className="text-4xl font-bold rotate-90 text-gray-800">OUTPUT</span>
-                        <div className="grid justify-center mt-2" style={{ gridTemplateColumns: `repeat(${submittedColumns}, 105px)` }}>
+                        <div className="grid overflow-x-auto mt-2" style={{ gridTemplateColumns: `repeat(${submittedColumns}, 85px)` }}>
                             {cyclic.data.map((row, index) =>
                                 row.map(({ cellNumber, cellBgColor, cellUp, cellDown, cellLeft, cellRight }, cellIndex) => (
                                     <div
                                         key={`${index}-${cellIndex}`}
                                         className="relative border-2 border-gray-400 rounded flex items-center justify-center"
-                                        style={{ backgroundColor: cellBgColor, width: "100px", height: "100px", margin: "1.5px" }}
+                                        style={{ backgroundColor: cellBgColor, width: "80px", height: "80px", margin: "2px" }}
                                     >
-                                        <span className={`text-4xl font-semibold ${cellNumber === 1 ? "text-gray-800" : "text-gray-200"}`}>{cellNumber}</span>
-                                        {cellUp && <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-3 h-4 bg-green-700" />}
-                                        {cellDown && <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-3 h-4 bg-green-700" />}
-                                        {cellLeft && <div className="absolute -left-1.5 top-1/2 transform -translate-y-1/2 w-4 h-3 bg-green-700" />}
-                                        {cellRight && <div className="absolute -right-1.5 top-1/2 transform -translate-y-1/2 w-4 h-3 bg-green-700" />}
+                                        <span className={`text-3xl font-bold ${cellNumber === 1 ? "text-gray-800" : "text-gray-300"}`}>{cellNumber}</span>
+                                        {cellUp && <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-4 bg-green-700" />}
+                                        {cellDown && <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-4 bg-green-700" />}
+                                        {cellLeft && <div className="absolute -left-1.5 top-1/2 transform -translate-y-1/2 w-4 h-2 bg-green-700" />}
+                                        {cellRight && <div className="absolute -right-1.5 top-1/2 transform -translate-y-1/2 w-4 h-2 bg-green-700" />}
                                     </div>
                                 ))
                             )}
