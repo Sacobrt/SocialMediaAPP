@@ -91,6 +91,9 @@ namespace CSHARP_SocialMediaAPP.Controllers
                     if (currentNum == rows * columns)
                     {
                         table[bottomRow, i].CellUp = false;
+                        table[bottomRow, i].CellDown = false;
+                        table[bottomRow, i].CellLeft = false;
+                        table[bottomRow, i].CellRight = true;
                     }
                     currentNum++;
                 }
@@ -122,6 +125,13 @@ namespace CSHARP_SocialMediaAPP.Controllers
                         table[i, leftColumn].CellUp = true;
                         table[i, leftColumn].CellDown = true;
                     }
+                    if (currentNum == rows * columns)
+                    {
+                        table[i, leftColumn].CellUp = false;
+                        table[i, leftColumn].CellDown = true;
+                        table[i, leftColumn].CellLeft = false;
+                        table[i, leftColumn].CellRight = false;
+                    }
                     currentNum++;
                 }
                 leftColumn++;
@@ -133,26 +143,28 @@ namespace CSHARP_SocialMediaAPP.Controllers
                         table[topRow, i] = new CellData
                         {
                             CellNumber = currentNum,
-                            CellLeft = false,
-                            CellRight = false,
+                            CellLeft = true,
+                            CellRight = true,
                             CellUp = false,
                             CellDown = false
                         };
 
-                        if (i > leftColumn && i < rightColumn)
+                        if (i == leftColumn)
                         {
-                            table[topRow, i].CellLeft = true;
                             table[topRow, i].CellRight = true;
                         }
-                        else if (i == leftColumn)
+                        if (i == rightColumn)
                         {
                             table[topRow, i].CellLeft = true;
-                            table[topRow, i].CellRight = true;
-                        }
-                        else if (i == rightColumn)
-                        {
                             table[topRow, i].CellDown = true;
+                            table[topRow, i].CellRight = false;
+                        }
+                        if (currentNum == rows * columns)
+                        {
+                            table[topRow, i].CellUp = false;
+                            table[topRow, i].CellDown = false;
                             table[topRow, i].CellLeft = true;
+                            table[topRow, i].CellRight = false;
                         }
                         currentNum++;
                     }
@@ -168,24 +180,37 @@ namespace CSHARP_SocialMediaAPP.Controllers
                             CellNumber = currentNum,
                             CellLeft = false,
                             CellRight = false,
-                            CellUp = false,
-                            CellDown = false
+                            CellUp = true,
+                            CellDown = true
                         };
 
-                        if (i > topRow && i < bottomRow)
+                        if (i == topRow)
                         {
                             table[i, rightColumn].CellUp = true;
-                            table[i, rightColumn].CellDown = true;
                         }
-                        else if (i == topRow && rightColumn == rows - 1)
+
+                        if (i == bottomRow)
                         {
-                            table[i, rightColumn].CellUp = true;
-                            table[i, rightColumn].CellDown = true;
-                        }
-                        else if (i == bottomRow)
-                        {
-                            table[i, rightColumn].CellUp = true;
+                            table[i, rightColumn].CellDown = false;
                             table[i, rightColumn].CellLeft = true;
+                        }
+
+                        if (rightColumn == columns - 1)
+                        {
+                            table[i, rightColumn].CellRight = false;
+                        }
+
+                        if (rightColumn == 0)
+                        {
+                            table[i, rightColumn].CellLeft = false;
+                        }
+
+                        if (currentNum == rows * columns)
+                        {
+                            table[i, rightColumn].CellUp = true;
+                            table[i, rightColumn].CellDown = false;
+                            table[i, rightColumn].CellLeft = false;
+                            table[i, rightColumn].CellRight = false;
                         }
                         currentNum++;
                     }
