@@ -3,12 +3,12 @@ import CyclicService from "../../services/CyclicService";
 
 export default function CyclicView() {
     const [cyclic, setCyclic] = useState(null);
-    const [formData, setFormData] = useState({ firstNumber: 5, secondNumber: 5 });
-    const [submittedSecondNumber, setSubmittedNumber] = useState();
+    const [formData, setFormData] = useState({ rows: 5, columns: 5 });
+    const [submittedColumns, setSubmittedColumns] = useState();
 
     async function getCyclic() {
         try {
-            const response = await CyclicService.get(formData.firstNumber, formData.secondNumber);
+            const response = await CyclicService.get(formData.rows, formData.columns);
             setCyclic(response);
         } catch (e) {
             console.error(e);
@@ -17,7 +17,7 @@ export default function CyclicView() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setSubmittedNumber(formData.secondNumber);
+        setSubmittedColumns(formData.columns);
         getCyclic();
     };
 
@@ -31,10 +31,10 @@ export default function CyclicView() {
             <div className="flex flex-row items-center justify-center">
                 <span className="text-4xl font-bold rotate-90 text-gray-800">INPUT</span>
                 <form onSubmit={handleSubmit} className="space-y-6">
-                    {["firstNumber", "secondNumber"].map((field, index) => (
+                    {["rows", "columns"].map((field, index) => (
                         <div key={index} className="grid text-2xl">
                             <label className="font-bold" htmlFor={field}>
-                                {field === "firstNumber" ? "ROWS" : "COLUMNS"}
+                                {field === "rows" ? "ROWS" : "COLUMNS"}
                             </label>
                             <input
                                 type="number"
@@ -56,11 +56,11 @@ export default function CyclicView() {
                 {cyclic && (
                     <>
                         <span className="text-4xl font-bold rotate-90 text-gray-800">OUTPUT</span>
-                        <div className="grid justify-center mt-2" style={{ gridTemplateColumns: `repeat(${submittedSecondNumber}, 105px)` }}>
-                            {cyclic.data.map((row, rowIndex) =>
+                        <div className="grid justify-center mt-2" style={{ gridTemplateColumns: `repeat(${submittedColumns}, 105px)` }}>
+                            {cyclic.data.map((row, index) =>
                                 row.map(({ cellNumber, cellBgColor, cellUp, cellDown, cellLeft, cellRight }, cellIndex) => (
                                     <div
-                                        key={`${rowIndex}-${cellIndex}`}
+                                        key={`${index}-${cellIndex}`}
                                         className="relative border-2 border-gray-400 rounded flex items-center justify-center"
                                         style={{ backgroundColor: cellBgColor, width: "100px", height: "100px", margin: "1.5px" }}
                                     >
