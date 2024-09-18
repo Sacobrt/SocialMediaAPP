@@ -1,13 +1,12 @@
 import { HttpService } from "./HttpService";
 
-async function get(firstNumber, secondNumber) {
-    return await HttpService.get(`/Cyclic/${firstNumber}/${secondNumber}`)
+async function get(rows, columns) {
+    return await HttpService.get(`/Cyclic/${rows}/${columns}`)
         .then((response) => {
-            console.log(response.data);
             return response;
         })
         .catch((e) => {
-            console.error(e);
+            return message;
         });
 }
 
