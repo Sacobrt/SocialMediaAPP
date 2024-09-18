@@ -112,10 +112,10 @@ export default function CyclicView() {
                                                 >
                                                     {isVisible && <span className="text-5xl font-semibold text-[#c7c7c7]">{cellNumber}</span>}
                                                     {cellUp && isVisible && (
-                                                        <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-3 bg-[#48ac47]" />
+                                                        <div className="absolute -top-1.5 left-1/2 transform -translate-x-1/2 w-2 h-3 bg-[#48ac47]" />
                                                     )}
                                                     {cellDown && isVisible && (
-                                                        <div className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-2 h-3 bg-[#48ac47]" />
+                                                        <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-3 bg-[#48ac47]" />
                                                     )}
                                                     {cellLeft && isVisible && (
                                                         <div className="absolute -left-1.5 top-1/2 transform -translate-y-1/2 w-3.5 h-2 bg-[#48ac47]" />
