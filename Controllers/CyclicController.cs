@@ -16,14 +16,18 @@ namespace CSHARP_SocialMediaAPP.Controllers
     public class CyclicController : ControllerBase
     {
         [HttpGet("{rows}/{columns}")]
-        public IActionResult GetCyclic(int rows, int columns)
+        public IActionResult GetCyclic(string rows, string columns)
         {
-            if (rows <= 0 || columns <= 0)
+            if (!int.TryParse(rows, out int rowNumber) || !int.TryParse(columns, out int columnNumber))
             {
-                return BadRequest("Rows and columns need to be higher than 0!");
+                return Ok(new { message = "Rows and columns must be valid numbers!" });
+            }
+            if ((rowNumber <= 0 || rowNumber > 10) || (columnNumber <= 0 || columnNumber > 10))
+            {
+                return Ok(new { message = "Whoops! Rows and columns should be between 1 and 10!" });
             }
 
-            var matrix = CreateCyclic(rows, columns);
+            var matrix = CreateCyclic(rowNumber, columnNumber);
 
             var result = ConvertToJson(matrix);
             return Ok(result);
@@ -86,7 +90,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
                         table[bottomRow, i].CellRight = false;
                         table[bottomRow, i].CellUp = false;
                         table[bottomRow, i].CellDown = false;
-                        table[bottomRow, i].CellBgColor = "#FFF";
+                        table[bottomRow, i].CellBgColor = "#808080";
                     }
                     if (currentNum == rows * columns)
                     {
