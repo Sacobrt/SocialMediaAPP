@@ -52,7 +52,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
             _context.Users.Update(db);
             _context.SaveChanges();
 
-            return Ok(new { poruka = "Successfully changed!" });
+            return Ok(new { message = "Successfully changed!" });
         }
 
         [HttpDelete]
@@ -63,7 +63,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
             var db = _context.Users.Find(id);
             _context.Users.Remove(db);
             _context.SaveChanges();
-            return Ok(new { poruka = "Successfully deleted!" });
+            return Ok(new { message = "Successfully deleted!" });
         }
     }
 }
