@@ -1,6 +1,8 @@
 export const RoutesNames = {
     HOME: "/",
     USER_OVERVIEW: "/users",
+    USER_NEW: "/users/add",
+    USER_CHANGE: "/users/:id",
 
     CYCLIC_OVERVIEW: "/cyclic",
 };
