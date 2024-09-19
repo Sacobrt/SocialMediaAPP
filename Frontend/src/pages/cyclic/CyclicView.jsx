@@ -35,6 +35,11 @@ export default function CyclicView() {
         }
     }, [isAnimating, cyclic, formData]);
 
+    useEffect(() => {
+        setSubmittedColumns(formData.columns);
+        getCyclic();
+    }, []);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmittedColumns(formData.columns);
