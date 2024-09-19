@@ -98,7 +98,7 @@ export default function CyclicView() {
                                             return (
                                                 <div
                                                     key={`${rowIndex}-${cellIndex}`}
-                                                    className={`relative border-[3px] border-[#c7c7c7] rounded-lg flex items-center justify-center cursor-pointer transition-all duration-500 ease-in-out ${
+                                                    className={`relative border-[2px] border-[#c7c7c7] rounded-lg flex items-center justify-center cursor-pointer transition-all duration-500 ease-in-out ${
                                                         isVisible ? "opacity-100 scale-100" : "opacity-0 scale-75"
                                                     }`}
                                                     style={{
