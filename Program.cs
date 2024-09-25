@@ -1,4 +1,5 @@
 using CSHARP_SocialMediaAPP.Data;
+using CSHARP_SocialMediaAPP.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,9 @@ builder.Services.AddCors(opcije =>
     );
 
 });
+
+//automapper
+builder.Services.AddAutoMapper(typeof(MainMappingProfile));
 
 var app = builder.Build();
 

@@ -1,58 +1,112 @@
-﻿using CSHARP_SocialMediaAPP.Data;
+﻿using AutoMapper;
+using CSHARP_SocialMediaAPP.Data;
 using CSHARP_SocialMediaAPP.Models;
+using CSHARP_SocialMediaAPP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CSHARP_SocialMediaAPP.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController(SocialMediaContext context, IMapper mapper) : SocialMediaController(context, mapper)
     {
-        private readonly SocialMediaContext _context;
-        public UserController(SocialMediaContext context)
-        {
-            _context = context;
-        }
-
         [HttpGet]
-        public IActionResult Get()
+        public ActionResult<List<UserDTORead>> Get()
         {
-            return Ok(_context.Users);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = ModelState });
+            }
+            try
+            {
+                return Ok(_mapper.Map<List<UserDTORead>>(_context.Users));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpGet]
         [Route("{id:int}")]
-        public IActionResult GetById(int id)
+        public ActionResult<UserDTORead> GetById(int id)
         {
-            return Ok(_context.Users.Find(id));
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = ModelState });
+            }
+            User? e;
+            try
+            {
+                e = _context.Users.Find(id);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            if (e == null)
+            {
+                return NotFound(new { message = "User cannot be found!" });
+            }
+            return Ok(_mapper.Map<UserDTORead>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(User user)
+        public IActionResult Post(UserDTOInsertUpdate dto)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return StatusCode(StatusCodes.Status201Created, user);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = ModelState });
+            }
+            try
+            {
+                var e = _mapper.Map<User>(dto);
+                _context.Users.Add(e);
+                _context.SaveChanges();
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<UserDTORead>(e));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpPut]
         [Route("{id:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int id, User user)
+        public IActionResult Put(int id, UserDTOInsertUpdate dto)
         {
-            var db = _context.Users.Find(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = ModelState });
+            }
+            try
+            {
+                User? e;
+                try
+                {
+                    e = _context.Users.Find(id);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound(new { message = "User cannot be found!" });
+                }
 
-            db.Username = user.Username;
-            db.Password = user.Password;
-            db.Email = user.Email;
-            db.FirstName = user.FirstName;
-            db.LastName = user.LastName;
-            db.CreatedAt = user.CreatedAt;
+                e = _mapper.Map(dto, e);
 
-            _context.Users.Update(db);
-            _context.SaveChanges();
+                _context.Users.Update(e);
+                _context.SaveChanges();
 
-            return Ok(new { message = "Successfully changed!" });
+                return Ok(new { message = "Successfully changed!" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
 
         [HttpDelete]
@@ -60,10 +114,33 @@ namespace CSHARP_SocialMediaAPP.Controllers
         [Produces("application/json")]
         public IActionResult Delete(int id)
         {
-            var db = _context.Users.Find(id);
-            _context.Users.Remove(db);
-            _context.SaveChanges();
-            return Ok(new { message = "Successfully deleted!" });
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = ModelState });
+            }
+            try
+            {
+                User? e;
+                try
+                {
+                    e = _context.Users.Find(id);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = ex.Message });
+                }
+                if (e == null)
+                {
+                    return NotFound("User cannot be found!");
+                }
+                _context.Users.Remove(e);
+                _context.SaveChanges();
+                return Ok(new { message = "Successfully deleted!" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }
