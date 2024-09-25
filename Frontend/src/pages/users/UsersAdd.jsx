@@ -37,7 +37,7 @@ export default function UsersAdd() {
         if (error) {
             const interval = setInterval(() => {
                 setError(null);
-            }, 3000);
+            }, 5000);
             return () => clearInterval(interval);
         }
     }, [error]);
@@ -55,7 +55,13 @@ export default function UsersAdd() {
     return (
         <div className="container mx-auto px-4 py-6">
             <h1 className="text-xl font-bold mb-4">Add new user</h1>
-            {error && <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">{error}</div>}
+            {error && (
+                <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">
+                    {error.map((errMsg, index) => (
+                        <p key={index}>{errMsg}</p>
+                    ))}
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="username" className="block text-sm font-medium text-gray-700">
@@ -65,7 +71,6 @@ export default function UsersAdd() {
                         type="text"
                         name="username"
                         id="username"
-                        required
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                 </div>
@@ -77,7 +82,6 @@ export default function UsersAdd() {
                         type="text"
                         name="password"
                         id="password"
-                        required
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                 </div>
@@ -89,7 +93,6 @@ export default function UsersAdd() {
                         type="text"
                         name="email"
                         id="email"
-                        required
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                     />
                 </div>
@@ -123,7 +126,6 @@ export default function UsersAdd() {
                         type="date"
                         name="createdAt"
                         id="createdAt"
-                        required
                         value={currentDate}
                         onChange={(e) => setCurrentDate(e.target.value)}
                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"

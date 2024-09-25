@@ -36,7 +36,16 @@ async function add(user) {
             return { error: false, message: response.data };
         })
         .catch((e) => {
-            return { error: true, message: "User cannot be added!" };
+            switch (e.status) {
+                case 400:
+                    let message = [];
+                    for (const key in e.response.data.errors) {
+                        message.push(e.response.data.errors[key][0]);
+                    }
+                    return { error: true, message: message };
+                default:
+                    return { error: true, message: "User cannot be added!" };
+            }
         });
 }
 
@@ -46,7 +55,16 @@ async function change(id, user) {
             return { error: false, message: response.data };
         })
         .catch((e) => {
-            return { error: true, message: "User cannot be changed!" };
+            switch (e.status) {
+                case 400:
+                    let message = [];
+                    for (const key in e.response.data.errors) {
+                        message.push(e.response.data.errors[key][0]);
+                    }
+                    return { error: true, message: message };
+                default:
+                    return { error: true, message: "User cannot be changed!" };
+            }
         });
 }
 
