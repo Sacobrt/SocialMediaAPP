@@ -3,15 +3,6 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { RoutesNames } from "../constants";
 import { useNavigate } from "react-router-dom";
 
-const navigation = [
-    { name: "Home", href: "/", current: true },
-    { name: "Swagger", href: "https://sacobrt-001-site1.ctempurl.com/swagger/index.html", current: false },
-];
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
-
 export default function NavBar() {
     const navigate = useNavigate();
 
@@ -46,30 +37,49 @@ export default function NavBar() {
                                 >
                                     Swagger
                                 </a>
+                                <a
+                                    className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                                    onClick={() => navigate(RoutesNames.CYCLIC_OVERVIEW)}
+                                    target="_blank"
+                                >
+                                    Cyclic
+                                </a>
                                 <Menu as="div" className="relative ml-3">
                                     <div>
                                         <MenuButton className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
                                             <span className="absolute -inset-1.5" />
-                                            <span>Dropdown</span>
+                                            <span>Admin Menu</span>
                                         </MenuButton>
                                     </div>
                                     <MenuItems
                                         transition
-                                        className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                                        className="absolute left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none"
                                     >
                                         <MenuItem>
                                             <>
                                                 <a
                                                     onClick={() => navigate(RoutesNames.USER_OVERVIEW)}
-                                                    className="cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                                                    className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                                                 >
                                                     Users
                                                 </a>
                                                 <a
-                                                    onClick={() => navigate(RoutesNames.CYCLIC_OVERVIEW)}
-                                                    className="cursor-pointer block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                                                    onClick={() => navigate(RoutesNames.FOLLOWER_OVERVIEW)}
+                                                    className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
                                                 >
-                                                    Cyclic
+                                                    Followers
+                                                </a>
+                                                <a
+                                                    onClick={() => navigate(RoutesNames.COMMENT_OVERVIEW)}
+                                                    className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                                                >
+                                                    Comments
+                                                </a>
+                                                <a
+                                                    onClick={() => navigate(RoutesNames.POST_OVERVIEW)}
+                                                    className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                                                >
+                                                    Posts
                                                 </a>
                                             </>
                                         </MenuItem>
@@ -97,11 +107,54 @@ export default function NavBar() {
                         <span className="rounded-md px-3 py-2 text-sm font-medium text-gray-300">Swagger</span>
                     </a>
                     <a
-                        onClick={() => navigate(RoutesNames.USER_OVERVIEW)}
+                        onClick={() => navigate(RoutesNames.CYCLIC_OVERVIEW)}
                         className="cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
                     >
-                        <span className="rounded-md px-3 py-2 text-sm font-medium text-gray-300">Users</span>
+                        <span className="rounded-md px-3 py-2 text-sm font-medium text-gray-300">Cyclic</span>
                     </a>
+                    <div className="space-y-1 px-2 pb-3 pt-2">
+                        <Menu as="div" className="relative ml-3">
+                            <div>
+                                <MenuButton className="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">
+                                    <span className="absolute -inset-1.5" />
+                                    <span>Admin Menu</span>
+                                </MenuButton>
+                            </div>
+                            <MenuItems
+                                transition
+                                className="absolute left-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                            >
+                                <MenuItem>
+                                    <>
+                                        <a
+                                            onClick={() => navigate(RoutesNames.USER_OVERVIEW)}
+                                            className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                                        >
+                                            Users
+                                        </a>
+                                        <a
+                                            onClick={() => navigate(RoutesNames.FOLLOWER_OVERVIEW)}
+                                            className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                                        >
+                                            Followers
+                                        </a>
+                                        <a
+                                            onClick={() => navigate(RoutesNames.COMMENT_OVERVIEW)}
+                                            className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                                        >
+                                            Comments
+                                        </a>
+                                        <a
+                                            onClick={() => navigate(RoutesNames.POST_OVERVIEW)}
+                                            className="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
+                                        >
+                                            Posts
+                                        </a>
+                                    </>
+                                </MenuItem>
+                            </MenuItems>
+                        </Menu>
+                    </div>
                 </div>
             </DisclosurePanel>
         </Disclosure>
