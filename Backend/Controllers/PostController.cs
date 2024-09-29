@@ -3,15 +3,16 @@ using CSHARP_SocialMediaAPP.Data;
 using CSHARP_SocialMediaAPP.Models;
 using CSHARP_SocialMediaAPP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSHARP_SocialMediaAPP.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class UserController(SocialMediaContext context, IMapper mapper) : SocialMediaController(context, mapper)
+    public class PostController(SocialMediaContext context, IMapper mapper) : SocialMediaController(context, mapper)
     {
         [HttpGet]
-        public ActionResult<List<UserDTORead>> Get()
+        public ActionResult<List<PostDTORead>> Get()
         {
             if (!ModelState.IsValid)
             {
@@ -19,7 +20,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<UserDTORead>>(_context.Users));
+                return Ok(_mapper.Map<List<PostDTORead>>(_context.Posts.Include(g => g.User)));
             }
             catch (Exception ex)
             {
@@ -29,16 +30,16 @@ namespace CSHARP_SocialMediaAPP.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-        public ActionResult<UserDTORead> GetById(int id)
+        public ActionResult<PostDTOInsertUpdate> GetById(int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { message = ModelState });
             }
-            User? e;
+            Post? e;
             try
             {
-                e = _context.Users.Find(id);
+                e = _context.Posts.Include(g => g.User).FirstOrDefault(g => g.ID == id);
             }
             catch (Exception ex)
             {
@@ -46,24 +47,40 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             if (e == null)
             {
-                return NotFound(new { message = "User cannot be found!" });
+                return NotFound(new { message = "Post cannot be found!" });
             }
-            return Ok(_mapper.Map<UserDTORead>(e));
+            return Ok(_mapper.Map<PostDTOInsertUpdate>(e));
         }
 
         [HttpPost]
-        public IActionResult Post(UserDTOInsertUpdate dto)
+        public IActionResult Post(PostDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(new { message = ModelState });
             }
+
+            User? es;
             try
             {
-                var e = _mapper.Map<User>(dto);
-                _context.Users.Add(e);
+                es = _context.Users.Find(dto.UserID);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+            if (es == null)
+            {
+                return NotFound(new { message = "User ID cannot be found!" });
+            }
+
+            try
+            {
+                var e = _mapper.Map<Post>(dto);
+                e.User = es;
+                _context.Posts.Add(e);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, _mapper.Map<UserDTORead>(e));
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<PostDTORead>(e));
             }
             catch (Exception ex)
             {
@@ -74,7 +91,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         [HttpPut]
         [Route("{id:int}")]
         [Produces("application/json")]
-        public IActionResult Put(int id, UserDTOInsertUpdate dto)
+        public IActionResult Put(int id, PostDTOInsertUpdate dto)
         {
             if (!ModelState.IsValid)
             {
@@ -82,10 +99,10 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             try
             {
-                User? e;
+                Post? e;
                 try
                 {
-                    e = _context.Users.Find(id);
+                    e = _context.Posts.Include(g => g.User).FirstOrDefault(x => x.ID == id);
                 }
                 catch (Exception ex)
                 {
@@ -93,12 +110,26 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 }
                 if (e == null)
                 {
-                    return NotFound(new { message = "User cannot be found!" });
+                    return NotFound(new { message = "Post cannot be found!" });
+                }
+
+                User? es;
+                try
+                {
+                    es = _context.Users.Find(dto.UserID);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(new { message = ex.Message });
+                }
+                if (es == null)
+                {
+                    return NotFound(new { message = "Post at users cannot be found!" });
                 }
 
                 e = _mapper.Map(dto, e);
-
-                _context.Users.Update(e);
+                e.User = es;
+                _context.Posts.Update(e);
                 _context.SaveChanges();
 
                 return Ok(new { message = "Successfully changed!" });
@@ -120,10 +151,10 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             try
             {
-                User? e;
+                Post? e;
                 try
                 {
-                    e = _context.Users.Find(id);
+                    e = _context.Posts.Find(id);
                 }
                 catch (Exception ex)
                 {
@@ -131,9 +162,9 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 }
                 if (e == null)
                 {
-                    return NotFound(new { message = "User cannot be found!" });
+                    return NotFound(new { message = "Post cannot be found!" });
                 }
-                _context.Users.Remove(e);
+                _context.Posts.Remove(e);
                 _context.SaveChanges();
                 return Ok(new { message = "Successfully deleted!" });
             }
