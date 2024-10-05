@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import Service from "../../services/FollowerService";
-import UserService from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 import { MdDriveFileRenameOutline } from "react-icons/md";
@@ -8,7 +7,6 @@ import { RiDeleteBin6Line, RiUserFollowLine } from "react-icons/ri";
 
 export default function FollowersOverview() {
     const [followers, setFollowers] = useState([]);
-    const [users, setUsers] = useState([]);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
@@ -19,26 +17,12 @@ export default function FollowersOverview() {
             setError(response.message);
         } else {
             setFollowers(response);
+            setIsLoading(false);
         }
-    }
-
-    async function getUsers() {
-        const response = await UserService.get();
-        if (response.error) {
-            setError(response.message);
-        } else {
-            setUsers(response);
-        }
-    }
-
-    async function getData() {
-        await getUsers();
-        await getFollowers();
-        setIsLoading(false);
     }
 
     useEffect(() => {
-        getData();
+        getFollowers();
     }, []);
 
     useEffect(() => {
@@ -62,13 +46,6 @@ export default function FollowersOverview() {
     function removeUser(id) {
         removeAsync(id);
     }
-
-    const usernamesMap = Array.isArray(users)
-        ? users.reduce((acc, user) => {
-              acc[user.id] = user.username;
-              return acc;
-          }, {})
-        : {};
 
     return (
         <div className="container mx-auto py-5 px-5">
@@ -99,11 +76,11 @@ export default function FollowersOverview() {
                             </tr>
                         </thead>
                         <tbody className="text-center">
-                            {Array.isArray(followers) && followers.length > 0 ? (
+                            {followers.length > 0 ? (
                                 followers.map((follower, index) => (
                                     <tr key={index} className="hover:bg-gray-100 transition duration-200">
-                                        <td className="border border-gray-800 py-2">{usernamesMap[follower.userID] || "Loading..."}</td>
-                                        <td className="border border-gray-800 py-2">{usernamesMap[follower.followerUserID] || "Loading..."}</td>
+                                        <td className="border border-gray-800 py-2">{followers[index].user || "Loading..."}</td>
+                                        <td className="border border-gray-800 py-2">{followers[index].followerUser || "Loading..."}</td>
                                         <td className="border border-gray-800 py-2">
                                             <div className="flex justify-center space-x-2">
                                                 <button

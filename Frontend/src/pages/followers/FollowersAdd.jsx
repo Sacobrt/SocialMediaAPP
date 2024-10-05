@@ -13,11 +13,13 @@ export default function FollowersAdd() {
     const [error, setError] = useState(null);
     const [users, setUsers] = useState([]);
     const [userID, setUsersID] = useState(0);
+    const [followerUserID, setFollowersUserID] = useState(0);
 
     async function getUsers() {
         const response = await UserService.get();
         setUsers(response);
         setUsersID(response[0].id);
+        setFollowersUserID(response[0].id);
     }
 
     useEffect(() => {
@@ -102,7 +104,7 @@ export default function FollowersAdd() {
                         <select
                             id="followerUserID"
                             name="followerUserID"
-                            onChange={(e) => setFollowersUserID(e.target.value)} // Fixed the onChange function to use setFollowersUserID
+                            onChange={(e) => setFollowersUserID(e.target.value)}
                             className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-800 rounded-md bg-white text-gray-900"
                         >
                             {users &&
