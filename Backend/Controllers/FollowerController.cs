@@ -161,6 +161,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
 
                 existingFollower.User = userId;
                 existingFollower.FollowerUser = followerUserId;
+                existingFollower.FollowedAt = dto.FollowedAt;
 
                 _context.Followers.Update(existingFollower);
                 _context.SaveChanges();
