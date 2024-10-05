@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import Service from "../../services/PostService";
-import UserService from "../../services/UserService";
-import CommentService from "../../services/CommentService";
+import Service from "../services/PostService";
+import UserService from "../services/UserService";
+import CommentService from "../services/CommentService";
 import { IoIosCloseCircle } from "react-icons/io";
 
 export default function HomePageOverview() {
