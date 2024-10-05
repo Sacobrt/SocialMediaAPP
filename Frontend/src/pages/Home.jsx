@@ -1,4 +1,4 @@
-import HomePageOverview from "./posts/HomePageOverview";
+import HomePageOverview from "./HomePageOverview";
 
 export default function Home() {
     return (

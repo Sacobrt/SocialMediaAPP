@@ -2,7 +2,7 @@ import NavBarEdunova from "./components/NavBar";
 import { Route, Routes } from "react-router-dom";
 import { RoutesNames } from "./constants";
 import Home from "./pages/Home";
-import Footer from "./pages/Footer";
+import Footer from "./components/Footer";
 
 import UsersOverview from "./pages/users/UsersOverview";
 import UsersAdd from "./pages/users/UsersAdd";
