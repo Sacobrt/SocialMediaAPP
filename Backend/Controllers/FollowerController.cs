@@ -28,30 +28,6 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("{id:int}")]
-        public ActionResult<FollowerDTOInsertUpdate> GetById(int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(new { message = ModelState });
-            }
-            Follower? e;
-            try
-            {
-                e = _context.Followers.Include(g => g.User).Include(g => g.FollowerUser).FirstOrDefault(g => g.ID == id);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
-            if (e == null)
-            {
-                return NotFound(new { message = "Followers cannot be found!" });
-            }
-            return Ok(_mapper.Map<FollowerDTOInsertUpdate>(e));
-        }
-
         [HttpPost]
         public IActionResult Post(FollowerDTOInsertUpdate dto)
         {
