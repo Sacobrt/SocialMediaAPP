@@ -5,9 +5,11 @@ namespace CSHARP_SocialMediaAPP.Models
 {
     public class Follower : Entity
     {
+        [ForeignKey("userID")]
         public required User User { get; set; }
-        public int UserID { get; set; }
-        public int FollowerUserID { get; set; }
+
+        [ForeignKey("followerUserID")]
+        public required User FollowerUser { get; set; }
         public DateTime FollowedAt { get; set; }
     }
 }

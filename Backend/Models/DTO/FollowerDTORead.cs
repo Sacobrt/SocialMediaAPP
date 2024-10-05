@@ -2,7 +2,7 @@
 {
     public record FollowerDTORead(
         int ID,
-        int UserID,
-        int FollowerUserID,
+        string User,
+        string FollowerUser,
         DateTime FollowedAt);
 }

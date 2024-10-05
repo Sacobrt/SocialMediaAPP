@@ -16,6 +16,7 @@ namespace CSHARP_SocialMediaAPP.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Follower>().HasOne(f => f.User);
+            modelBuilder.Entity<Follower>().HasOne(f => f.FollowerUser);
             modelBuilder.Entity<Post>().HasOne(p => p.User);
             modelBuilder.Entity<Comment>().HasOne(c => c.User);
             modelBuilder.Entity<Comment>().HasOne(c => c.Post);

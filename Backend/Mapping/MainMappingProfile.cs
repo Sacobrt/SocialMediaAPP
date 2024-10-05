@@ -12,11 +12,9 @@ namespace CSHARP_SocialMediaAPP.Mapping
             CreateMap<UserDTOInsertUpdate, User>();
 
             CreateMap<Follower, FollowerDTORead>()
-                .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.UserID))
-                .ForMember(dest => dest.FollowerUserID, opt => opt.MapFrom(src => src.FollowerUserID));
-            CreateMap<Follower, FollowerDTOInsertUpdate>()
-                .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.UserID))
-                .ForMember(dest => dest.FollowerUserID, opt => opt.MapFrom(src => src.FollowerUserID));
+                .ForCtorParam("User", opt => opt.MapFrom(src => src.User.Username))
+                .ForCtorParam("FollowerUser", opt => opt.MapFrom(src => src.FollowerUser.Username));
+            CreateMap<Follower, FollowerDTOInsertUpdate>().ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User.ID));
             CreateMap<FollowerDTOInsertUpdate, Follower>();
 
             CreateMap<Post, PostDTORead>()

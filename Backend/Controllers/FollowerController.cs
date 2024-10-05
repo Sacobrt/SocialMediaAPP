@@ -20,7 +20,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             try
             {
-                return Ok(_mapper.Map<List<FollowerDTORead>>(_context.Followers.Include(g => g.User)));
+                return Ok(_mapper.Map<List<FollowerDTORead>>(_context.Followers.Include(g => g.User).Include(g => g.FollowerUser)));
             }
             catch (Exception ex)
             {
@@ -39,7 +39,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
             Follower? e;
             try
             {
-                e = _context.Followers.Include(g => g.User).FirstOrDefault(g => g.ID == id);
+                e = _context.Followers.Include(g => g.User).Include(g => g.FollowerUser).FirstOrDefault(g => g.ID == id);
             }
             catch (Exception ex)
             {
@@ -95,7 +95,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 return BadRequest(new { message = "A user cannot follow themselves!" });
             }
 
-            if (_context.Followers.Any(f => f.UserID == userId.ID && f.FollowerUserID == followUserId.ID))
+            if (_context.Followers.Any(f => f.User.ID == dto.UserID && f.FollowerUser.ID == dto.FollowerUserID))
             {
                 return BadRequest(new { message = "The follower relationship already exists!" });
             }
@@ -104,9 +104,8 @@ namespace CSHARP_SocialMediaAPP.Controllers
             {
                 var e = _mapper.Map<Follower>(dto);
 
-                e.UserID = (int)userId.ID;
-                e.FollowerUserID = (int)followUserId.ID;
-
+                e.User = userId;
+                e.FollowerUser = followUserId;
                 e.User = userId;
 
                 _context.Followers.Add(e);
@@ -131,36 +130,38 @@ namespace CSHARP_SocialMediaAPP.Controllers
 
             try
             {
-                var existingFollower = _context.Followers.Include(g => g.User).FirstOrDefault(x => x.ID == id);
+                var existingFollower = _context.Followers.Include(g => g.User).Include(g => g.FollowerUser).FirstOrDefault(x => x.ID == id);
 
                 if (existingFollower == null)
                 {
-                    return NotFound(new { message = "Followers cannot be found!" });
+                    return NotFound(new { message = "Follower cannot be found!" });
                 }
 
-                var userBeingFollowed = _context.Users.Find(dto.UserID);
-                if (userBeingFollowed == null)
+                var userId = _context.Users.Find(dto.UserID);
+                if (userId == null)
                 {
                     return NotFound(new { message = "User to be followed cannot be found!" });
                 }
 
-                var newFollowerUser = _context.Users.Find(dto.FollowerUserID);
-                if (newFollowerUser == null)
+                var followerUserId = _context.Users.Find(dto.FollowerUserID);
+                if (followerUserId == null)
                 {
-                    return NotFound(new { message = "Follower at users cannot be found!" });
+                    return NotFound(new { message = "Follower user cannot be found!" });
                 }
 
-                if (userBeingFollowed.ID == newFollowerUser.ID)
+                if (userId.ID == followerUserId.ID)
                 {
                     return BadRequest(new { message = "A user cannot follow themselves!" });
                 }
 
-                if (_context.Followers.Any(f => f.UserID == dto.UserID && f.FollowerUserID == dto.FollowerUserID && f.ID != id))
+                if (_context.Followers.Any(f => f.User.ID == dto.UserID && f.FollowerUser.ID == dto.FollowerUserID && f.ID != id))
                 {
                     return BadRequest(new { message = "The follower relationship already exists!" });
                 }
 
-                existingFollower = _mapper.Map(dto, existingFollower);
+                existingFollower.User = userId;
+                existingFollower.FollowerUser = followerUserId;
+
                 _context.Followers.Update(existingFollower);
                 _context.SaveChanges();
 
