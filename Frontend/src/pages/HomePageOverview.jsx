@@ -99,9 +99,13 @@ export default function HomePageOverview() {
     useEffect(() => {
         if (showModal) {
             document.addEventListener("mousedown", handleClickOutside);
+            document.body.style.overflow = "hidden";
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.body.style.overflow = "auto";
         }
         return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
+            document.body.style.overflow = "auto";
         };
     }, [showModal]);
 
@@ -116,106 +120,123 @@ export default function HomePageOverview() {
                 </div>
             )}
             {!isLoading && (
-                <div className="grid gap-8 grid-cols-1 lg:grid-cols-2">
+                <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
                     {error && <div className="mb-5 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">{error}</div>}
-                    {Array.isArray(posts) && posts.length > 0 ? (
-                        posts
-                            .slice()
-                            .reverse()
-                            .map((post, index) => (
-                                <div key={index} className="bg-white shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow duration-300 ease-in-out">
-                                    {/* Header */}
-                                    <div className="flex items-center space-x-4 mb-4">
-                                        <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
-                                            {usernamesMap[post.userID]?.charAt(0) || "?"}
-                                        </div>
-                                        <div>
-                                            <div className="font-semibold text-gray-900">{usernamesMap[post.userID] || "Loading..."}</div>
-                                            <div className="text-sm text-gray-500">{new Date(post.createdAt).toLocaleDateString() || "Just now"}</div>
-                                        </div>
+                    {posts
+                        .slice()
+                        .reverse()
+                        .map((post, index) => (
+                            <div
+                                key={index}
+                                className="bg-gray-800 shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow duration-300 ease-in-out text-white"
+                            >
+                                {/* Header */}
+                                <div className="flex items-center space-x-4 mb-4">
+                                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
+                                        {usernamesMap[post.userID]?.charAt(0) || "?"}
                                     </div>
+                                    <div>
+                                        <div className="font-semibold text-white">{usernamesMap[post.userID] || "Loading..."}</div>
+                                        <div className="text-sm text-gray-400">{new Date(post.createdAt).toLocaleDateString() || "Just now"}</div>
+                                    </div>
+                                </div>
 
-                                    {/* Post Content */}
-                                    <div className="text-gray-800 text-lg mb-4">{post.content || "Loading..."}</div>
+                                {/* Post Content */}
+                                <div className="text-gray-300 text-lg mb-4">{post.content || "Loading..."}</div>
 
-                                    {/* Comments Section */}
+                                {/* Comments Section - only show if there are comments */}
+                                {commentsMap[post.id] && commentsMap[post.id].length > 0 && (
                                     <div>
                                         <h3 className="font-semibold text-sm leading-tight text-gray-50 mb-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg p-0.5 text-center">
                                             Comments
                                         </h3>
 
-                                        {commentsMap[post.id] && commentsMap[post.id].length > 0 ? (
-                                            <>
-                                                <ul className="space-y-2">
-                                                    {commentsMap[post.id].slice(0, 3).map((comment, idx) => (
-                                                        <li
-                                                            key={idx}
-                                                            className="bg-gray-100 border border-gray-200 p-4 rounded-lg shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg"
-                                                        >
-                                                            <div className="flex justify-between mb-2">
-                                                                <div className="font-semibold text-gray-900">{usernamesMap[comment.userID] || "Loading..."}</div>
-                                                                <div className="text-xs text-gray-500">
-                                                                    {new Date(comment.createdAt).toLocaleDateString() || "Just now"}
-                                                                </div>
+                                        <ul className="space-y-2">
+                                            {commentsMap[post.id].slice(0, 3).map((comment, idx) => (
+                                                <li
+                                                    key={idx}
+                                                    className="bg-gray-700 border border-gray-600 p-4 rounded-lg shadow-md flex items-start transition-shadow duration-300 ease-in-out hover:shadow-lg"
+                                                >
+                                                    <div className="mr-4 bg-gradient-to-r from-green-400 to-teal-400 rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold text-white shadow-md">
+                                                        {usernamesMap[comment.userID]?.charAt(0) || "?"}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        <div className="flex justify-between mb-1">
+                                                            <div className="font-semibold text-white">{usernamesMap[comment.userID] || "Loading..."}</div>
+                                                            <div className="text-xs text-gray-400">
+                                                                {new Date(comment.createdAt).toLocaleDateString() || "Just now"}
                                                             </div>
-                                                            <p className="text-gray-700">{comment.content}</p>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                                {commentsMap[post.id].length > 3 && (
-                                                    <button
-                                                        className="mt-4 w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
-                                                        onClick={() => openModal(post.id)}
-                                                    >
-                                                        View all comments ({commentsMap[post.id].length})
-                                                    </button>
-                                                )}
-                                            </>
-                                        ) : (
-                                            <p className="text-gray-500">No comments yet.</p>
+                                                        </div>
+                                                        <p className="text-gray-300">{comment.content}</p>
+                                                    </div>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        {commentsMap[post.id].length > 3 && (
+                                            <button
+                                                className="mt-4 w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
+                                                onClick={() => openModal(post.id)}
+                                            >
+                                                View all comments ({commentsMap[post.id].length})
+                                            </button>
                                         )}
                                     </div>
-                                </div>
-                            ))
-                    ) : (
-                        <div className="text-center text-gray-500">No posts found.</div>
-                    )}
+                                )}
+                            </div>
+                        ))}
                 </div>
             )}
 
             {showModal && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
+                <div className="fixed p-4 inset-0 bg-gray-900 bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50">
                     <div
                         ref={modalRef}
-                        className="relative bg-white rounded-xl shadow-2xl p-6 max-w-lg w-full h-full max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out"
+                        className="relative bg-gray-800 text-white rounded-lg shadow-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out"
                     >
                         {/* Header */}
-                        <div className="flex justify-between items-center pb-4 border-b border-gray-300">
-                            <h3 className="text-2xl font-semibold text-gray-800">Comments for Post</h3>
-                            <IoIosCloseCircle className="text-red-500 w-8 h-8 cursor-pointer" onClick={closeModal} />
+                        <div className="flex justify-between items-center pb-4 place-items-center border-b border-gray-700">
+                            <h3 className="text-xl font-semibold text-white text-center flex-1">
+                                Post {usernamesMap[posts.find((post) => post.id === activePost)?.userID] || "?"}
+                            </h3>
+                            <IoIosCloseCircle
+                                className="text-red-400 w-8 h-8 cursor-pointer hover:text-opacity-70 transition duration-300 ease-in-out"
+                                onClick={closeModal}
+                            />
                         </div>
 
                         {/* Post Content */}
-                        <div className="mt-4 p-4 bg-gray-100 rounded-lg shadow-md">
-                            <p className="text-gray-800 text-base">{posts.find((post) => post.id === activePost)?.content || "Loading post content..."}</p>
+                        <div className="mt-4 p-4 bg-gray-700 rounded-lg shadow-md flex items-start">
+                            <div className="mr-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
+                                {usernamesMap[posts.find((post) => post.id === activePost)?.userID]?.charAt(0) || "?"}
+                            </div>
+                            <div>
+                                <div className="font-semibold text-white">{usernamesMap[posts.find((post) => post.id === activePost)?.userID] || "Loading..."}</div>
+                                <div className="text-sm text-gray-400">
+                                    {new Date(posts.find((post) => post.id === activePost)?.createdAt).toLocaleDateString() || "Just now"}
+                                </div>
+                                <p className="mt-2 text-white text-base">{posts.find((post) => post.id === activePost)?.content || "Loading post content..."}</p>
+                            </div>
                         </div>
 
                         {/* Comments Section */}
                         <div className="overflow-y-auto mt-4 space-y-4 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-                            <h3 className="font-semibold leading-tight text-white mb-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg p-0.5 shadow-lg text-center text-sm">
+                            <h3 className="font-semibold leading-tight text-gray-200 mb-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg p-1 text-center text-sm">
                                 Comments
                             </h3>
                             <ul className="space-y-4">
                                 {commentsMap[activePost]?.map((comment, idx) => (
-                                    <li
-                                        key={idx}
-                                        className="bg-gray-100 border border-gray-200 p-4 rounded-lg shadow-md transition-shadow duration-300 ease-in-out hover:shadow-lg"
-                                    >
-                                        <div className="flex justify-between mb-1">
-                                            <div className="font-semibold text-gray-900">{usernamesMap[comment.userID] || "Loading..."}</div>
-                                            <div className="text-xs text-gray-500">{new Date(comment.createdAt).toLocaleDateString() || "Just now"}</div>
+                                    <li key={idx} className="bg-gray-700 border border-gray-600 p-4 rounded-lg shadow-md flex items-start">
+                                        {/* Avatar */}
+                                        <div className="mr-4 bg-gradient-to-r from-green-400 to-teal-400 rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold text-white shadow-md">
+                                            {usernamesMap[comment.userID]?.charAt(0) || "?"}
                                         </div>
-                                        <p className="text-gray-700">{comment.content}</p>
+                                        <div className="flex-1">
+                                            <div className="flex justify-between mb-1">
+                                                <div className="font-semibold text-white">{usernamesMap[comment.userID] || "Loading..."}</div>
+                                                <div className="text-xs text-gray-400">{new Date(comment.createdAt).toLocaleDateString() || "Just now"}</div>
+                                            </div>
+                                            <p className="text-gray-300">{comment.content}</p>
+                                        </div>
                                     </li>
                                 ))}
                             </ul>
