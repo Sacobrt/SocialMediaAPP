@@ -15,7 +15,7 @@ async function getByID(id) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch((e) => {
+        .catch(() => {
             return { error: true, message: "Follower doesn't exist!" };
         });
 }
@@ -25,7 +25,7 @@ async function remove(id) {
         .then((response) => {
             return { error: false, message: response.data.message };
         })
-        .catch((e) => {
+        .catch(() => {
             return { error: true, message: "Followers cannot be deleted!" };
         });
 }
@@ -37,12 +37,13 @@ async function add(follower) {
         })
         .catch((e) => {
             switch (e.status) {
-                case 400:
+                case 400: {
                     let message = [];
                     for (const key in e.response.data) {
                         message.push(e.response.data[key]);
                     }
                     return { error: true, message: message };
+                }
                 default:
                     return { error: true, message: "Follower cannot be added!" };
             }
@@ -56,12 +57,13 @@ async function change(id, follower) {
         })
         .catch((e) => {
             switch (e.status) {
-                case 400:
+                case 400: {
                     let message = [];
                     for (const key in e.response.data) {
                         message.push(e.response.data[key]);
                     }
                     return { error: true, message: message };
+                }
                 default:
                     return { error: true, message: "Followers cannot be changed!" };
             }

@@ -15,7 +15,7 @@ async function getByID(id) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch((e) => {
+        .catch(() => {
             return { error: true, message: "Comment doesn't exist!" };
         });
 }
@@ -25,7 +25,7 @@ async function remove(id) {
         .then((response) => {
             return { error: false, message: response.data.message };
         })
-        .catch((e) => {
+        .catch(() => {
             return { error: true, message: "Comment cannot be deleted!" };
         });
 }
@@ -37,12 +37,13 @@ async function add(comment) {
         })
         .catch((e) => {
             switch (e.status) {
-                case 400:
+                case 400: {
                     let message = [];
                     for (const key in e.response.data.errors) {
                         message.push(e.response.data.errors[key][0]);
                     }
                     return { error: true, message: message };
+                }
                 default:
                     return { error: true, message: "Comment cannot be added!" };
             }
@@ -56,12 +57,13 @@ async function change(id, comment) {
         })
         .catch((e) => {
             switch (e.status) {
-                case 400:
+                case 400: {
                     let message = [];
                     for (const key in e.response.data.errors) {
                         message.push(e.response.data.errors[key][0]);
                     }
                     return { error: true, message: message };
+                }
                 default:
                     return { error: true, message: "Comment cannot be changed!" };
             }
