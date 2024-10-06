@@ -6,7 +6,7 @@ async function get(rows, columns) {
             return response;
         })
         .catch((e) => {
-            return message;
+            console.error(e);
         });
 }
 
