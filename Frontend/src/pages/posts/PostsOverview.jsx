@@ -3,8 +3,9 @@ import Service from "../../services/PostService";
 import UserService from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
-import { MdDriveFileRenameOutline } from "react-icons/md";
-import { RiDeleteBin6Line, RiUserFollowLine } from "react-icons/ri";
+import { MdDriveFileRenameOutline, MdOutlinePostAdd } from "react-icons/md";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import getRelativeTime from "../../hook/getRelativeTime";
 
 export default function PostsOverview() {
     const [posts, setPosts] = useState([]);
@@ -81,53 +82,55 @@ export default function PostsOverview() {
                 </div>
             )}
             {!isLoading && (
-                <div className="overflow-x-auto">
-                    <button
-                        className="mb-5 flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 transition duration-200 cursor-pointer w-fit px-6 py-2 text-center text-white font-semibold shadow-lg"
-                        onClick={() => navigate(RoutesNames.POST_NEW)}
-                    >
-                        <RiUserFollowLine />
-                        ADD NEW POST
-                    </button>
+                <div>
+                    <div className="flex justify-between items-center mb-5">
+                        <h2 className="text-2xl font-semibold text-gray-800">Posts</h2>
+                        <button
+                            className="flex items-center justify-center gap-2 rounded-full bg-green-600 hover:bg-green-700 transition duration-200 cursor-pointer px-6 py-2 text-center text-white font-semibold shadow-lg"
+                            onClick={() => navigate(RoutesNames.POST_NEW)}
+                        >
+                            <MdOutlinePostAdd className="text-xl" />
+                            <span className="hidden sm:inline">ADD POST</span>
+                        </button>
+                    </div>
+
                     {error && <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">{error}</div>}
-                    <table className="min-w-full table-auto bg-white rounded-lg shadow-md overflow-hidden">
-                        <thead className="bg-gray-800 text-white">
-                            <tr className="text-center uppercase">
-                                <th className="border border-gray-800 py-2">Username</th>
-                                <th className="border border-gray-800 py-2">Post Content</th>
-                                <th className="border border-gray-800 py-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-center">
-                            {Array.isArray(posts) && posts.length > 0 ? (
-                                posts.map((i, index) => (
-                                    <tr key={index}>
-                                        <td className="border border-gray-800 py-2">{usernamesMap[i.userID] || "Loading..."}</td>
-                                        <td className="border border-gray-800 py-2">{i.content || "Loading..."}</td>
-                                        <td className="border border-gray-800 py-2">
-                                            <div className="flex justify-center space-x-2">
-                                                <button
-                                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg"
-                                                    onClick={() => navigate(`/posts/${i.id}`)}
-                                                >
-                                                    <MdDriveFileRenameOutline />
-                                                </button>
-                                                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg" onClick={() => removeUser(i.id)}>
-                                                    <RiDeleteBin6Line />
-                                                </button>
+
+                    <div className="space-y-4">
+                        {posts.length > 0 ? (
+                            posts
+                                .slice()
+                                .reverse()
+                                .map((i, index) => (
+                                    <div key={index} className="bg-white rounded-lg shadow-lg p-5 border-2 border-gray-300">
+                                        <div className="flex items-center space-x-4">
+                                            <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
+                                                {usernamesMap[i.userID]?.charAt(0) || "?"}
                                             </div>
-                                        </td>
-                                    </tr>
+                                            <div className="flex-1">
+                                                <div className="text-xs text-gray-400">{getRelativeTime(i.createdAt)}</div>
+                                                <div className="flex justify-between items-center">
+                                                    <div>
+                                                        <p className="text-lg font-medium text-gray-700">{usernamesMap[i.userID] || "Loading..."}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p className="text-gray-800 mt-2">{i.content || "Loading..."}</p>
+                                        <div className="flex justify-end space-x-2">
+                                            <button className="text-blue-600 hover:text-blue-800" onClick={() => navigate(`/posts/${i.id}`)} title="Edit Post">
+                                                <MdDriveFileRenameOutline size={20} />
+                                            </button>
+                                            <button className="text-red-600 hover:text-red-800" onClick={() => removeUser(i.id)} title="Delete Post">
+                                                <RiDeleteBin6Line size={20} />
+                                            </button>
+                                        </div>
+                                    </div>
                                 ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="3" className="border border-gray-800 py-2">
-                                        No posts found.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                        ) : (
+                            <div className="text-center text-gray-500 font-semibold">No posts found.</div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>

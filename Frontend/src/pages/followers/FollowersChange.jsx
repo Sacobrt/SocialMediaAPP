@@ -4,7 +4,7 @@ import Service from "../../services/FollowerService";
 import UserService from "../../services/UserService";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { MdCancel, MdDriveFileRenameOutline } from "react-icons/md";
+import { MdCancel, MdOutlineSaveAlt } from "react-icons/md";
 
 export default function FollowersChange() {
     const navigate = useNavigate();
@@ -68,27 +68,33 @@ export default function FollowersChange() {
 
         const data = new FormData(e.target);
 
+        const localDate = new Date();
+        const offset = localDate.getTimezoneOffset();
+        const formattedDate = new Date(moment.utc(data.get("followedAt")) - offset * 60 * 1000).toISOString().slice(0, -1);
+
         change({
             userID: data.get("userID"),
             followerUserID: data.get("followerUserID"),
-            followedAt: moment.utc(data.get("followedAt")),
+            followedAt: formattedDate,
         });
     }
 
     return (
-        <div className="container mx-auto px-4 py-6">
-            <h1 className="text-xl font-bold mb-4">Change Followers</h1>
+        <div className="container mx-auto px-4 py-8 max-w-4xl">
+            <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Change Follower</h1>
+
             {error && (
-                <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">
+                <div className="mb-6 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">
                     {error.map((errMsg, index) => (
                         <p key={index}>{errMsg}</p>
                     ))}
                 </div>
             )}
-            <form onSubmit={handleSubmit}>
-                <div className="flex flex-col md:flex-row gap-4">
-                    <div className="flex-1">
-                        <label htmlFor="userID" className="font-medium text-gray-800">
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label htmlFor="userID" className="block text-gray-700 font-semibold mb-2">
                             User
                         </label>
                         <select
@@ -96,19 +102,19 @@ export default function FollowersChange() {
                             name="userID"
                             value={usersID}
                             onChange={(e) => setUsersID(e.target.value)}
-                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-800 rounded-md bg-white text-gray-900"
+                            className="block w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 bg-white focus:ring-0"
                         >
                             {users &&
-                                users.map((i, index) => (
-                                    <option key={index} value={i.id}>
-                                        {i.username}
+                                users.map((user, index) => (
+                                    <option key={index} value={user.id}>
+                                        {user.username}
                                     </option>
                                 ))}
                         </select>
                     </div>
 
-                    <div className="flex-1">
-                        <label htmlFor="followerUserID" className="font-medium text-gray-800">
+                    <div>
+                        <label htmlFor="followerUserID" className="block text-gray-700 font-semibold mb-2">
                             Following
                         </label>
                         <select
@@ -116,19 +122,19 @@ export default function FollowersChange() {
                             name="followerUserID"
                             value={followersUserID}
                             onChange={(e) => setFollowersUserID(e.target.value)}
-                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-800 rounded-md bg-white text-gray-900"
+                            className="block w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 bg-white focus:ring-0"
                         >
                             {users &&
-                                users.map((i, index) => (
-                                    <option key={index} value={i.id}>
-                                        {i.username}
+                                users.map((user, index) => (
+                                    <option key={index} value={user.id}>
+                                        {user.username}
                                     </option>
                                 ))}
                         </select>
                     </div>
 
-                    <div className="flex-1">
-                        <label htmlFor="followedAt" className="font-medium text-gray-700">
+                    <div>
+                        <label htmlFor="followedAt" className="block text-gray-700 font-semibold mb-2">
                             Followed At
                         </label>
                         <input
@@ -136,27 +142,25 @@ export default function FollowersChange() {
                             name="followedAt"
                             id="followedAt"
                             defaultValue={followers.followedAt}
-                            className="mt-1 block w-full py-1.5 pl-3 pr-10 border-2 border-gray-800 rounded-md bg-white text-gray-900"
+                            className="block w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 bg-white focus:ring-0"
                         />
                     </div>
                 </div>
 
-                <hr className="my-6" />
-
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                <div className="flex justify-between items-center mt-8 space-x-4">
                     <Link
                         to={RoutesNames.FOLLOWER_OVERVIEW}
-                        className="bg-red-500 gap-2 flex items-center justify-center text-white px-4 py-2 rounded-md text-center font-semibold hover:bg-red-700"
+                        className="bg-red-400 flex items-center justify-center text-white px-4 py-3 rounded-md font-semibold hover:bg-red-500 transition-colors"
                     >
-                        <MdCancel />
+                        <MdCancel className="mr-2" />
                         Cancel
                     </Link>
                     <button
                         type="submit"
-                        className="bg-blue-600 gap-2 flex items-center justify-center text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full font-semibold"
+                        className="bg-blue-600 flex items-center justify-center text-white px-4 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
                     >
-                        <MdDriveFileRenameOutline />
-                        Change
+                        <MdOutlineSaveAlt className="mr-2" />
+                        Save Changes
                     </button>
                 </div>
             </form>

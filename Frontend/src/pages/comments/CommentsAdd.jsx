@@ -3,14 +3,12 @@ import { RoutesNames } from "../../constants";
 import Service from "../../services/CommentService";
 import PostService from "../../services/PostService";
 import UserService from "../../services/UserService";
-import moment from "moment";
 import { useEffect, useState } from "react";
-import { RiUserFollowLine } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
+import { FaComments } from "react-icons/fa";
 
 export default function CommentsAdd() {
     const navigate = useNavigate();
-    const [currentDate, setCurrentDate] = useState("");
     const [error, setError] = useState(null);
 
     const [users, setUsers] = useState([]);
@@ -54,11 +52,15 @@ export default function CommentsAdd() {
 
         const data = new FormData(e.target);
 
+        const localDate = new Date();
+        const offset = localDate.getTimezoneOffset();
+        const formattedDate = new Date(localDate.getTime() - offset * 60 * 1000).toISOString().slice(0, -1);
+
         add({
-            userID: data.get("userID"),
-            postID: data.get("postID"),
+            userID: userID,
+            postID: postID,
             content: data.get("content"),
-            createdAt: moment.utc(data.get("createdAt")),
+            createdAt: formattedDate,
         });
     }
 
@@ -71,37 +73,29 @@ export default function CommentsAdd() {
         }
     }, [error]);
 
-    useEffect(() => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-        const formattedDate = `${year}-${month}-${day}`;
-
-        setCurrentDate(formattedDate);
-    }, []);
-
     return (
-        <div className="container mx-auto px-4 py-6">
-            <h1 className="text-xl font-bold mb-4">Add New Comment</h1>
+        <div className="max-w-2xl mx-auto p-6">
+            <h1 className="text-center text-2xl font-bold text-gray-800 mb-6">Leave a Comment</h1>
+
             {error && (
-                <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">
+                <div className="mb-4 bg-red-500 p-4 rounded-lg text-center text-white">
                     {error.map((errMsg, index) => (
                         <p key={index}>{errMsg}</p>
                     ))}
                 </div>
             )}
-            <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="mb-4">
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="flex items-center">
+                    <div className="w-full">
                         <label htmlFor="userID" className="font-medium text-gray-800">
-                            User <span className="text-red-500 font-bold">*</span>
+                            Posting as: <span className="text-red-500 font-bold">*</span>
                         </label>
                         <select
                             id="userID"
                             name="userID"
                             onChange={(e) => setUsersID(e.target.value)}
-                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
                         >
                             {users &&
                                 users.map((user, index) => (
@@ -111,69 +105,53 @@ export default function CommentsAdd() {
                                 ))}
                         </select>
                     </div>
-                    <div className="mb-4">
-                        <label htmlFor="postID" className="font-medium text-gray-800">
-                            Post <span className="text-red-500 font-bold">*</span>
+                </div>
+
+                <div className="flex items-center">
+                    <div className="w-full">
+                        <label htmlFor="userID" className="font-medium text-gray-800">
+                            Select a Post: <span className="text-red-500 font-bold">*</span>
                         </label>
                         <select
                             id="postID"
                             name="postID"
                             onChange={(e) => setPostsID(e.target.value)}
-                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
                         >
                             {posts &&
                                 posts.map((post, index) => (
                                     <option key={index} value={post.id}>
-                                        {post.content}
+                                        {post.content.length > 60 ? post.content.slice(0, 60) + "..." : post.content}
                                     </option>
                                 ))}
                         </select>
                     </div>
-                    <div className="mb-4 col-span-1 md:col-span-2">
-                        <label htmlFor="content" className="font-medium text-gray-700">
-                            Comment <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <textarea
-                            name="content"
-                            id="content"
-                            rows="4"
-                            placeholder="Write your comment here..."
-                            className="mt-1 block w-full py-2 pl-3 pr-5 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                            onChange={(e) => setCommentContent(e.target.value)}
-                        />
-                    </div>
-
-                    <div className="mb-4">
-                        <label htmlFor="createdAt" className="font-medium text-gray-800">
-                            Created At <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                            type="date"
-                            name="createdAt"
-                            id="createdAt"
-                            value={currentDate}
-                            onChange={(e) => setCurrentDate(e.target.value)}
-                            className="mt-1 block w-full py-1.5 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                        />
-                    </div>
                 </div>
 
-                <hr className="my-6" />
+                <div className="flex items-center gap-3 rounded-md">
+                    <textarea
+                        id="content"
+                        name="content"
+                        rows="4"
+                        placeholder="Write your comment..."
+                        className="w-full text-gray-700 py-3 px-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-0"
+                    ></textarea>
+                </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="flex justify-between">
                     <Link
                         to={RoutesNames.COMMENT_OVERVIEW}
-                        className="bg-red-500 gap-2 flex items-center justify-center text-white py-1 rounded-md text-center font-semibold hover:bg-red-700 transition duration-200"
+                        className="flex items-center bg-red-400 text-white px-5 py-3 rounded-lg font-semibold hover:bg-red-500 transition duration-300"
                     >
-                        <MdCancel />
+                        <MdCancel className="mr-2" />
                         Cancel
                     </Link>
                     <button
                         type="submit"
-                        className="bg-blue-600 gap-2 flex items-center justify-center text-white py-1 rounded-md hover:bg-blue-700 w-full font-semibold transition duration-200"
+                        className="flex items-center bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
                     >
-                        <RiUserFollowLine />
-                        Add
+                        <FaComments className="mr-2" />
+                        Post Comment
                     </button>
                 </div>
             </form>

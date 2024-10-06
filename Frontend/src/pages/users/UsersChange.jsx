@@ -3,8 +3,7 @@ import { RoutesNames } from "../../constants";
 import UserService from "../../services/UserService";
 import { useEffect, useState } from "react";
 import moment from "moment";
-import { RiUserFollowLine } from "react-icons/ri";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdOutlineSaveAlt } from "react-icons/md";
 
 export default function UsersChange() {
     const navigate = useNavigate();
@@ -49,19 +48,24 @@ export default function UsersChange() {
 
         const data = new FormData(e.target);
 
+        const localDate = new Date();
+        const offset = localDate.getTimezoneOffset();
+        const formattedDate = new Date(moment.utc(data.get("createdAt")) - offset * 60 * 1000).toISOString().slice(0, -1);
+
         change({
             username: data.get("username"),
             password: data.get("password"),
             email: data.get("email"),
             firstName: data.get("firstName"),
             lastName: data.get("lastName"),
-            createdAt: moment.utc(data.get("createdAt")),
+            createdAt: formattedDate,
         });
     }
 
     return (
-        <div className="container mx-auto px-4 py-6">
-            <h1 className="text-2xl font-bold mb-4 text-gray-800">Change User</h1>
+        <div className="container mx-auto max-w-3xl px-6 py-8">
+            <h1 className="text-3xl font-bold mb-6 text-gray-900 text-center">Edit Profile</h1>
+
             {error && (
                 <div className="mb-5 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">
                     {error.map((errMsg, index) => (
@@ -69,50 +73,47 @@ export default function UsersChange() {
                     ))}
                 </div>
             )}
+
+            <div className="flex items-center justify-center mb-6">
+                <div className="relative w-32 h-32">
+                    <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase flex items-center justify-center text-5xl font-bold text-white shadow-md">
+                        {user.username?.charAt(0) || "?"}
+                    </div>
+                </div>
+            </div>
+
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div className="mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
                         <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                            Username <span className="text-red-500 font-bold">*</span>
+                            Username
                         </label>
                         <input
                             type="text"
                             name="username"
                             id="username"
                             defaultValue={user.username}
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                             required
                         />
                     </div>
-                    <div className="mb-4">
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                            Password <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            defaultValue={user.password}
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
+                    <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                            Email <span className="text-red-500 font-bold">*</span>
+                            Email
                         </label>
                         <input
                             type="email"
                             name="email"
                             id="email"
                             defaultValue={user.email}
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                             required
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div className="mb-4">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
                         <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
                             First Name
                         </label>
@@ -121,10 +122,10 @@ export default function UsersChange() {
                             name="firstName"
                             id="firstName"
                             defaultValue={user.firstName}
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                         />
                     </div>
-                    <div className="mb-4">
+                    <div>
                         <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
                             Last Name
                         </label>
@@ -133,40 +134,56 @@ export default function UsersChange() {
                             name="lastName"
                             id="lastName"
                             defaultValue={user.lastName}
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                         />
                     </div>
-                    <div className="mb-4">
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                            Password
+                        </label>
+                        <input
+                            type="password"
+                            name="password"
+                            id="password"
+                            defaultValue={user.password}
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
+                            required
+                        />
+                    </div>
+                    <div>
                         <label htmlFor="createdAt" className="block text-sm font-medium text-gray-700">
-                            Created At <span className="text-red-500 font-bold">*</span>
+                            Account Created On
                         </label>
                         <input
                             type="date"
                             name="createdAt"
                             id="createdAt"
                             defaultValue={user.createdAt}
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                             required
                         />
                     </div>
                 </div>
 
-                <hr className="my-6" />
+                <hr className="my-8" />
 
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                <div className="flex items-center justify-between">
                     <Link
                         to={RoutesNames.USER_OVERVIEW}
-                        className="bg-red-500 gap-2 flex items-center justify-center text-white py-2 rounded-md text-center font-semibold hover:bg-red-700 transition duration-200"
+                        className="bg-red-400 items-center flex text-gray-100 py-2 px-6 rounded-lg font-semibold hover:bg-red-500 transition duration-300 ease-in-out"
                     >
-                        <MdCancel />
+                        <MdCancel className="inline mr-2" />
                         Cancel
                     </Link>
                     <button
                         type="submit"
-                        className="bg-blue-600 gap-2 flex items-center justify-center text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 w-full font-semibold"
+                        className="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold flex items-center hover:bg-blue-700 transition duration-300 ease-in-out"
                     >
-                        <RiUserFollowLine />
-                        Change
+                        <MdOutlineSaveAlt className="inline mr-2" />
+                        Save Changes
                     </button>
                 </div>
             </form>

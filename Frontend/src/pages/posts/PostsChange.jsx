@@ -66,16 +66,21 @@ export default function PostsChange() {
 
         const data = new FormData(e.target);
 
+        const localDate = new Date();
+        const offset = localDate.getTimezoneOffset();
+        const formattedDate = new Date(moment.utc(data.get("createdAt")) - offset * 60 * 1000).toISOString().slice(0, -1);
+
         change({
             userID: data.get("userID"),
             content: data.get("content"),
-            createdAt: moment.utc(data.get("createdAt")),
+            createdAt: formattedDate,
         });
     }
 
     return (
-        <div className="container mx-auto px-4 py-6">
-            <h1 className="text-xl font-bold mb-4">Change Post</h1>
+        <div className="container mx-auto max-w-3xl px-4 py-6">
+            <h1 className="text-2xl font-bold mb-6">Edit Post</h1>
+
             {error && (
                 <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">
                     {error.map((errMsg, index) => (
@@ -83,18 +88,19 @@ export default function PostsChange() {
                     ))}
                 </div>
             )}
+
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label htmlFor="userID" className="font-medium text-gray-800">
-                            User <span className="text-red-500 font-bold">*</span>
+                        <label htmlFor="userID" className="font-medium text-gray-700">
+                            User <span className="text-red-500">*</span>
                         </label>
                         <select
                             id="userID"
                             name="userID"
                             value={usersID}
                             onChange={(e) => setUsersID(e.target.value)}
-                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            className="mt-1 block w-full py-2 px-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
                         >
                             {users &&
                                 users.map((user, index) => (
@@ -104,49 +110,49 @@ export default function PostsChange() {
                                 ))}
                         </select>
                     </div>
-                    <div className="mb-4 col-span-1 md:col-span-2">
-                        <label htmlFor="content" className="font-medium text-gray-700">
-                            Post <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <textarea
-                            name="content"
-                            id="content"
-                            placeholder="Update your post content here..."
-                            rows="4"
-                            defaultValue={posts.content}
-                            className="mt-1 block w-full py-2 pl-3 pr-5 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                        />
-                    </div>
+
                     <div>
                         <label htmlFor="createdAt" className="font-medium text-gray-700">
-                            Created At <span className="text-red-500 font-bold">*</span>
+                            Created At <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="date"
                             name="createdAt"
                             id="createdAt"
                             defaultValue={posts.createdAt}
-                            className="mt-1 block w-full py-1.5 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            className="mt-1 block w-full py-2 px-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
                         />
                     </div>
                 </div>
 
-                <hr className="my-6" />
+                <div className="mt-6">
+                    <label htmlFor="content" className="font-medium text-gray-700">
+                        Post <span className="text-red-500">*</span>
+                    </label>
+                    <textarea
+                        name="content"
+                        id="content"
+                        placeholder="Update your post content here..."
+                        rows="6"
+                        defaultValue={posts.content}
+                        className="mt-1 block w-full py-3 px-4 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
+                    />
+                </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="flex justify-between items-center mt-6">
                     <Link
                         to={RoutesNames.POST_OVERVIEW}
-                        className="bg-red-500 gap-2 flex items-center justify-center text-white px-4 py-2 rounded-md text-center font-semibold hover:bg-red-700 transition duration-200"
+                        className="flex items-center justify-center bg-red-400 text-white px-4 py-2 rounded-md font-semibold hover:bg-red-500 transition duration-200"
                     >
-                        <MdCancel />
+                        <MdCancel className="mr-2" />
                         Cancel
                     </Link>
                     <button
                         type="submit"
-                        className="bg-blue-600 gap-2 flex items-center justify-center text-white px-4 py-2 rounded-md hover:bg-blue-700 w-full font-semibold transition duration-200"
+                        className="flex items-center justify-center bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 font-semibold transition duration-200"
                     >
-                        <MdDriveFileRenameOutline />
-                        Change
+                        <MdDriveFileRenameOutline className="mr-2" />
+                        Save Changes
                     </button>
                 </div>
             </form>

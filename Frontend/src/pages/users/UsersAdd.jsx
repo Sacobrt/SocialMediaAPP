@@ -1,14 +1,12 @@
 import { Link, useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 import UserService from "../../services/UserService";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { RiUserFollowLine } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 
 export default function UsersAdd() {
     const navigate = useNavigate();
-    const [currentDate, setCurrentDate] = useState("");
     const [error, setError] = useState(null);
 
     async function add(user) {
@@ -25,13 +23,17 @@ export default function UsersAdd() {
 
         const data = new FormData(e.target);
 
+        const localDate = new Date();
+        const offset = localDate.getTimezoneOffset();
+        const formattedDate = new Date(localDate.getTime() - offset * 60 * 1000).toISOString().slice(0, -1);
+
         add({
             username: data.get("username"),
             password: data.get("password"),
             email: data.get("email"),
             firstName: data.get("firstName"),
             lastName: data.get("lastName"),
-            createdAt: moment.utc(data.get("createdAt")),
+            createdAt: formattedDate,
         });
     }
 
@@ -44,19 +46,10 @@ export default function UsersAdd() {
         }
     }, [error]);
 
-    useEffect(() => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-        const formattedDate = `${year}-${month}-${day}`;
-
-        setCurrentDate(formattedDate);
-    }, []);
-
     return (
-        <div className="container mx-auto px-4 py-6">
-            <h1 className="text-2xl font-bold mb-4 text-gray-800">Add New User</h1>
+        <div className="container mx-auto max-w-3xl px-6 py-8">
+            <h1 className="text-3xl font-bold mb-6 text-gray-900 text-center">Create New Account</h1>
+
             {error && (
                 <div className="mb-5 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">
                     {error.map((errMsg, index) => (
@@ -64,100 +57,88 @@ export default function UsersAdd() {
                     ))}
                 </div>
             )}
+
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div className="mb-4">
-                        <label htmlFor="username" className="text-sm font-medium text-gray-700">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
                             Username <span className="text-red-500 font-bold">*</span>
                         </label>
                         <input
                             type="text"
                             name="username"
                             id="username"
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                             required
                         />
                     </div>
-                    <div className="mb-4">
-                        <label htmlFor="password" className="text-sm font-medium text-gray-700">
-                            Password <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
-                            required
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="email" className="text-sm font-medium text-gray-700">
+                    <div>
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                             Email <span className="text-red-500 font-bold">*</span>
                         </label>
                         <input
                             type="email"
                             name="email"
                             id="email"
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                             required
                         />
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div className="mb-4">
-                        <label htmlFor="firstName" className="text-sm font-medium text-gray-700">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
                             First Name
                         </label>
                         <input
                             type="text"
                             name="firstName"
                             id="firstName"
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                         />
                     </div>
-                    <div className="mb-4">
-                        <label htmlFor="lastName" className="text-sm font-medium text-gray-700">
+                    <div>
+                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
                             Last Name
                         </label>
                         <input
                             type="text"
                             name="lastName"
                             id="lastName"
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                         />
                     </div>
-                    <div className="mb-4">
-                        <label htmlFor="createdAt" className="text-sm font-medium text-gray-700">
-                            Created At <span className="text-red-500 font-bold">*</span>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                            Password <span className="text-red-500 font-bold">*</span>
                         </label>
                         <input
-                            type="date"
-                            name="createdAt"
-                            id="createdAt"
-                            value={currentDate}
-                            onChange={(e) => setCurrentDate(e.target.value)}
-                            className="mt-1 block w-full py-3 pl-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring focus:ring-blue-400"
+                            type="password"
+                            name="password"
+                            id="password"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                             required
                         />
                     </div>
                 </div>
 
-                <hr className="my-6" />
+                <hr className="my-8" />
 
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+                <div className="flex items-center justify-between">
                     <Link
                         to={RoutesNames.USER_OVERVIEW}
-                        className="bg-red-500 gap-2 flex items-center justify-center text-white py-2 rounded-md text-center font-semibold hover:bg-red-700 transition duration-200"
+                        className="bg-red-400 items-center flex text-gray-100 py-2 px-6 rounded-lg font-semibold hover:bg-red-500 transition duration-300 ease-in-out"
                     >
-                        <MdCancel />
+                        <MdCancel className="inline mr-2" />
                         Cancel
                     </Link>
-                    <button
-                        type="submit"
-                        className="bg-blue-600 gap-2 flex items-center justify-center text-white py-2 rounded-md hover:bg-blue-700 transition duration-200 w-full font-semibold"
-                    >
-                        <RiUserFollowLine />
-                        Add
+                    <button type="submit" className="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold flex items-center hover:bg-blue-700 transition">
+                        <RiUserFollowLine className="inline mr-2" />
+                        Create Account
                     </button>
                 </div>
             </form>

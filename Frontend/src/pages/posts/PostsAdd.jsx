@@ -2,22 +2,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 import Service from "../../services/PostService";
 import UserService from "../../services/UserService";
-import moment from "moment";
 import { useEffect, useState } from "react";
-import { RiUserFollowLine } from "react-icons/ri";
-import { MdCancel } from "react-icons/md";
+import { MdCancel, MdFormatListBulletedAdd } from "react-icons/md";
 
 export default function PostsAdd() {
     const navigate = useNavigate();
-    const [currentDate, setCurrentDate] = useState("");
     const [error, setError] = useState(null);
     const [users, setUsers] = useState([]);
-    const [usersID, setUsersID] = useState(0);
+    const [userID, setUserID] = useState(0);
 
     async function getUsers() {
         const response = await UserService.get();
         setUsers(response);
-        setUsersID(response[0].id);
+        setUserID(response[0].id);
     }
 
     useEffect(() => {
@@ -38,10 +35,14 @@ export default function PostsAdd() {
 
         const data = new FormData(e.target);
 
+        const localDate = new Date();
+        const offset = localDate.getTimezoneOffset();
+        const formattedDate = new Date(localDate.getTime() - offset * 60 * 1000).toISOString().slice(0, -1);
+
         add({
-            userID: data.get("userID"),
+            userID: userID,
             content: data.get("content"),
-            createdAt: moment.utc(data.get("createdAt")),
+            createdAt: formattedDate,
         });
     }
 
@@ -54,19 +55,8 @@ export default function PostsAdd() {
         }
     }, [error]);
 
-    useEffect(() => {
-        const today = new Date();
-        const year = today.getFullYear();
-        const month = String(today.getMonth() + 1).padStart(2, "0");
-        const day = String(today.getDate()).padStart(2, "0");
-        const formattedDate = `${year}-${month}-${day}`;
-
-        setCurrentDate(formattedDate);
-    }, []);
-
     return (
-        <div className="container mx-auto px-4 py-6">
-            <h1 className="text-xl font-bold mb-4">Add New Post</h1>
+        <div className="container mx-auto max-w-3xl px-4 py-6">
             {error && (
                 <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">
                     {error.map((errMsg, index) => (
@@ -74,69 +64,55 @@ export default function PostsAdd() {
                     ))}
                 </div>
             )}
+
             <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="mb-4">
-                        <label htmlFor="userID" className="font-medium text-gray-800">
-                            User <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <select
-                            id="userID"
-                            name="userID"
-                            onChange={(e) => setUsersID(e.target.value)}
-                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                        >
-                            {users &&
-                                users.map((user, index) => (
-                                    <option key={index} value={user.id}>
-                                        {user.username}
-                                    </option>
-                                ))}
-                        </select>
-                    </div>
-                    <div className="mb-4 col-span-1 md:col-span-2">
-                        <label htmlFor="content" className="font-medium text-gray-700">
-                            Post <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <textarea
-                            name="content"
-                            id="content"
-                            placeholder="Write your post content here..."
-                            rows="4"
-                            className="mt-1 block w-full py-2 pl-3 pr-5 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="createdAt" className="font-medium text-gray-800">
-                            Created At <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                            type="date"
-                            name="createdAt"
-                            id="createdAt"
-                            value={currentDate}
-                            onChange={(e) => setCurrentDate(e.target.value)}
-                            className="mt-1 block w-full py-1.5 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                        />
+                <div className="flex items-center mb-4">
+                    <div className="w-full">
+                        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Make a Post</h1>
+                        <div className="mb-4">
+                            <label htmlFor="userID" className="font-medium text-gray-800">
+                                Posting as: <span className="text-red-500 font-bold">*</span>
+                            </label>
+                            <select
+                                id="userID"
+                                name="userID"
+                                onChange={(e) => setUserID(e.target.value)}
+                                className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
+                            >
+                                {users &&
+                                    users.map((user, index) => (
+                                        <option key={index} value={user.id}>
+                                            {user.username}
+                                        </option>
+                                    ))}
+                            </select>
+                        </div>
                     </div>
                 </div>
+                <div className="mb-4">
+                    <textarea
+                        name="content"
+                        id="content"
+                        placeholder="What's on your mind?"
+                        rows="4"
+                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-0 text-lg"
+                    />
+                </div>
 
-                <hr className="my-6" />
-
-                <div className="grid grid-cols-2 gap-4">
+                <div className="flex justify-between items-center mt-6">
                     <Link
                         to={RoutesNames.POST_OVERVIEW}
-                        className="bg-red-500 gap-2 flex items-center justify-center text-white py-2 rounded-md text-center font-semibold hover:bg-red-700 transition duration-200"
+                        className="flex items-center bg-red-400 gap-2 text-gray-100 px-4 py-2 rounded-lg hover:bg-red-500 transition duration-200"
                     >
-                        <MdCancel />
+                        <MdCancel className="text-xl" />
                         Cancel
                     </Link>
                     <button
                         type="submit"
-                        className="bg-blue-600 gap-2 flex items-center justify-center text-white py-2 rounded-md hover:bg-blue-700 w-full font-semibold transition duration-200"
+                        className="flex items-center bg-blue-600 gap-2 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold"
                     >
-                        <RiUserFollowLine />
-                        Add
+                        <MdFormatListBulletedAdd className="text-xl" />
+                        Post
                     </button>
                 </div>
             </form>

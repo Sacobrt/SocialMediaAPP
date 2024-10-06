@@ -1,11 +1,11 @@
-import moment from "moment";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserService from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
-import { RiDeleteBin6Line, RiUserFollowLine } from "react-icons/ri";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import { MdDriveFileRenameOutline } from "react-icons/md";
+import { FaUsers } from "react-icons/fa";
+import getRelativeTime from "../../hook/getRelativeTime";
 
 export default function UsersOverview() {
     const [users, setUsers] = useState();
@@ -37,13 +37,6 @@ export default function UsersOverview() {
         }
     }, [error]);
 
-    function formatDate(date) {
-        if (date == null) {
-            return "Not defined";
-        }
-        return moment.utc(date).format("DD.MM.YYYY.");
-    }
-
     async function removeAsync(id) {
         const response = await UserService.remove(id);
         if (response.error) {
@@ -58,8 +51,8 @@ export default function UsersOverview() {
     }
 
     function checkName(name) {
-        if (name == null) return "-";
-        if (name == "") return "-";
+        if (name == null) return " ";
+        if (name == "") return " ";
         return name;
     }
 
@@ -74,55 +67,56 @@ export default function UsersOverview() {
                 </div>
             )}
             {!isLoading && (
-                <div className="overflow-x-auto">
-                    <button
-                        className="mb-5 flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 transition duration-200 cursor-pointer w-fit px-6 py-2 text-center text-white font-semibold shadow-lg"
-                        onClick={() => navigate(RoutesNames.USER_NEW)}
-                    >
-                        <RiUserFollowLine />
-                        ADD NEW USER
-                    </button>
+                <div className="space-y-6">
+                    <div className="flex justify-between items-center mb-5">
+                        <h2 className="text-2xl font-semibold text-gray-800">Users</h2>
+                        <button
+                            className="flex items-center justify-center gap-2 rounded-full bg-green-600 hover:bg-green-700 transition duration-200 cursor-pointer px-6 py-2 text-center text-white font-semibold shadow-lg"
+                            onClick={() => navigate(RoutesNames.USER_NEW)}
+                        >
+                            <FaUsers />
+                            <span className="hidden sm:inline">CREATE ACCOUNT</span>
+                        </button>
+                    </div>
+
                     {error && <div className="mb-5 bg-red-500 p-3 rounded-lg text-center text-white font-semibold shadow-md">{error}</div>}
-                    <table className="min-w-full table-auto bg-white rounded-lg shadow-md overflow-hidden">
-                        <thead className="bg-gray-800 text-white">
-                            <tr className="text-center uppercase">
-                                <th className="border border-gray-800 py-2">Username</th>
-                                <th className="border border-gray-800 py-2">Email</th>
-                                <th className="border border-gray-800 py-2">First Name</th>
-                                <th className="border border-gray-800 py-2">Last Name</th>
-                                <th className="border border-gray-800 py-2">Created At</th>
-                                <th className="border border-gray-800 py-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-center">
-                            {users &&
-                                users.map((user, index) => (
-                                    <tr key={index} className={index % 2 === 0 ? "bg-gray-50" : "bg-white"}>
-                                        <td className="border border-gray-300 py-2">{user.username}</td>
-                                        <td className="border border-gray-300 py-2">{user.email}</td>
-                                        <td className="border border-gray-300 py-2">{checkName(user.firstName)}</td>
-                                        <td className="border border-gray-300 py-2">{checkName(user.lastName)}</td>
-                                        <td className="border border-gray-300 py-2">{formatDate(user.createdAt)}</td>
-                                        <td className="border border-gray-300 py-2">
-                                            <div className="flex justify-center space-x-2">
-                                                <button
-                                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg transition duration-200"
-                                                    onClick={() => navigate(`/users/${user.id}`)}
-                                                >
-                                                    <MdDriveFileRenameOutline />
-                                                </button>
-                                                <button
-                                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg transition duration-200"
-                                                    onClick={() => removeUser(user.id)}
-                                                >
-                                                    <RiDeleteBin6Line />
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                ))}
-                        </tbody>
-                    </table>
+
+                    <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+                        {users.length > 0 ? (
+                            users.map((user, index) => (
+                                <div
+                                    key={index}
+                                    className="bg-white border-2 border-gray-300 shadow-md rounded-md p-5 flex flex-col items-center justify-center space-y-4"
+                                >
+                                    <div className="bg-gradient-to-r from-green-400 to-teal-400 rounded-full w-20 h-20 flex items-center justify-center text-4xl font-bold text-white shadow-md">
+                                        {user.username?.charAt(0) || "?"}
+                                    </div>
+                                    <div className="text-center space-y-1">
+                                        <h3 className="text-lg font-semibold text-gray-800">{user.username}</h3>
+                                        <p className="text-sm text-gray-500">{user.email}</p>
+                                        <p className="text-sm text-gray-500">
+                                            {checkName(user.firstName)} {checkName(user.lastName)}
+                                        </p>
+                                        <p className="text-sm text-gray-400">{getRelativeTime(user.createdAt)}</p>
+                                    </div>
+                                    <div className="flex space-x-3">
+                                        <div className="flex space-x-2">
+                                            <button className="text-blue-600 hover:text-blue-800" onClick={() => navigate(`/users/${user.id}`)} title="Edit User">
+                                                <MdDriveFileRenameOutline size={20} />
+                                            </button>
+                                            <button className="text-red-600 hover:text-red-800" onClick={() => removeUser(user.id)} title="Delete User">
+                                                <RiDeleteBin6Line size={20} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        ) : (
+                            <div className="text-center col-span-full">
+                                <p className="text-lg text-gray-500">No users found.</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>

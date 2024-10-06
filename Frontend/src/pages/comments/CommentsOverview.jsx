@@ -4,8 +4,10 @@ import UserService from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 import { MdDriveFileRenameOutline } from "react-icons/md";
-import { RiDeleteBin6Line, RiUserFollowLine } from "react-icons/ri";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import PostService from "../../services/PostService";
+import { FaComments } from "react-icons/fa";
+import getRelativeTime from "../../hook/getRelativeTime";
 
 export default function CommentsOverview() {
     const [comments, setComments] = useState([]);
@@ -93,62 +95,70 @@ export default function CommentsOverview() {
         <div className="container mx-auto py-5 px-5">
             {isLoading && (
                 <div className="flex justify-center items-center">
-                    <div className="bg-gradient-to-r from-green-400 to-green-600 p-6 rounded-lg shadow-xl animate-bounce-slow text-white font-bold text-lg flex items-center space-x-3">
+                    <div className="bg-green-500 p-4 rounded-full shadow-xl animate-bounce-slow text-white font-bold text-lg flex items-center space-x-3">
                         <div className="w-6 h-6 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                        <span>Loading comments, please wait...</span>
+                        <span>Loading comments...</span>
                     </div>
                 </div>
             )}
+
             {!isLoading && (
-                <div className="overflow-x-auto">
-                    <button
-                        className="mb-5 flex items-center justify-center gap-2 rounded-md bg-green-600 hover:bg-green-700 transition duration-200 cursor-pointer w-fit px-6 py-2 text-center text-white font-semibold shadow-lg"
-                        onClick={() => navigate(RoutesNames.COMMENT_NEW)}
-                    >
-                        <RiUserFollowLine />
-                        ADD NEW COMMENT
-                    </button>
-                    {error && <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">{error}</div>}
-                    <table className="min-w-full table-auto bg-white rounded-lg shadow-md overflow-hidden">
-                        <thead className="bg-gray-800 text-white">
-                            <tr className="text-center uppercase">
-                                <th className="border border-gray-800 py-2">Username</th>
-                                <th className="border border-gray-800 py-2">Post</th>
-                                <th className="border border-gray-800 py-2">Comment</th>
-                                <th className="border border-gray-800 py-2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody className="text-center">
-                            {Array.isArray(comments) && comments.length > 0 ? (
-                                comments.map((i, index) => (
-                                    <tr key={index}>
-                                        <td className="border border-gray-800 py-2">{usernamesMap[i.userID] || "Loading..."}</td>
-                                        <td className="border border-gray-800 py-2">{postsMap[i.postID] || "Loading..."}</td>
-                                        <td className="border border-gray-800 py-2">{i.content || "Loading..."}</td>
-                                        <td className="border border-gray-800 py-2">
-                                            <div className="flex justify-center space-x-2">
-                                                <button
-                                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-1 rounded-lg"
-                                                    onClick={() => navigate(`/comments/${i.id}`)}
-                                                >
-                                                    <MdDriveFileRenameOutline />
-                                                </button>
-                                                <button className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg" onClick={() => removeUser(i.id)}>
-                                                    <RiDeleteBin6Line />
-                                                </button>
+                <div>
+                    <div className="flex justify-between items-center mb-5">
+                        <h2 className="text-2xl font-semibold text-gray-800">Comments</h2>
+                        <button
+                            className="flex items-center justify-center gap-2 rounded-full bg-green-600 hover:bg-green-700 transition duration-200 cursor-pointer px-6 py-2 text-center text-white font-semibold shadow-lg"
+                            onClick={() => navigate(RoutesNames.COMMENT_NEW)}
+                        >
+                            <FaComments />
+                            <span className="hidden sm:inline">ADD COMMENT</span>
+                        </button>
+                    </div>
+
+                    {error && <div className="mb-5 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">{error}</div>}
+
+                    <div className="space-y-4">
+                        {comments.length > 0 ? (
+                            comments
+                                .slice()
+                                .reverse()
+                                .map((i, index) => (
+                                    <div key={index} className="bg-white shadow-md rounded-lg p-5 border-2 border-gray-300">
+                                        <div className="flex items-start space-x-4">
+                                            <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
+                                                {usernamesMap[i.userID]?.charAt(0) || "?"}
                                             </div>
-                                        </td>
-                                    </tr>
+                                            <div className="flex-1">
+                                                <div className="text-xs text-gray-400">{getRelativeTime(i.createdAt)}</div>
+                                                <div className="flex justify-between items-center">
+                                                    <div>
+                                                        <p className="text-lg font-medium text-gray-700">{usernamesMap[i.userID] || "Loading..."}</p>
+                                                        <p className="text-xs text-gray-500">{postsMap[i.postID] || "Loading..."}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p className="text-gray-800 mt-2">{i.content || "Loading..."}</p>
+                                        <div className="flex justify-end space-x-2">
+                                            <button
+                                                className="text-blue-600 hover:text-blue-800"
+                                                onClick={() => navigate(`/comments/${i.id}`)}
+                                                title="Edit Comment"
+                                            >
+                                                <MdDriveFileRenameOutline size={20} />
+                                            </button>
+                                            <button className="text-red-600 hover:text-red-800" onClick={() => removeUser(i.id)} title="Delete Comment">
+                                                <RiDeleteBin6Line size={20} />
+                                            </button>
+                                        </div>
+                                    </div>
                                 ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="3" className="border border-gray-800 py-2">
-                                        No comments found.
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                        ) : (
+                            <div className="text-center text-gray-500 py-10">
+                                <p>No comments found.</p>
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
         </div>
