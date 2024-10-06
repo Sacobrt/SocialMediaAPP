@@ -3,6 +3,7 @@ import Service from "../services/PostService";
 import UserService from "../services/UserService";
 import CommentService from "../services/CommentService";
 import { IoIosCloseCircle } from "react-icons/io";
+import getRelativeTime from "../hook/getRelativeTime";
 
 export default function HomePageOverview() {
     const [posts, setPosts] = useState([]);
@@ -122,37 +123,34 @@ export default function HomePageOverview() {
             {!isLoading && (
                 <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
                     {error && <div className="mb-5 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">{error}</div>}
-                    {posts
-                        .slice()
-                        .reverse()
-                        .map((post, index) => (
-                            <div
-                                key={index}
-                                className="bg-gray-800 shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow duration-300 ease-in-out text-white"
-                            >
-                                {/* Header */}
-                                <div className="flex items-center space-x-4 mb-4">
-                                    <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
-                                        {usernamesMap[post.userID]?.charAt(0) || "?"}
-                                    </div>
-                                    <div>
-                                        <div className="font-semibold text-white">{usernamesMap[post.userID] || "Loading..."}</div>
-                                        <div className="text-sm text-gray-400">{new Date(post.createdAt).toLocaleDateString() || "Just now"}</div>
-                                    </div>
+                    {posts.reverse().map((post, index) => (
+                        <div key={index} className="bg-gray-800 shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow duration-300 ease-in-out text-white">
+                            {/* Header */}
+                            <div className="flex items-center space-x-4 mb-4">
+                                <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
+                                    {usernamesMap[post.userID]?.charAt(0) || "?"}
                                 </div>
+                                <div>
+                                    <div className="font-semibold text-white">{usernamesMap[post.userID] || "Loading..."}</div>
+                                    <div className="text-sm text-gray-400">{getRelativeTime(post.createdAt)}</div>
+                                </div>
+                            </div>
 
-                                {/* Post Content */}
-                                <div className="text-gray-300 text-lg mb-4">{post.content || "Loading..."}</div>
+                            {/* Post Content */}
+                            <div className="text-gray-300 text-lg mb-4">{post.content || "Loading..."}</div>
 
-                                {/* Comments Section - only show if there are comments */}
-                                {commentsMap[post.id] && commentsMap[post.id].length > 0 && (
-                                    <div>
-                                        <h3 className="font-semibold text-sm leading-tight text-gray-50 mb-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg p-0.5 text-center">
-                                            Comments
-                                        </h3>
+                            {/* Comments Section - only show if there are comments */}
+                            {commentsMap[post.id] && commentsMap[post.id].length > 0 && (
+                                <div>
+                                    <h3 className="font-semibold text-sm leading-tight text-gray-50 mb-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg p-0.5 text-center">
+                                        Comments
+                                    </h3>
 
-                                        <ul className="space-y-2">
-                                            {commentsMap[post.id].slice(0, 3).map((comment, idx) => (
+                                    <ul className="space-y-2">
+                                        {commentsMap[post.id]
+                                            .reverse()
+                                            .slice(0, 3)
+                                            .map((comment, idx) => (
                                                 <li
                                                     key={idx}
                                                     className="bg-gray-700 border border-gray-600 p-4 rounded-lg shadow-md flex items-start transition-shadow duration-300 ease-in-out hover:shadow-lg"
@@ -163,27 +161,25 @@ export default function HomePageOverview() {
                                                     <div className="flex-1">
                                                         <div className="flex justify-between mb-1">
                                                             <div className="font-semibold text-white">{usernamesMap[comment.userID] || "Loading..."}</div>
-                                                            <div className="text-xs text-gray-400">
-                                                                {new Date(comment.createdAt).toLocaleDateString() || "Just now"}
-                                                            </div>
+                                                            <div className="text-xs text-gray-400">{getRelativeTime(comment.createdAt)}</div>
                                                         </div>
                                                         <p className="text-gray-300">{comment.content}</p>
                                                     </div>
                                                 </li>
                                             ))}
-                                        </ul>
-                                        {commentsMap[post.id].length > 3 && (
-                                            <button
-                                                className="mt-4 w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
-                                                onClick={() => openModal(post.id)}
-                                            >
-                                                View all comments ({commentsMap[post.id].length})
-                                            </button>
-                                        )}
-                                    </div>
-                                )}
-                            </div>
-                        ))}
+                                    </ul>
+                                    {commentsMap[post.id].length > 3 && (
+                                        <button
+                                            className="mt-4 w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
+                                            onClick={() => openModal(post.id)}
+                                        >
+                                            View all comments ({commentsMap[post.id].length})
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    ))}
                 </div>
             )}
 
