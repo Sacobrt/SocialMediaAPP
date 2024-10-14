@@ -8,7 +8,18 @@ namespace CSHARP_SocialMediaAPP.Mapping
     {
         public MainMappingProfile()
         {
-            CreateMap<User, UserDTORead>();
+            CreateMap<User, UserDTORead>()
+                .ConstructUsing(e =>
+                    new UserDTORead(
+                        e.ID ?? 0,
+                        e.Username,
+                        e.Password,
+                        e.Email,
+                        e.FirstName,
+                        e.LastName,
+                        e.BirthDate,
+                        e.CreatedAt ?? DateTime.Now,
+                        FilePath(e)));
             CreateMap<UserDTOInsertUpdate, User>();
 
             CreateMap<Follower, FollowerDTORead>()
@@ -30,6 +41,21 @@ namespace CSHARP_SocialMediaAPP.Mapping
                 .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User))
                 .ForMember(dest => dest.PostID, opt => opt.MapFrom(src => src.Post));
             CreateMap<CommentDTOInsertUpdate, Comment>();
+        }
+
+        private static string FilePath(User e)
+        {
+            try
+            {
+                var ds = Path.DirectorySeparatorChar;
+                string image = Path.Combine(Directory.GetCurrentDirectory()
+                    + ds + "wwwroot" + ds + "images" + ds + "users" + ds + e.ID + ".png");
+                return File.Exists(image) ? "/images/users/" + e.ID + ".png" : null;
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

@@ -142,5 +142,41 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("setImage/{id:int}")]
+        public IActionResult SetImage(int id, ImageDTO image)
+        {
+            if (id <= 0)
+            {
+                return BadRequest(new { message = "ID need to be higher then zero (0)" });
+            }
+            if (image.Base64 == null || image.Base64?.Length == 0)
+            {
+                return BadRequest(new { message = "Image not uploaded!" });
+            }
+            var u = _context.Users.Find(id);
+            if (u == null)
+            {
+                return BadRequest(new { message = "There is no user with ID " + id + "." });
+            }
+            try
+            {
+                var ds = Path.DirectorySeparatorChar;
+                string dir = Path.Combine(Directory.GetCurrentDirectory()
+                    + ds + "wwwroot" + ds + "images" + ds + "users");
+                if (!System.IO.Directory.Exists(dir))
+                {
+                    System.IO.Directory.CreateDirectory(dir);
+                }
+                var path = Path.Combine(dir + ds + id + ".png");
+                System.IO.File.WriteAllBytes(path, Convert.FromBase64String(image.Base64));
+                return Ok(new { message = "Image changed successfully!" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }

@@ -8,5 +8,6 @@
         string? FirstName,
         string? LastName,
         DateTime? BirthDate,
-        DateTime CreatedAt);
+        DateTime CreatedAt,
+        string? Image);
 }
