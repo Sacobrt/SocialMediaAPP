@@ -27,7 +27,7 @@ function App() {
         <>
             <NavBarEdunova />
             <div className="flex flex-col min-h-screen">
-                <main className="flex-grow">
+                <main className="flex-grow bg-gradient-to-br from-gray-700 via-gray-900 to-gray-800">
                     <Routes>
                         <Route path={RoutesNames.HOME} element={<Home />} />
                         <Route path={RoutesNames.USER_OVERVIEW} element={<UsersOverview />} />
