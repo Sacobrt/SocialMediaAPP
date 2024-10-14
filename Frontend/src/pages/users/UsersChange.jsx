@@ -18,6 +18,7 @@ export default function UsersChange() {
             return;
         }
         response.message.createdAt = moment.utc(response.message.createdAt).format("yyyy-MM-DD");
+        response.message.birthDate = moment.utc(response.message.birthDate).format("yyyy-MM-DD");
         setUser(response.message);
     }
 
@@ -51,6 +52,7 @@ export default function UsersChange() {
         const localDate = new Date();
         const offset = localDate.getTimezoneOffset();
         const formattedDate = new Date(moment.utc(data.get("createdAt")) - offset * 60 * 1000).toISOString().slice(0, -1);
+        const formattedBirthDate = new Date(moment.utc(data.get("birthDate")) - offset * 60 * 1000).toISOString().slice(0, -1);
 
         change({
             username: data.get("username"),
@@ -58,6 +60,7 @@ export default function UsersChange() {
             email: data.get("email"),
             firstName: data.get("firstName"),
             lastName: data.get("lastName"),
+            birthDate: formattedBirthDate,
             createdAt: formattedDate,
         });
     }
@@ -162,6 +165,19 @@ export default function UsersChange() {
                             name="createdAt"
                             id="createdAt"
                             defaultValue={user.createdAt}
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700">
+                            Date of birth
+                        </label>
+                        <input
+                            type="date"
+                            name="birthDate"
+                            id="birthDate"
+                            defaultValue={user.birthDate}
                             className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                             required
                         />

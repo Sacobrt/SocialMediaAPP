@@ -4,6 +4,7 @@ import UserService from "../../services/UserService";
 import { useEffect, useState } from "react";
 import { RiUserFollowLine } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
+import moment from "moment";
 
 export default function UsersAdd() {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ export default function UsersAdd() {
         const localDate = new Date();
         const offset = localDate.getTimezoneOffset();
         const formattedDate = new Date(localDate.getTime() - offset * 60 * 1000).toISOString().slice(0, -1);
+        const formattedBirthDate = new Date(moment.utc(data.get("birthDate")) - offset * 60 * 1000).toISOString().slice(0, -1);
 
         add({
             username: data.get("username"),
@@ -33,6 +35,7 @@ export default function UsersAdd() {
             email: data.get("email"),
             firstName: data.get("firstName"),
             lastName: data.get("lastName"),
+            birthDate: formattedBirthDate,
             createdAt: formattedDate,
         });
     }
@@ -120,6 +123,18 @@ export default function UsersAdd() {
                             type="password"
                             name="password"
                             id="password"
+                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700">
+                            Date of birth
+                        </label>
+                        <input
+                            type="date"
+                            name="birthDate"
+                            id="birthDate"
                             className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
                             required
                         />
