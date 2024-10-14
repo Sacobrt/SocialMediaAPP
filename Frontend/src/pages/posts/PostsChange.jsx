@@ -78,21 +78,23 @@ export default function PostsChange() {
     }
 
     return (
-        <div className="container mx-auto max-w-3xl px-4 py-6">
-            <h1 className="text-2xl font-bold mb-6">Edit Post</h1>
+        <div className="container mx-auto max-w-3xl mt-10 px-5 py-10 rounded-3xl shadow-2xl border-2 border-gray-600">
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 ">
+                Edit Post
+            </h1>
 
             {error && (
-                <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">
+                <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold animate-shake">
                     {error.map((errMsg, index) => (
                         <p key={index}>{errMsg}</p>
                     ))}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label htmlFor="userID" className="font-medium text-gray-700">
+                        <label htmlFor="userID" className="block text-sm font-medium text-gray-300 mb-2">
                             User <span className="text-red-500">*</span>
                         </label>
                         <select
@@ -100,19 +102,18 @@ export default function PostsChange() {
                             name="userID"
                             value={usersID}
                             onChange={(e) => setUsersID(e.target.value)}
-                            className="mt-1 block w-full py-2 px-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
+                            className="block w-full px-4 py-3 border-2 border-transparent bg-gray-700 text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
                         >
-                            {users &&
-                                users.map((user, index) => (
-                                    <option key={index} value={user.id}>
-                                        {user.username}
-                                    </option>
-                                ))}
+                            {users.map((user, index) => (
+                                <option key={index} value={user.id}>
+                                    {user.username}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
                     <div>
-                        <label htmlFor="createdAt" className="font-medium text-gray-700">
+                        <label htmlFor="createdAt" className="block text-sm font-medium text-gray-300 mb-2">
                             Created At <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -120,39 +121,33 @@ export default function PostsChange() {
                             name="createdAt"
                             id="createdAt"
                             defaultValue={posts.createdAt}
-                            className="mt-1 block w-full py-2 px-3 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
+                            className="block w-full px-4 py-3 border-2 border-transparent bg-gray-700 text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
                         />
                     </div>
                 </div>
 
-                <div className="mt-6">
-                    <label htmlFor="content" className="font-medium text-gray-700">
+                <div>
+                    <label htmlFor="content" className="block text-sm font-medium text-gray-300 mb-2">
                         Post <span className="text-red-500">*</span>
                     </label>
                     <textarea
-                        name="content"
                         id="content"
+                        name="content"
                         placeholder="Update your post content here..."
                         rows="6"
                         defaultValue={posts.content}
-                        className="mt-1 block w-full py-3 px-4 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
+                        className="block w-full px-4 py-3 border-2 border-transparent bg-gray-700 text-white rounded-2xl focus:border-blue-500 focus:outline-none resize-none transition-all"
                     />
                 </div>
 
-                <div className="flex justify-between items-center mt-6">
-                    <Link
-                        to={RoutesNames.POST_OVERVIEW}
-                        className="flex items-center justify-center bg-red-400 text-white px-4 py-2 rounded-md font-semibold hover:bg-red-500 transition duration-200"
-                    >
-                        <MdCancel className="mr-2" />
-                        Cancel
+                <div className="flex justify-end space-x-4">
+                    <Link to={RoutesNames.POST_OVERVIEW} className="btn-cancel">
+                        <MdCancel className="lg:mr-2" />
+                        <span>Cancel</span>
                     </Link>
-                    <button
-                        type="submit"
-                        className="flex items-center justify-center bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 font-semibold transition duration-200"
-                    >
-                        <MdDriveFileRenameOutline className="mr-2" />
-                        Save Changes
+                    <button type="submit" className="btn-main">
+                        <MdDriveFileRenameOutline className="lg:mr-2" />
+                        <span>Save Changes</span>
                     </button>
                 </div>
             </form>

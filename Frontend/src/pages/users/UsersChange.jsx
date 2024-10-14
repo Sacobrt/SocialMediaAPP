@@ -1,15 +1,26 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { RoutesNames } from "../../constants";
+import { useNavigate, useParams } from "react-router-dom";
+import { APP_URL, RoutesNames } from "../../constants";
 import UserService from "../../services/UserService";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import moment from "moment";
+
+import { Cropper } from "react-cropper";
+import "cropperjs/dist/cropper.css";
+import defaultImage from "../../assets/defaultImage.png";
+import { FaCamera } from "react-icons/fa";
 import { MdCancel, MdOutlineSaveAlt } from "react-icons/md";
+import { VscGitStashApply } from "react-icons/vsc";
 
 export default function UsersChange() {
     const navigate = useNavigate();
     const routeParams = useParams();
     const [user, setUser] = useState({});
     const [error, setError] = useState();
+
+    const [currentImage, setCurrentImage] = useState("");
+    const [imageForCrop, setImageForCrop] = useState("");
+    const [imageForServer, setImageForServer] = useState("");
+    const cropperRef = useRef(null);
 
     async function getUser() {
         const response = await UserService.getByID(routeParams.id);
@@ -20,6 +31,12 @@ export default function UsersChange() {
         response.message.createdAt = moment.utc(response.message.createdAt).format("yyyy-MM-DD");
         response.message.birthDate = moment.utc(response.message.birthDate).format("yyyy-MM-DD");
         setUser(response.message);
+
+        if (response.message.image != null) {
+            setCurrentImage(APP_URL + response.message.image + `?${Date.now()}`);
+        } else {
+            setCurrentImage(defaultImage);
+        }
     }
 
     useEffect(() => {
@@ -65,144 +82,152 @@ export default function UsersChange() {
         });
     }
 
-    return (
-        <div className="container mx-auto max-w-3xl px-6 py-8">
-            <h1 className="text-3xl font-bold mb-6 text-gray-900 text-center">Edit Profile</h1>
+    function onCrop() {
+        setImageForServer(cropperRef.current.cropper.getCroppedCanvas().toDataURL());
+    }
+    function onChangeImage(e) {
+        e.preventDefault();
 
+        let files;
+        if (e.dataTransfer) {
+            files = e.dataTransfer.files;
+        } else if (e.target) {
+            files = e.target.files;
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImageForCrop(reader.result);
+        };
+        try {
+            reader.readAsDataURL(files[0]);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async function saveImage() {
+        const base64 = imageForServer;
+        const response = await UserService.setImage(routeParams.id, { Base64: base64.replace("data:image/png;base64,", "") });
+
+        if (!response.ok) {
+            // setError(response.message);
+        }
+        setCurrentImage(imageForServer);
+    }
+
+    return (
+        <div className="container mx-auto px-6 py-12 shadow-lg mt-10 rounded-3xl hover:shadow-xl border-2 border-gray-600 transition-all duration-300 ease-in-out">
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Edit Profile</h1>
+
+            {/* Error Display */}
             {error && (
-                <div className="mb-5 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">
+                <div className="mb-6 p-4 bg-red-600 text-red-100 rounded-lg shadow-md transition-opacity duration-300 ease-out">
                     {error.map((errMsg, index) => (
-                        <p key={index}>{errMsg}</p>
+                        <p key={index} className="text-sm">
+                            {errMsg}
+                        </p>
                     ))}
                 </div>
             )}
 
-            <div className="flex items-center justify-center mb-6">
-                <div className="relative w-32 h-32">
-                    <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase flex items-center justify-center text-5xl font-bold text-white shadow-md">
-                        {user.username?.charAt(0) || "?"}
+            <div className="flex flex-col lg:flex-row items-center justify-center space-y-8 lg:space-y-0 lg:space-x-12">
+                {/* Profile Image and Cropper Section */}
+                <div className="w-full lg:w-1/2 relative flex flex-col items-center">
+                    <div className="w-56 h-56 rounded-full overflow-hidden border-2 border-indigo-500 hover:shadow-xl transition-shadow duration-300 ease-in-out">
+                        {currentImage ? (
+                            <img src={currentImage} alt="Profile" className="object-cover w-full h-full cursor-pointer" />
+                        ) : (
+                            <div className="flex items-center justify-center w-full h-full bg-gradient-to-b from-purple-600 to-indigo-500 text-6xl text-white">
+                                {user.username?.charAt(0) || "?"}
+                            </div>
+                        )}
                     </div>
+                    <label
+                        htmlFor="profile-pic-input"
+                        className="mt-6 flex items-center space-x-2 px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 cursor-pointer transition-all"
+                    >
+                        <FaCamera />
+                        <span className="text-sm">Change Profile Image</span>
+                        <input id="profile-pic-input" type="file" className="hidden" onChange={onChangeImage} />
+                    </label>
+
+                    {imageForCrop && (
+                        <div className="mt-6 border border-gray-600 p-6 rounded-lg shadow-lg w-full">
+                            <h2 className="text-xl text-white mb-4 text-center">Edit Your Image</h2>
+                            <div className="relative h-96 w-96">
+                                <Cropper
+                                    src={imageForCrop}
+                                    style={{ height: "100%", width: "100%" }}
+                                    initialAspectRatio={1}
+                                    guides={true}
+                                    viewMode={1}
+                                    minCropBoxWidth={50}
+                                    minCropBoxHeight={50}
+                                    cropBoxResizable={true}
+                                    background={false}
+                                    responsive={true}
+                                    checkOrientation={false}
+                                    cropstart={onCrop}
+                                    cropend={onCrop}
+                                    ref={cropperRef}
+                                />
+                            </div>
+                            <button
+                                disabled={!imageForServer}
+                                onClick={saveImage}
+                                className={`mt-4 w-full py-3 rounded-lg shadow-lg transition-all duration-300 ease-in-out transform ${
+                                    imageForServer ? "bg-indigo-500 text-white hover:bg-indigo-600" : "bg-gray-600 text-gray-300 cursor-not-allowed"
+                                }`}
+                            >
+                                <div className="flex items-center justify-center gap-1">
+                                    <VscGitStashApply />
+                                    Apply Image
+                                </div>
+                            </button>
+                        </div>
+                    )}
                 </div>
+
+                {/* Edit Form */}
+                <form onSubmit={handleSubmit} className="w-full lg:w-full border border-gray-700 p-8 rounded-2xl shadow-lg space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {[
+                            { field: "username", label: "Username" },
+                            { field: "email", label: "Email Address" },
+                            { field: "firstName", label: "First Name" },
+                            { field: "lastName", label: "Last Name" },
+                            { field: "password", label: "Password" },
+                            { field: "birthDate", label: "Date of Birth" },
+                            { field: "createdAt", label: "Account Created On" },
+                        ].map(({ field, label }, index) => (
+                            <div key={index} className="flex flex-col space-y-2">
+                                <label htmlFor={field} className="text-sm font-semibold text-gray-400">
+                                    {label}
+                                </label>
+                                <input
+                                    type={field === "password" ? "password" : ["birthDate", "createdAt"].includes(field) ? "date" : "text"}
+                                    name={field}
+                                    id={field}
+                                    defaultValue={user[field]}
+                                    className="px-4 py-3 w-full bg-gray-700 text-white rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                                    required={field !== "firstName" && field !== "lastName"}
+                                />
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="flex justify-end space-x-4">
+                        <button type="button" onClick={() => navigate(RoutesNames.USER_OVERVIEW)} className="btn-cancel">
+                            <MdCancel className="lg:mr-2" />
+                            Cancel
+                        </button>
+                        <button type="submit" className="btn-main">
+                            <MdOutlineSaveAlt className="lg:mr-2" />
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
             </div>
-
-            <form onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                            Username
-                        </label>
-                        <input
-                            type="text"
-                            name="username"
-                            id="username"
-                            defaultValue={user.username}
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            defaultValue={user.email}
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                            First Name
-                        </label>
-                        <input
-                            type="text"
-                            name="firstName"
-                            id="firstName"
-                            defaultValue={user.firstName}
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                            Last Name
-                        </label>
-                        <input
-                            type="text"
-                            name="lastName"
-                            id="lastName"
-                            defaultValue={user.lastName}
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                        />
-                    </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            defaultValue={user.password}
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="createdAt" className="block text-sm font-medium text-gray-700">
-                            Account Created On
-                        </label>
-                        <input
-                            type="date"
-                            name="createdAt"
-                            id="createdAt"
-                            defaultValue={user.createdAt}
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700">
-                            Date of birth
-                        </label>
-                        <input
-                            type="date"
-                            name="birthDate"
-                            id="birthDate"
-                            defaultValue={user.birthDate}
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
-                </div>
-
-                <hr className="my-8" />
-
-                <div className="flex items-center justify-between">
-                    <Link
-                        to={RoutesNames.USER_OVERVIEW}
-                        className="bg-red-400 items-center flex text-gray-100 py-2 px-6 rounded-lg font-semibold hover:bg-red-500 transition duration-300 ease-in-out"
-                    >
-                        <MdCancel className="inline mr-2" />
-                        Cancel
-                    </Link>
-                    <button
-                        type="submit"
-                        className="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold flex items-center hover:bg-blue-700 transition duration-300 ease-in-out"
-                    >
-                        <MdOutlineSaveAlt className="inline mr-2" />
-                        Save Changes
-                    </button>
-                </div>
-            </form>
         </div>
     );
 }

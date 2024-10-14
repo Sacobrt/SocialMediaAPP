@@ -97,21 +97,23 @@ export default function CommentsChange() {
     }
 
     return (
-        <div className="max-w-3xl mx-auto p-8">
-            <h1 className="text-center text-2xl font-bold text-gray-800 mb-6">Edit Comment</h1>
+        <div className="max-w-3xl mx-auto mt-10 p-8 rounded-3xl shadow-2xl border-2 border-gray-600">
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                Edit Comment
+            </h1>
 
             {error && (
-                <div className="mb-6 bg-red-600 p-4 rounded-md text-center text-white font-semibold">
+                <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold animate-bounce">
                     {error.map((errMsg, index) => (
                         <p key={index}>{errMsg}</p>
                     ))}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label htmlFor="userID" className="text-gray-800 font-medium">
+                        <label htmlFor="userID" className="text-sm font-medium text-gray-300">
                             User <span className="text-red-500">*</span>
                         </label>
                         <select
@@ -119,19 +121,18 @@ export default function CommentsChange() {
                             name="userID"
                             value={usersID}
                             onChange={(e) => setUsersID(e.target.value)}
-                            className="mt-2 block w-full py-2 px-4 border-2 border-gray-300 text-gray-800 rounded-lg focus:ring-0"
+                            className="mt-2 block w-full py-3 px-4 border-2 border-transparent bg-gray-700 text-white rounded-lg focus:border-blue-500 focus:outline-none"
                         >
-                            {users &&
-                                users.map((user, index) => (
-                                    <option key={index} value={user.id}>
-                                        {user.username}
-                                    </option>
-                                ))}
+                            {users.map((user, index) => (
+                                <option key={index} value={user.id}>
+                                    {user.username}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
                     <div>
-                        <label htmlFor="postID" className="text-gray-800 font-medium">
+                        <label htmlFor="postID" className="text-sm font-medium text-gray-300">
                             Post <span className="text-red-500">*</span>
                         </label>
                         <select
@@ -139,60 +140,53 @@ export default function CommentsChange() {
                             name="postID"
                             value={postsID}
                             onChange={(e) => setPostsID(e.target.value)}
-                            className="mt-2 block w-full py-2 px-4 border-2 border-gray-300 text-gray-800 rounded-lg focus:ring-0"
+                            className="mt-2 block w-full py-3 px-4 border-2 border-transparent bg-gray-700 text-white rounded-lg focus:border-blue-500 focus:outline-none"
                         >
-                            {posts &&
-                                posts.map((post, index) => (
-                                    <option key={index} value={post.id}>
-                                        {post.content.slice(0, 50)}
-                                    </option>
-                                ))}
+                            {posts.map((post, index) => (
+                                <option key={index} value={post.id}>
+                                    {post.content.slice(0, 50)}
+                                </option>
+                            ))}
                         </select>
                     </div>
 
                     <div className="md:col-span-2">
-                        <label htmlFor="content" className="text-gray-800 font-medium">
+                        <label htmlFor="content" className="text-sm font-medium text-gray-300">
                             Comment <span className="text-red-500">*</span>
                         </label>
                         <textarea
-                            name="content"
                             id="content"
+                            name="content"
                             defaultValue={comments.content}
                             rows="5"
                             placeholder="Edit your comment..."
-                            className="mt-2 block w-full py-3 px-4 border-2 border-gray-300 text-gray-800 rounded-lg focus:ring-0"
                             onChange={(e) => setCommentContent(e.target.value)}
+                            className="mt-2 block w-full py-4 px-4 border-2 border-transparent bg-gray-700 text-white rounded-2xl focus:border-blue-500 focus:outline-none resize-none"
                         ></textarea>
                     </div>
 
-                    <div className="md:col-span-1">
-                        <label htmlFor="createdAt" className="text-gray-800 font-medium">
+                    <div className="md:col-span-2">
+                        <label htmlFor="createdAt" className="text-sm font-medium text-gray-300">
                             Created At <span className="text-red-500">*</span>
                         </label>
                         <input
                             type="date"
-                            name="createdAt"
                             id="createdAt"
+                            name="createdAt"
                             defaultValue={comments.createdAt}
-                            className="mt-2 block w-full py-2 px-4 border-2 border-gray-300 text-gray-800 rounded-lg focus:ring-0"
+                            className="mt-2 block w-full py-3 px-4 border-2 border-transparent bg-gray-700 text-white rounded-lg focus:border-blue-500 focus:outline-none"
                         />
                     </div>
                 </div>
 
-                <div className="flex justify-between">
-                    <Link
-                        to={RoutesNames.COMMENT_OVERVIEW}
-                        className="flex items-center bg-red-400 text-white px-5 py-3 rounded-lg font-semibold hover:bg-red-500 transition duration-300"
-                    >
-                        <MdCancel className="mr-2" />
-                        Cancel
+                <div className="flex justify-end space-x-4">
+                    <Link to={RoutesNames.COMMENT_OVERVIEW} className="btn-cancel">
+                        <MdCancel className="lg:mr-2" />
+                        <span>Cancel</span>
                     </Link>
-                    <button
-                        type="submit"
-                        className="flex items-center bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
-                    >
-                        <MdDriveFileRenameOutline className="mr-2" />
-                        Save Changes
+                    <button type="submit" className="btn-main">
+                        <MdDriveFileRenameOutline className="lg:mr-2" />
+                        <span>Save Changes</span>
                     </button>
                 </div>
             </form>

@@ -50,109 +50,59 @@ export default function UsersAdd() {
     }, [error]);
 
     return (
-        <div className="container mx-auto max-w-3xl px-6 py-8">
-            <h1 className="text-3xl font-bold mb-6 text-gray-900 text-center">Create New Account</h1>
+        <div className="container mx-auto border-2 border-gray-600 max-w-4xl px-6 py-12 shadow-xl glow-neon mt-12 rounded-3xl overflow-hidden">
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 ">
+                Create New Account
+            </h1>
 
             {error && (
-                <div className="mb-5 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">
+                <div className="floating-notif bg-red-600 text-white p-5 rounded-lg mb-8 border-2 border-red-500 animate-bounce">
                     {error.map((errMsg, index) => (
-                        <p key={index}>{errMsg}</p>
+                        <p key={index} className="text-sm mb-1 last:mb-0">
+                            {errMsg}
+                        </p>
                     ))}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                            Username <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                            type="text"
-                            name="username"
-                            id="username"
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                            Email <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
+                    {[
+                        { field: "username", label: "Username" },
+                        { field: "email", label: "Email" },
+                        { field: "firstName", label: "First Name" },
+                        { field: "lastName", label: "Last Name" },
+                        { field: "password", label: "Password" },
+                        { field: "birthDate", label: "Date of Birth" },
+                    ].map(({ field, label }, index) => {
+                        const isRequired = ["username", "email", "password"].includes(field);
+                        return (
+                            <div key={index}>
+                                <label htmlFor={field} className="block text-sm font-medium text-gray-300 mb-2">
+                                    {label}
+                                    {isRequired && <span className="text-red-500"> *</span>}
+                                </label>
+                                <input
+                                    type={field === "password" ? "password" : field === "birthDate" ? "date" : "text"}
+                                    name={field}
+                                    id={field}
+                                    className="px-4 py-3 w-full bg-gray-700 text-white rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                                    required={isRequired}
+                                />
+                            </div>
+                        );
+                    })}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                            First Name
-                        </label>
-                        <input
-                            type="text"
-                            name="firstName"
-                            id="firstName"
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                            Last Name
-                        </label>
-                        <input
-                            type="text"
-                            name="lastName"
-                            id="lastName"
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                        />
-                    </div>
-                </div>
+                <hr className="my-10 border-1 border-gray-700" />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                            Password <span className="text-red-500 font-bold">*</span>
-                        </label>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
-                    <div>
-                        <label htmlFor="birthDate" className="block text-sm font-medium text-gray-700">
-                            Date of birth
-                        </label>
-                        <input
-                            type="date"
-                            name="birthDate"
-                            id="birthDate"
-                            className="mt-2 block w-full py-3 pl-4 pr-4 border border-gray-300 rounded-lg bg-gray-50 text-gray-900 focus:ring-0"
-                            required
-                        />
-                    </div>
-                </div>
-
-                <hr className="my-8" />
-
-                <div className="flex items-center justify-between">
-                    <Link
-                        to={RoutesNames.USER_OVERVIEW}
-                        className="bg-red-400 items-center flex text-gray-100 py-2 px-6 rounded-lg font-semibold hover:bg-red-500 transition duration-300 ease-in-out"
-                    >
-                        <MdCancel className="inline mr-2" />
+                <div className="flex justify-end space-x-4">
+                    <Link to={RoutesNames.USER_OVERVIEW} className="btn-cancel">
+                        <MdCancel className="lg:mr-2" />
                         Cancel
                     </Link>
-                    <button type="submit" className="bg-blue-600 text-white py-2 px-6 rounded-lg font-semibold flex items-center hover:bg-blue-700 transition">
-                        <RiUserFollowLine className="inline mr-2" />
+                    <button type="submit" className="btn-main">
+                        <RiUserFollowLine className="lg:mr-2" />
                         Create Account
                     </button>
                 </div>

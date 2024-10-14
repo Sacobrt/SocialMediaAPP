@@ -80,87 +80,68 @@ export default function FollowersChange() {
     }
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Change Follower</h1>
+        <div className="container mx-auto max-w-4xl px-5 py-12">
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 ">
+                Change Follower
+            </h1>
 
             {error && (
-                <div className="mb-6 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">
+                <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold animate-bounce">
                     {error.map((errMsg, index) => (
                         <p key={index}>{errMsg}</p>
                     ))}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div>
-                        <label htmlFor="userID" className="block text-gray-700 font-semibold mb-2">
-                            User
-                        </label>
-                        <select
-                            id="userID"
-                            name="userID"
-                            value={usersID}
-                            onChange={(e) => setUsersID(e.target.value)}
-                            className="block w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 bg-white focus:ring-0"
-                        >
-                            {users &&
-                                users.map((user, index) => (
-                                    <option key={index} value={user.id}>
-                                        {user.username}
-                                    </option>
-                                ))}
-                        </select>
-                    </div>
-
-                    <div>
-                        <label htmlFor="followerUserID" className="block text-gray-700 font-semibold mb-2">
-                            Following
-                        </label>
-                        <select
-                            id="followerUserID"
-                            name="followerUserID"
-                            value={followersUserID}
-                            onChange={(e) => setFollowersUserID(e.target.value)}
-                            className="block w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 bg-white focus:ring-0"
-                        >
-                            {users &&
-                                users.map((user, index) => (
-                                    <option key={index} value={user.id}>
-                                        {user.username}
-                                    </option>
-                                ))}
-                        </select>
-                    </div>
-
-                    <div>
-                        <label htmlFor="followedAt" className="block text-gray-700 font-semibold mb-2">
-                            Followed At
-                        </label>
-                        <input
-                            type="date"
-                            name="followedAt"
-                            id="followedAt"
-                            defaultValue={followers.followedAt}
-                            className="block w-full px-4 py-3 border border-gray-300 rounded-md text-gray-700 bg-white focus:ring-0"
-                        />
-                    </div>
+                    {["userID", "followerUserID", "followedAt"].map((field, index) => {
+                        const labels = {
+                            userID: "User",
+                            followerUserID: "Following",
+                            followedAt: "Followed At",
+                        };
+                        return (
+                            <div key={index}>
+                                <label htmlFor={field} className="block text-sm font-medium text-gray-300 mb-2">
+                                    {labels[field]}
+                                </label>
+                                {field !== "followedAt" ? (
+                                    <select
+                                        id={field}
+                                        name={field}
+                                        value={field === "userID" ? usersID : followersUserID}
+                                        onChange={(e) => (field === "userID" ? setUsersID(e.target.value) : setFollowersUserID(e.target.value))}
+                                        className="block w-full px-4 py-3 border-2 border-transparent bg-gray-700 text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
+                                    >
+                                        {users.map((user, idx) => (
+                                            <option key={idx} value={user.id}>
+                                                {user.username}
+                                            </option>
+                                        ))}
+                                    </select>
+                                ) : (
+                                    <input
+                                        type="date"
+                                        name={field}
+                                        id={field}
+                                        defaultValue={followers.followedAt}
+                                        className="block w-full px-4 py-3 border-2 border-transparent bg-gray-700 text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
+                                    />
+                                )}
+                            </div>
+                        );
+                    })}
                 </div>
 
-                <div className="flex justify-between items-center mt-8 space-x-4">
-                    <Link
-                        to={RoutesNames.FOLLOWER_OVERVIEW}
-                        className="bg-red-400 flex items-center justify-center text-white px-4 py-3 rounded-md font-semibold hover:bg-red-500 transition-colors"
-                    >
-                        <MdCancel className="mr-2" />
-                        Cancel
+                <div className="flex justify-end space-x-4">
+                    <Link to={RoutesNames.FOLLOWER_OVERVIEW} className="btn-cancel">
+                        <MdCancel className="lg:mr-2" />
+                        <span>Cancel</span>
                     </Link>
-                    <button
-                        type="submit"
-                        className="bg-blue-600 flex items-center justify-center text-white px-4 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors"
-                    >
-                        <MdOutlineSaveAlt className="mr-2" />
-                        Save Changes
+                    <button type="submit" className="btn-main">
+                        <MdOutlineSaveAlt className="lg:mr-2" />
+                        <span>Save Changes</span>
                     </button>
                 </div>
             </form>

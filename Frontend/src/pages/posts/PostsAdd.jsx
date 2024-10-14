@@ -56,63 +56,59 @@ export default function PostsAdd() {
     }, [error]);
 
     return (
-        <div className="container mx-auto max-w-3xl px-4 py-6">
+        <div className="container mx-auto max-w-3xl mt-10 px-5 py-12 rounded-3xl border-2 border-gray-600">
             {error && (
-                <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">
+                <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold animate-bounce">
                     {error.map((errMsg, index) => (
                         <p key={index}>{errMsg}</p>
                     ))}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit}>
-                <div className="flex items-center mb-4">
-                    <div className="w-full">
-                        <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">Make a Post</h1>
-                        <div className="mb-4">
-                            <label htmlFor="userID" className="font-medium text-gray-800">
-                                Posting as: <span className="text-red-500 font-bold">*</span>
-                            </label>
-                            <select
-                                id="userID"
-                                name="userID"
-                                onChange={(e) => setUserID(e.target.value)}
-                                className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
-                            >
-                                {users &&
-                                    users.map((user, index) => (
-                                        <option key={index} value={user.id}>
-                                            {user.username}
-                                        </option>
-                                    ))}
-                            </select>
-                        </div>
-                    </div>
+            <form onSubmit={handleSubmit} className="space-y-8">
+                <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 ">
+                    Make a Post
+                </h1>
+
+                <div className="mb-6">
+                    <label htmlFor="userID" className="block text-sm font-medium text-gray-300 mb-2">
+                        Posting as: <span className="text-red-500">*</span>
+                    </label>
+                    <select
+                        id="userID"
+                        name="userID"
+                        onChange={(e) => setUserID(e.target.value)}
+                        className="block w-full px-4 py-3 border-2 border-transparent bg-gray-700 text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
+                    >
+                        {users.map((user, index) => (
+                            <option key={index} value={user.id}>
+                                {user.username}
+                            </option>
+                        ))}
+                    </select>
                 </div>
-                <div className="mb-4">
+
+                <div>
+                    <label htmlFor="content" className="block text-sm font-medium text-gray-300 mb-2">
+                        Your Post <span className="text-red-500">*</span>
+                    </label>
                     <textarea
-                        name="content"
                         id="content"
+                        name="content"
                         placeholder="What's on your mind?"
-                        rows="4"
-                        className="w-full p-3 border-2 border-gray-300 rounded-lg focus:ring-0 text-lg"
+                        rows="5"
+                        className="w-full p-4 border-2 border-transparent bg-gray-700 text-white rounded-2xl focus:border-blue-500 focus:outline-none resize-none transition-all"
                     />
                 </div>
 
-                <div className="flex justify-between items-center mt-6">
-                    <Link
-                        to={RoutesNames.POST_OVERVIEW}
-                        className="flex items-center bg-red-400 gap-2 text-gray-100 px-4 py-2 rounded-lg hover:bg-red-500 transition duration-200"
-                    >
-                        <MdCancel className="text-xl" />
-                        Cancel
+                <div className="flex justify-end space-x-4">
+                    <Link to={RoutesNames.POST_OVERVIEW} className="btn-cancel">
+                        <MdCancel className="lg:mr-2" />
+                        <span>Cancel</span>
                     </Link>
-                    <button
-                        type="submit"
-                        className="flex items-center bg-blue-600 gap-2 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition duration-200 font-semibold"
-                    >
-                        <MdFormatListBulletedAdd className="text-xl" />
-                        Post
+                    <button type="submit" className="btn-main">
+                        <MdFormatListBulletedAdd className="lg:mr-2" />
+                        <span>Post</span>
                     </button>
                 </div>
             </form>

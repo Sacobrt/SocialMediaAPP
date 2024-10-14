@@ -74,84 +74,79 @@ export default function CommentsAdd() {
     }, [error]);
 
     return (
-        <div className="max-w-2xl mx-auto p-6">
-            <h1 className="text-center text-2xl font-bold text-gray-800 mb-6">Leave a Comment</h1>
+        <div className="max-w-2xl mx-auto mt-10 p-8 rounded-3xl border-2 border-gray-600">
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                Leave a Comment
+            </h1>
 
             {error && (
-                <div className="mb-4 bg-red-500 p-4 rounded-lg text-center text-white">
+                <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold animate-bounce">
                     {error.map((errMsg, index) => (
                         <p key={index}>{errMsg}</p>
                     ))}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="flex items-center">
-                    <div className="w-full">
-                        <label htmlFor="userID" className="font-medium text-gray-800">
-                            Posting as: <span className="text-red-500 font-bold">*</span>
+            <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid grid-cols-1 gap-6">
+                    <div>
+                        <label htmlFor="userID" className="block text-sm font-medium text-gray-300 mb-2">
+                            Posting as: <span className="text-red-500">*</span>
                         </label>
                         <select
                             id="userID"
                             name="userID"
                             onChange={(e) => setUsersID(e.target.value)}
-                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
+                            className="block w-full px-4 py-3 bg-gray-700 border-2 border-transparent text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
                         >
-                            {users &&
-                                users.map((user, index) => (
-                                    <option key={index} value={user.id}>
-                                        {user.username}
-                                    </option>
-                                ))}
+                            {users.map((user, index) => (
+                                <option key={index} value={user.id}>
+                                    {user.username}
+                                </option>
+                            ))}
                         </select>
                     </div>
-                </div>
 
-                <div className="flex items-center">
-                    <div className="w-full">
-                        <label htmlFor="userID" className="font-medium text-gray-800">
-                            Select a Post: <span className="text-red-500 font-bold">*</span>
+                    <div>
+                        <label htmlFor="postID" className="block text-sm font-medium text-gray-300 mb-2">
+                            Select a Post: <span className="text-red-500">*</span>
                         </label>
                         <select
                             id="postID"
                             name="postID"
                             onChange={(e) => setPostsID(e.target.value)}
-                            className="mt-1 block w-full py-2 pl-3 pr-10 border-2 border-gray-300 rounded-md bg-white text-gray-900 focus:ring-0"
+                            className="block w-full px-4 py-3 bg-gray-700 border-2 border-transparent text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
                         >
-                            {posts &&
-                                posts.map((post, index) => (
-                                    <option key={index} value={post.id}>
-                                        {post.content.length > 60 ? post.content.slice(0, 60) + "..." : post.content}
-                                    </option>
-                                ))}
+                            {posts.map((post, index) => (
+                                <option key={index} value={post.id}>
+                                    {post.content.length > 60 ? post.content.slice(0, 60) + "..." : post.content}
+                                </option>
+                            ))}
                         </select>
+                    </div>
+
+                    <div>
+                        <label htmlFor="content" className="block text-sm font-medium text-gray-300 mb-2">
+                            Your Comment <span className="text-red-500">*</span>
+                        </label>
+                        <textarea
+                            id="content"
+                            name="content"
+                            rows="4"
+                            placeholder="Write your comment..."
+                            className="block w-full text-white py-3 px-4 bg-gray-700 border-2 border-transparent rounded-2xl focus:border-blue-500 focus:outline-none resize-none transition-all"
+                        ></textarea>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3 rounded-md">
-                    <textarea
-                        id="content"
-                        name="content"
-                        rows="4"
-                        placeholder="Write your comment..."
-                        className="w-full text-gray-700 py-3 px-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:ring-0"
-                    ></textarea>
-                </div>
-
-                <div className="flex justify-between">
-                    <Link
-                        to={RoutesNames.COMMENT_OVERVIEW}
-                        className="flex items-center bg-red-400 text-white px-5 py-3 rounded-lg font-semibold hover:bg-red-500 transition duration-300"
-                    >
-                        <MdCancel className="mr-2" />
-                        Cancel
+                <div className="flex justify-end space-x-4">
+                    <Link to={RoutesNames.COMMENT_OVERVIEW} className="btn-cancel">
+                        <MdCancel className="mr-2 text-lg" />
+                        <span>Cancel</span>
                     </Link>
-                    <button
-                        type="submit"
-                        className="flex items-center bg-blue-600 text-white px-5 py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
-                    >
-                        <FaComments className="mr-2" />
-                        Post Comment
+                    <button type="submit" className="btn-main">
+                        <FaComments className="mr-2 text-lg" />
+                        <span>Post Comment</span>
                     </button>
                 </div>
             </form>

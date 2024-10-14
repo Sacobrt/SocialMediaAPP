@@ -70,10 +70,21 @@ async function change(id, user) {
         });
 }
 
+async function setImage(id, image) {
+    return await HttpService.put("/User/setImage/" + id, image)
+        .then((response) => {
+            return { error: false, message: response.data };
+        })
+        .catch(() => {
+            return { error: true, message: "Problem with uploading a image! " };
+        });
+}
+
 export default {
     get,
     getByID,
     remove,
     add,
     change,
+    setImage,
 };

@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import Service from "../../services/PostService";
 import UserService from "../../services/UserService";
 import { useNavigate } from "react-router-dom";
-import { RoutesNames } from "../../constants";
+import { APP_URL, RoutesNames } from "../../constants";
 import { MdDriveFileRenameOutline, MdOutlinePostAdd } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import getRelativeTime from "../../hook/getRelativeTime";
+import defaultImage from "../../assets/defaultImage.png";
 
 export default function PostsOverview() {
     const [posts, setPosts] = useState([]);
@@ -71,66 +72,92 @@ export default function PostsOverview() {
           }, {})
         : {};
 
+    const usernamesImageMap = Array.isArray(users)
+        ? users.reduce((acc, user) => {
+              acc[user.id] = user.image;
+              return acc;
+          }, {})
+        : {};
+
+    function image(userImage) {
+        if (userImage != null) {
+            return `${APP_URL}/${userImage}?${Date.now()}`;
+        }
+        return defaultImage;
+    }
+
     return (
-        <div className="container mx-auto py-5 px-5">
+        <div className="container mx-auto py-8 px-5">
             {isLoading && (
-                <div className="flex justify-center items-center">
-                    <div className="bg-gradient-to-r from-green-400 to-green-600 p-6 rounded-lg shadow-xl animate-bounce-slow text-white font-bold text-lg flex items-center space-x-3">
-                        <div className="w-6 h-6 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                        <span>Loading posts, please wait...</span>
+                <div className="flex justify-center items-center pb-4">
+                    <div className="inline-flex flex-col items-center space-y-3 py-4 px-8 bg-gray-900 rounded-lg shadow-2xl">
+                        <div className="w-6 h-6 border-4 border-t-transparent border-gray-300 rounded-full animate-spin"></div>
+                        <div className="text-white font-mono text-xl tracking-wide animate-pulse">Loading content, please wait...</div>
                     </div>
                 </div>
             )}
             {!isLoading && (
-                <div>
-                    <div className="flex justify-between items-center mb-5">
-                        <h2 className="text-2xl font-semibold text-gray-800">Posts</h2>
-                        <button
-                            className="flex items-center justify-center gap-2 rounded-full bg-green-600 hover:bg-green-700 transition duration-200 cursor-pointer px-6 py-2 text-center text-white font-semibold shadow-lg"
-                            onClick={() => navigate(RoutesNames.POST_NEW)}
-                        >
-                            <MdOutlinePostAdd className="text-xl" />
-                            <span className="hidden sm:inline">ADD POST</span>
+                <div className="space-y-8">
+                    <div className="flex justify-between items-center mb-6">
+                        <h2 className="text-2xl font-semibold text-gray-100">Posts</h2>
+                        <button className="btn-main" onClick={() => navigate(RoutesNames.POST_NEW)}>
+                            <MdOutlinePostAdd size={20} className="lg:mr-2" />
+                            <span className="hidden sm:inline">Add Post</span>
                         </button>
                     </div>
 
-                    {error && <div className="mb-5 bg-red-500 p-2 rounded-lg text-center text-white font-semibold">{error}</div>}
+                    {error && <div className="mb-5 bg-red-500 p-3 rounded-xl text-center text-white font-semibold animate-bounce">{error}</div>}
 
-                    <div className="space-y-4">
-                        {posts.length > 0 ? (
-                            posts
+                    {posts.length > 0 ? (
+                        <div className="grid gap-6">
+                            {posts
                                 .slice()
                                 .reverse()
-                                .map((i, index) => (
-                                    <div key={index} className="bg-white rounded-lg shadow-lg p-5 border-2 border-gray-300">
-                                        <div className="flex items-center space-x-4">
-                                            <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
-                                                {usernamesMap[i.userID]?.charAt(0) || "?"}
-                                            </div>
-                                            <div className="flex-1">
-                                                <div className="text-xs text-gray-400">{getRelativeTime(i.createdAt)}</div>
-                                                <div className="flex justify-between items-center">
-                                                    <div>
-                                                        <p className="text-lg font-medium text-gray-700">{usernamesMap[i.userID] || "Loading..."}</p>
+                                .map((post, index) => {
+                                    return (
+                                        <div
+                                            key={index}
+                                            className="bg-gray-800 rounded-2xl shadow-xl p-5 border-2 border-transparent hover:border-blue-400 transition-colors"
+                                        >
+                                            <div className="flex items-center space-x-4">
+                                                <div className="profile-avatar w-16 h-16 mb-4 rounded-full">
+                                                    <img
+                                                        src={image(usernamesImageMap[post.userID])}
+                                                        alt={usernamesMap[post.userID].username}
+                                                        className="object-cover w-full h-full"
+                                                    />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className="text-sm text-gray-400">{getRelativeTime(post.createdAt)}</div>
+                                                    <div className="flex justify-between items-center">
+                                                        <p className="text-lg font-medium text-gray-200">{usernamesMap[post.userID] || "Loading..."}</p>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <p className="mt-2 text-gray-300">{post.content}</p>
+                                            <div className="flex justify-end space-x-2 mt-4">
+                                                <button
+                                                    className="text-blue-400 hover:text-blue-600 p-2 rounded-full transition-all"
+                                                    onClick={() => navigate(`/posts/${post.id}`)}
+                                                    title="Edit Post"
+                                                >
+                                                    <MdDriveFileRenameOutline size={20} />
+                                                </button>
+                                                <button
+                                                    className="text-red-400 hover:text-red-600 p-2 rounded-full transition-all"
+                                                    onClick={() => removeUser(post.id)}
+                                                    title="Delete Post"
+                                                >
+                                                    <RiDeleteBin6Line size={20} />
+                                                </button>
+                                            </div>
                                         </div>
-                                        <p className="text-gray-800 mt-2">{i.content || "Loading..."}</p>
-                                        <div className="flex justify-end space-x-2">
-                                            <button className="text-blue-600 hover:text-blue-800" onClick={() => navigate(`/posts/${i.id}`)} title="Edit Post">
-                                                <MdDriveFileRenameOutline size={20} />
-                                            </button>
-                                            <button className="text-red-600 hover:text-red-800" onClick={() => removeUser(i.id)} title="Delete Post">
-                                                <RiDeleteBin6Line size={20} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))
-                        ) : (
-                            <div className="text-center text-gray-500 font-semibold">No posts found.</div>
-                        )}
-                    </div>
+                                    );
+                                })}
+                        </div>
+                    ) : (
+                        <div className="text-center text-gray-400 text-lg font-semibold">No posts found.</div>
+                    )}
                 </div>
             )}
         </div>

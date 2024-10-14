@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import Service from "../services/PostService";
 import UserService from "../services/UserService";
 import CommentService from "../services/CommentService";
-import { IoIosCloseCircle } from "react-icons/io";
+import { IoIosClose, IoIosCloseCircle } from "react-icons/io";
 import getRelativeTime from "../hook/getRelativeTime";
+import defaultImage from "../assets/defaultImage.png";
+import { APP_URL } from "../constants";
 
 export default function HomePageOverview() {
     const [posts, setPosts] = useState([]);
@@ -110,132 +112,152 @@ export default function HomePageOverview() {
         };
     }, [showModal]);
 
+    const usernamesImageMap = Array.isArray(users)
+        ? users.reduce((acc, user) => {
+              acc[user.id] = user.image;
+              return acc;
+          }, {})
+        : {};
+
+    function image(userImage) {
+        if (userImage != null) {
+            return `${APP_URL}/${userImage}?${Date.now()}`;
+        }
+        return defaultImage;
+    }
+
     return (
         <div className="container mx-auto py-8 px-4">
             {isLoading && (
-                <div className="flex justify-center items-center">
-                    <div className="bg-gradient-to-r from-green-400 to-green-600 p-6 rounded-lg shadow-xl animate-bounce-slow text-white font-bold text-lg flex items-center space-x-3">
-                        <div className="w-6 h-6 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
-                        <span>Loading content, please wait...</span>
+                <div className="flex justify-center items-center pb-4">
+                    <div className="inline-flex flex-col items-center space-y-3 py-4 px-8 bg-gray-900 rounded-lg shadow-2xl">
+                        <div className="w-6 h-6 border-4 border-t-transparent border-gray-300 rounded-full animate-spin"></div>
+                        <div className="text-white font-mono text-xl tracking-wide animate-pulse">Loading content, please wait...</div>
                     </div>
                 </div>
             )}
-            {!isLoading && (
-                <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
-                    {error && <div className="mb-5 bg-red-500 p-4 rounded-lg text-center text-white font-semibold">{error}</div>}
-                    {posts.reverse().map((post, index) => (
-                        <div key={index} className="bg-gray-800 shadow-lg rounded-lg p-6 hover:shadow-2xl transition-shadow duration-300 ease-in-out text-white">
-                            {/* Header */}
-                            <div className="flex items-center space-x-4 mb-4">
-                                <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
-                                    {usernamesMap[post.userID]?.charAt(0) || "?"}
+            <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+                {!isLoading && error && <div className="col-span-full bg-red-500 py-4 px-6 rounded-xl text-center text-white font-bold mb-6">{error}</div>}
+                {posts.reverse().map((post, index) => (
+                    <div
+                        key={index}
+                        className="bg-gray-800 shadow-xl rounded-2xl p-6 transition-all duration-300 transform hover:scale-102 hover:shadow-2xl text-white"
+                    >
+                        {/* Post Header */}
+                        <div className="flex items-center mb-4">
+                            <div className="profile-avatar w-20 h-20 mb-4 rounded-full">
+                                <img src={image(usernamesImageMap[post.userID])} alt="User Profile Picture" className="object-cover w-full h-full" />
+                            </div>
+                            <div className="ml-4">
+                                <h2 className="text-lg font-bold">{usernamesMap[post.userID] || "Loading..."}</h2>
+                                <time className="text-sm text-gray-400">{getRelativeTime(post.createdAt)}</time>
+                            </div>
+                        </div>
+
+                        {/* Post Content */}
+                        <p className="text-gray-200 mb-4 text-lg">{post.content}</p>
+
+                        {/* Comments Section */}
+                        {commentsMap[post.id] && commentsMap[post.id].length > 0 && (
+                            <div className="mt-4">
+                                <h3 className="text-sm font-semibold mb-2 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
+                                    Comments
+                                </h3>
+                                <div className="space-y-3">
+                                    {commentsMap[post.id]
+                                        .reverse()
+                                        .slice(0, 3)
+                                        .map((comment, idx) => (
+                                            <div key={idx} className="flex items-start bg-gray-700 p-4 rounded-lg">
+                                                <div className="profile-avatar w-10 h-10 mb-4 rounded-full">
+                                                    <img
+                                                        src={image(usernamesImageMap[comment.userID])}
+                                                        alt="User Profile Picture"
+                                                        className="object-cover w-full h-full"
+                                                    />
+                                                </div>
+                                                <div className="ml-3 flex-1">
+                                                    <div className="flex justify-between">
+                                                        <span className="font-semibold">{usernamesMap[comment.userID]}</span>
+                                                        <span className="text-xs text-gray-500">{getRelativeTime(comment.createdAt)}</span>
+                                                    </div>
+                                                    <p className="text-sm text-gray-300">{comment.content}</p>
+                                                </div>
+                                            </div>
+                                        ))}
                                 </div>
-                                <div>
-                                    <div className="font-semibold text-white">{usernamesMap[post.userID] || "Loading..."}</div>
-                                    <div className="text-sm text-gray-400">{getRelativeTime(post.createdAt)}</div>
+                                {commentsMap[post.id].length > 3 && (
+                                    <button
+                                        className="mt-4 w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white py-2 rounded-full text-sm font-medium"
+                                        onClick={() => openModal(post.id)}
+                                    >
+                                        View all comments ({commentsMap[post.id].length})
+                                    </button>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
+
+            {showModal && (
+                <div className="fixed inset-0 bg-gray-950 bg-opacity-75 backdrop-blur-lg flex items-center justify-center z-50">
+                    <div
+                        ref={modalRef}
+                        className="relative w-full max-w-2xl h-[85vh] bg-gray-900 text-white rounded-3xl shadow-neon overflow-hidden transform scale-95 transition-transform duration-500 ease-out"
+                    >
+                        {/* Close Button */}
+                        <button
+                            onClick={closeModal}
+                            className="absolute top-4 right-4 z-10 text-white bg-gray-800 p-2 rounded-full shadow-lg hover:bg-gray-700 transition-all duration-300 ease-in-out"
+                        >
+                            <IoIosClose className="w-6 h-6" />
+                        </button>
+
+                        {/* Modal Content */}
+                        <div className="p-8 h-full flex flex-col">
+                            {/* Post Header */}
+                            <div className="flex items-center mb-6">
+                                <img
+                                    src={image(usernamesImageMap[posts.find((post) => post.id === activePost)?.userID])}
+                                    alt="Profile"
+                                    className="w-16 h-16 rounded-full shadow-outline ring-2 ring-offset-2 ring-blue-500 object-cover"
+                                />
+                                <div className="ml-4">
+                                    <h2 className="text-2xl font-bold text-gradient bg-clip-text text-transparent bg-white">
+                                        {usernamesMap[posts.find((post) => post.id === activePost)?.userID]}
+                                    </h2>
+                                    <p className="text-xs text-gray-400">{getRelativeTime(posts.find((post) => post.id === activePost)?.createdAt)}</p>
                                 </div>
                             </div>
 
                             {/* Post Content */}
-                            <div className="text-gray-300 text-lg mb-4">{post.content || "Loading..."}</div>
-
-                            {/* Comments Section - only show if there are comments */}
-                            {commentsMap[post.id] && commentsMap[post.id].length > 0 && (
-                                <div>
-                                    <h3 className="font-semibold text-sm leading-tight text-gray-50 mb-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg p-0.5 text-center">
-                                        Comments
-                                    </h3>
-
-                                    <ul className="space-y-2">
-                                        {commentsMap[post.id]
-                                            .reverse()
-                                            .slice(0, 3)
-                                            .map((comment, idx) => (
-                                                <li
-                                                    key={idx}
-                                                    className="bg-gray-700 border border-gray-600 p-4 rounded-lg shadow-md flex items-start transition-shadow duration-300 ease-in-out hover:shadow-lg"
-                                                >
-                                                    <div className="mr-4 bg-gradient-to-r from-green-400 to-teal-400 rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold text-white shadow-md">
-                                                        {usernamesMap[comment.userID]?.charAt(0) || "?"}
-                                                    </div>
-                                                    <div className="flex-1">
-                                                        <div className="flex justify-between mb-1">
-                                                            <div className="font-semibold text-white">{usernamesMap[comment.userID] || "Loading..."}</div>
-                                                            <div className="text-xs text-gray-400">{getRelativeTime(comment.createdAt)}</div>
-                                                        </div>
-                                                        <p className="text-gray-300">{comment.content}</p>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                    </ul>
-                                    {commentsMap[post.id].length > 3 && (
-                                        <button
-                                            className="mt-4 w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white font-semibold py-2 rounded-lg shadow-md hover:bg-blue-600 transition duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-400"
-                                            onClick={() => openModal(post.id)}
-                                        >
-                                            View all comments ({commentsMap[post.id].length})
-                                        </button>
-                                    )}
-                                </div>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
-
-            {showModal && (
-                <div className="fixed p-4 inset-0 bg-gray-900 bg-opacity-90 backdrop-blur-sm flex items-center justify-center z-50">
-                    <div
-                        ref={modalRef}
-                        className="relative bg-gray-800 text-white rounded-lg shadow-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300 ease-in-out"
-                    >
-                        {/* Header */}
-                        <div className="flex justify-between items-center pb-4 place-items-center border-b border-gray-700">
-                            <h3 className="text-xl font-semibold text-white text-center flex-1">
-                                Post {usernamesMap[posts.find((post) => post.id === activePost)?.userID] || "?"}
-                            </h3>
-                            <IoIosCloseCircle
-                                className="text-red-400 w-8 h-8 cursor-pointer hover:text-opacity-70 transition duration-300 ease-in-out"
-                                onClick={closeModal}
-                            />
-                        </div>
-
-                        {/* Post Content */}
-                        <div className="mt-4 p-4 bg-gray-700 rounded-lg shadow-md flex items-start">
-                            <div className="mr-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
-                                {usernamesMap[posts.find((post) => post.id === activePost)?.userID]?.charAt(0) || "?"}
+                            <div className="text-lg mb-6 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-900">
+                                {posts.find((post) => post.id === activePost)?.content}
                             </div>
-                            <div>
-                                <div className="font-semibold text-white">{usernamesMap[posts.find((post) => post.id === activePost)?.userID] || "Loading..."}</div>
-                                <div className="text-sm text-gray-400">
-                                    {new Date(posts.find((post) => post.id === activePost)?.createdAt).toLocaleDateString() || "Just now"}
-                                </div>
-                                <p className="mt-2 text-white text-base">{posts.find((post) => post.id === activePost)?.content || "Loading post content..."}</p>
-                            </div>
-                        </div>
 
-                        {/* Comments Section */}
-                        <div className="overflow-y-auto mt-4 space-y-4 scrollbar-thin scrollbar-thumb-rounded scrollbar-thumb-gray-300 scrollbar-track-gray-100">
-                            <h3 className="font-semibold leading-tight text-gray-200 mb-2 bg-gradient-to-r from-blue-400 to-purple-400 rounded-lg p-1 text-center text-sm">
-                                Comments
-                            </h3>
-                            <ul className="space-y-4">
-                                {commentsMap[activePost]?.map((comment, idx) => (
-                                    <li key={idx} className="bg-gray-700 border border-gray-600 p-4 rounded-lg shadow-md flex items-start">
-                                        {/* Avatar */}
-                                        <div className="mr-4 bg-gradient-to-r from-green-400 to-teal-400 rounded-full w-10 h-10 flex items-center justify-center text-lg font-bold text-white shadow-md">
-                                            {usernamesMap[comment.userID]?.charAt(0) || "?"}
-                                        </div>
-                                        <div className="flex-1">
-                                            <div className="flex justify-between mb-1">
-                                                <div className="font-semibold text-white">{usernamesMap[comment.userID] || "Loading..."}</div>
-                                                <div className="text-xs text-gray-400">{new Date(comment.createdAt).toLocaleDateString() || "Just now"}</div>
+                            {/* Comments Section */}
+                            <div className="h-full mt-4 space-y-4 scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-gray-900">
+                                <h3 className="text-lg font-semibold text-center pb-2 border-b border-purple-500 mb-4">Comments</h3>
+                                <ul className="space-y-4">
+                                    {commentsMap[activePost]?.map((comment, idx) => (
+                                        <li key={idx} className="flex items-start">
+                                            <img
+                                                src={image(usernamesImageMap[comment.userID])}
+                                                alt="Commenter's Profile"
+                                                className="w-12 h-12 rounded-full shadow-sm ring-1 ring-blue-500 object-cover mr-4"
+                                            />
+                                            <div className="flex-grow bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-sm">
+                                                <div className="flex justify-between items-center mb-1">
+                                                    <span className="font-semibold">{usernamesMap[comment.userID]}</span>
+                                                    <span className="text-xs text-gray-500">{getRelativeTime(comment.createdAt)}</span>
+                                                </div>
+                                                <p className="text-gray-300">{comment.content}</p>
                                             </div>
-                                            <p className="text-gray-300">{comment.content}</p>
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>

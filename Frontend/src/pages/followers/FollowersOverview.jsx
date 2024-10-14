@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import Service from "../../services/FollowerService";
 import { useNavigate } from "react-router-dom";
-import { RoutesNames } from "../../constants";
+import { APP_URL, RoutesNames } from "../../constants";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { RiDeleteBin6Line, RiUserFollowFill } from "react-icons/ri";
 import getRelativeTime from "../../hook/getRelativeTime";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 export default function FollowersOverview() {
     const [followers, setFollowers] = useState([]);
@@ -48,69 +49,83 @@ export default function FollowersOverview() {
         removeAsync(id);
     }
 
+    function image(user) {
+        if (user.image != null) {
+            return APP_URL + user.image + `?${Date.now()}`;
+        }
+        return defaultImage;
+    }
+
     return (
-        <div className="container mx-auto py-5 px-5">
+        <div className="container mx-auto py-8 px-5">
             {isLoading && (
-                <div className="flex justify-center items-center h-96">
-                    <div className="flex items-center space-x-4 text-lg font-semibold text-gray-700">
-                        <div className="w-8 h-8 border-4 border-t-transparent border-blue-600 rounded-full animate-spin"></div>
-                        <span>Loading followers, please wait...</span>
+                <div className="flex justify-center items-center pb-4">
+                    <div className="inline-flex flex-col items-center space-y-3 py-4 px-8 bg-gray-900 rounded-lg shadow-2xl">
+                        <div className="w-6 h-6 border-4 border-t-transparent border-gray-300 rounded-full animate-spin"></div>
+                        <div className="text-white font-mono text-xl tracking-wide animate-pulse">Loading content, please wait...</div>
                     </div>
                 </div>
             )}
             {!isLoading && (
                 <div className="space-y-6">
                     <div className="flex justify-between items-center mb-5">
-                        <h2 className="text-2xl font-semibold text-gray-800">Followers</h2>
-                        <button
-                            className="flex items-center justify-center gap-2 rounded-full bg-green-600 hover:bg-green-700 transition duration-200 cursor-pointer px-6 py-2 text-center text-white font-semibold shadow-lg"
-                            onClick={() => navigate(RoutesNames.FOLLOWER_NEW)}
-                        >
-                            <RiUserFollowFill />
-                            <span className="hidden sm:inline">ADD FOLLOWER</span>
+                        <h2 className="text-2xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Followers</h2>
+                        <button className="btn-main" onClick={() => navigate(RoutesNames.FOLLOWER_NEW)}>
+                            <RiUserFollowFill className="lg:mr-2" size={16} />
+                            <span className="hidden sm:inline">Add Follower</span>
                         </button>
                     </div>
 
-                    {error && <div className="bg-red-500 p-4 rounded-lg text-center text-white font-semibold">{error}</div>}
+                    {error && <div className="bg-red-600 p-4 rounded-lg text-center text-white font-semibold mb-4">{error}</div>}
 
                     {followers.length > 0 ? (
                         <ul className="space-y-4">
                             {followers
                                 .slice()
                                 .reverse()
-                                .map((follower, index) => (
-                                    <div key={index} className="bg-white shadow-md rounded-lg p-5 border-2 border-gray-300">
-                                        <div className="flex items-start space-x-4">
-                                            <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-full uppercase w-12 h-12 flex items-center justify-center text-lg font-bold text-white shadow-md">
-                                                {follower.followerUser?.charAt(0) || "?"}
-                                            </div>
-                                            <div className="flex-1">
-                                                <div className="text-xs text-gray-400">{getRelativeTime(follower.followedAt)}</div>
-                                                <div className="flex justify-between items-center">
-                                                    <div>
-                                                        <p className="text-lg font-medium text-gray-700">{followers[index].followerUser || "Loading..."}</p>
-                                                        <p className="text-sm text-gray-500">Followed by {followers[index].user || "Loading..."}</p>
+                                .map((follower, index) => {
+                                    const avatarColor = `from-blue-${500 - index * 50} to-purple-${500 - index * 50}`; // Simple gradient shift
+                                    return (
+                                        <li
+                                            key={index}
+                                            className="bg-gray-800 border-2 border-transparent hover:border-blue-400 shadow-xl rounded-2xl p-5 transition-colors duration-300"
+                                        >
+                                            <div className="flex items-start space-x-4">
+                                                <div className="flex-1">
+                                                    <div className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                                                        <FaRegCalendarAlt />
+                                                        {`Following since ${new Date(follower.followedAt).toLocaleDateString("en-GB", {
+                                                            day: "2-digit",
+                                                            month: "long",
+                                                            year: "numeric",
+                                                        })}`}
                                                     </div>
+                                                    <p className="text-lg font-medium text-gray-200">{follower.followerUser || "Loading..."}</p>
+                                                    <p className="text-sm text-gray-500">Followed by {follower.user || "Loading..."}</p>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div className="flex justify-end space-x-2">
-                                            <button
-                                                className="text-blue-600 hover:text-blue-800"
-                                                onClick={() => navigate(`/followers/${follower.id}`)}
-                                                title="View"
-                                            >
-                                                <MdDriveFileRenameOutline size={20} />
-                                            </button>
-                                            <button className="text-red-600 hover:text-red-800" onClick={() => removeUser(follower.id)} title="Unfollow">
-                                                <RiDeleteBin6Line size={20} />
-                                            </button>
-                                        </div>
-                                    </div>
-                                ))}
+                                            <div className="flex justify-end space-x-2 mt-3">
+                                                <button
+                                                    className="text-blue-400 p-2 rounded-full hover:bg-blue-500 hover:text-white transition duration-200"
+                                                    onClick={() => navigate(`/followers/${follower.id}`)}
+                                                    title="View"
+                                                >
+                                                    <MdDriveFileRenameOutline size={20} />
+                                                </button>
+                                                <button
+                                                    className="text-red-400 p-2 rounded-full hover:bg-red-500 hover:text-white transition duration-200"
+                                                    onClick={() => removeUser(follower.id)}
+                                                    title="Unfollow"
+                                                >
+                                                    <RiDeleteBin6Line size={20} />
+                                                </button>
+                                            </div>
+                                        </li>
+                                    );
+                                })}
                         </ul>
                     ) : (
-                        <div className="text-center text-gray-600 text-lg">
+                        <div className="text-center text-gray-400 text-lg">
                             <p>No followers found.</p>
                         </div>
                     )}
