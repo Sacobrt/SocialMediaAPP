@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn-cancel {
+    @apply px-5 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition-colors flex items-center;
+}
+
+.btn-main {
+    @apply px-5 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors flex items-center;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
