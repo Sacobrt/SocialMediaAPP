@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CSHARP_SocialMediaAPP.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace CSHARP_SocialMediaAPP.Models.DTO
 {
@@ -12,6 +13,9 @@ namespace CSHARP_SocialMediaAPP.Models.DTO
         string? Email,
         string? FirstName,
         string? LastName,
+        [Required(ErrorMessage = "Date of birth is required!")]
+        [AgeValidator(10, ErrorMessage = "You must be at least 10 years old.")]
+        DateTime BirthDate,
         [Required(ErrorMessage = "Date is required!")]
         DateTime CreatedAt
     );
