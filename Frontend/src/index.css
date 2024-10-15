@@ -10,6 +10,14 @@
     @apply px-5 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition-colors flex items-center;
 }
 
+.btn-edit {
+    @apply text-blue-400 p-2 rounded-full hover:bg-blue-500 hover:text-white transition duration-200;
+}
+
+.btn-delete {
+    @apply text-red-400 p-2 rounded-full hover:bg-red-500 hover:text-white transition duration-200;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
