@@ -20,5 +20,6 @@ export const RoutesNames = {
     CYCLIC_OVERVIEW: "/cyclic",
 };
 
-export const APP_URL = "https://sacobrt-001-site1.ctempurl.com";
+const isProduction = true;
+export const APP_URL = isProduction ? "https://sacobrt-001-site1.ctempurl.com" : "https://localhost:7256";
 export const BACKEND_URL = APP_URL + "/api/v1";
