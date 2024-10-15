@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import Service from "../../services/CommentService";
 import UserService from "../../services/UserService";
-import { useNavigate } from "react-router-dom";
 import { APP_URL, RoutesNames } from "../../constants";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -9,22 +8,29 @@ import PostService from "../../services/PostService";
 import { FaComments } from "react-icons/fa";
 import getRelativeTime from "../../hook/getRelativeTime";
 import defaultImage from "../../assets/defaultImage.png";
+import { Link } from "react-router-dom";
 
 export default function CommentsOverview() {
     const [comments, setComments] = useState([]);
     const [users, setUsers] = useState([]);
     const [posts, setPosts] = useState([]);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
 
+    const [page, setPage] = useState(1);
+    const [condition, setCondition] = useState("");
+
     async function getComments() {
-        const response = await Service.get();
+        const response = await Service.getPagination(page, condition);
         if (response.error) {
             setError(response.message);
-        } else {
-            setComments(response);
+            return;
         }
+        if (response.message.length == 0) {
+            setPage(page - 1);
+            return;
+        }
+        setComments(response.message);
     }
 
     async function getUsers() {
@@ -54,7 +60,7 @@ export default function CommentsOverview() {
 
     useEffect(() => {
         getData();
-    }, []);
+    }, [page, condition]);
 
     useEffect(() => {
         if (error) {
@@ -92,6 +98,13 @@ export default function CommentsOverview() {
           }, {})
         : {};
 
+    const postsMap = Array.isArray(posts)
+        ? posts.reduce((i, post) => {
+              i[post.id] = post.content;
+              return i;
+          }, {})
+        : {};
+
     function image(userImage) {
         if (userImage != null) {
             return `${APP_URL}/${userImage}?${Date.now()}`;
@@ -99,12 +112,22 @@ export default function CommentsOverview() {
         return defaultImage;
     }
 
-    const postsMap = Array.isArray(posts)
-        ? posts.reduce((i, post) => {
-              i[post.id] = post.content;
-              return i;
-          }, {})
-        : {};
+    function changeCondition(e) {
+        setPage(1);
+        setCondition(e.nativeEvent.srcElement.value);
+        setComments([]);
+    }
+
+    function increasePage() {
+        setPage(page + 1);
+    }
+
+    function reducePage() {
+        if (page == 1) {
+            return;
+        }
+        setPage(page - 1);
+    }
 
     return (
         <div className="container mx-auto py-8 px-5">
@@ -119,12 +142,51 @@ export default function CommentsOverview() {
 
             {!isLoading && (
                 <div className="space-y-8">
-                    <div className="flex justify-between items-center mb-6">
+                    <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
                         <h2 className="text-2xl font-semibold text-gray-100">Comments</h2>
-                        <button onClick={() => navigate(RoutesNames.COMMENT_NEW)} className="btn-main">
-                            <FaComments size={20} className="lg:mr-2" />
-                            <span className="hidden sm:inline">Add Comment</span>
-                        </button>
+
+                        {/* Search and Pagination */}
+                        <div className="flex flex-row justify-between gap-4">
+                            <div className="relative w-full sm:w-1/3">
+                                <input
+                                    type="text"
+                                    name="search"
+                                    placeholder="Search..."
+                                    maxLength={32}
+                                    onKeyUp={changeCondition}
+                                    className="w-fit p-2 pl-10 bg-gray-800 text-white border border-gray-700 rounded-full transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                                />
+                                <svg
+                                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+
+                            {comments && comments.length > 0 && (
+                                <div className="flex items-center justify-center space-x-3">
+                                    <button onClick={reducePage} className="p-2 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <span className="text-lg text-gray-300">{page}</span>
+                                    <button onClick={increasePage} className="p-2 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        <Link to={RoutesNames.COMMENT_NEW} className="btn-main mt-2 sm:mt-0">
+                            <FaComments size={16} className="sm:mr-2" /> <span>Add Comment</span>
+                        </Link>
                     </div>
 
                     {error && <div className="mb-5 bg-red-500 p-3 rounded-xl text-center text-white font-semibold animate-bounce">{error}</div>}
@@ -141,10 +203,10 @@ export default function CommentsOverview() {
                                             className="bg-gray-800 rounded-2xl shadow-xl p-6 border-2 border-transparent hover:border-blue-400 transition-colors"
                                         >
                                             <div className="flex items-center space-x-4">
-                                                <div className="profile-avatar w-16 h-16 mb-4 rounded-full">
+                                                <div className="profile-avatar w-16 h-16 mb-4 rounded-full overflow-hidden">
                                                     <img
                                                         src={image(usernamesImageMap[comment.userID])}
-                                                        alt={usernamesMap[comment.userID].username}
+                                                        alt="User Profile Image"
                                                         className="object-cover w-full h-full"
                                                     />
                                                 </div>
@@ -158,18 +220,10 @@ export default function CommentsOverview() {
                                             </div>
                                             <p className="mt-2 text-gray-300 break-words">{comment.content}</p>
                                             <div className="flex justify-end space-x-2 mt-4">
-                                                <button
-                                                    className="text-blue-400 hover:text-blue-600 p-2 rounded-full transition-all"
-                                                    onClick={() => navigate(`/comments/${comment.id}`)}
-                                                    title="Edit Comment"
-                                                >
+                                                <Link className="btn-edit" to={`/comments/${comment.id}`}>
                                                     <MdDriveFileRenameOutline size={20} />
-                                                </button>
-                                                <button
-                                                    className="text-red-400 hover:text-red-600 p-2 rounded-full transition-all"
-                                                    onClick={() => removeUser(comment.id)}
-                                                    title="Delete Comment"
-                                                >
+                                                </Link>
+                                                <button className="btn-delete" onClick={() => removeUser(comment.id)} title="Delete Comment">
                                                     <RiDeleteBin6Line size={20} />
                                                 </button>
                                             </div>

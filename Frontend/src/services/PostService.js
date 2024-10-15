@@ -70,10 +70,21 @@ async function change(id, post) {
         });
 }
 
+async function getPagination(page, condition) {
+    return await HttpService.get("/Post/pagination/" + page + "?condition=" + condition)
+        .then((response) => {
+            return { error: false, message: response.data };
+        })
+        .catch(() => {
+            return { error: true, message: "Problem when searching posts!" };
+        });
+}
+
 export default {
     get,
     getByID,
     remove,
     add,
     change,
+    getPagination,
 };

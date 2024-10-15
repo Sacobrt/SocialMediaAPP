@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import Service from "../services/PostService";
 import UserService from "../services/UserService";
 import CommentService from "../services/CommentService";
-import { IoIosClose, IoIosCloseCircle } from "react-icons/io";
+import { IoIosClose } from "react-icons/io";
 import getRelativeTime from "../hook/getRelativeTime";
 import defaultImage from "../assets/defaultImage.png";
 import { APP_URL } from "../constants";
@@ -145,7 +145,7 @@ export default function HomePageOverview() {
                     >
                         {/* Post Header */}
                         <div className="flex items-center mb-4">
-                            <div className="profile-avatar w-20 h-20 mb-4 rounded-full">
+                            <div className="profile-avatar w-20 h-20 mb-4 rounded-full overflow-hidden">
                                 <img src={image(usernamesImageMap[post.userID])} alt="User Profile Picture" className="object-cover w-full h-full" />
                             </div>
                             <div className="ml-4">
@@ -169,7 +169,7 @@ export default function HomePageOverview() {
                                         .slice(0, 3)
                                         .map((comment, idx) => (
                                             <div key={idx} className="flex items-start bg-gray-700 p-4 rounded-lg">
-                                                <div className="profile-avatar w-10 h-10 mb-4 rounded-full">
+                                                <div className="profile-avatar w-10 h-10 mb-4 rounded-full overflow-hidden">
                                                     <img
                                                         src={image(usernamesImageMap[comment.userID])}
                                                         alt="User Profile Picture"

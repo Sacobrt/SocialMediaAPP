@@ -70,10 +70,21 @@ async function change(id, follower) {
         });
 }
 
+async function getPagination(page, condition) {
+    return await HttpService.get("/Follower/pagination/" + page + "?condition=" + condition)
+        .then((response) => {
+            return { error: false, message: response.data };
+        })
+        .catch(() => {
+            return { error: true, message: "Problem when searching followers!" };
+        });
+}
+
 export default {
     get,
     getByID,
     remove,
     add,
     change,
+    getPagination,
 };

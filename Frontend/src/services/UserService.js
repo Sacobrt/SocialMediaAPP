@@ -80,6 +80,16 @@ async function setImage(id, image) {
         });
 }
 
+async function getPagination(page, condition) {
+    return await HttpService.get("/User/pagination/" + page + "?condition=" + condition)
+        .then((response) => {
+            return { error: false, message: response.data };
+        })
+        .catch(() => {
+            return { error: true, message: "Problem when searching users!" };
+        });
+}
+
 export default {
     get,
     getByID,
@@ -87,4 +97,5 @@ export default {
     add,
     change,
     setImage,
+    getPagination,
 };

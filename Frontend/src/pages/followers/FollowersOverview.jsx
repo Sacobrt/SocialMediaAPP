@@ -1,31 +1,36 @@
 import { useEffect, useState } from "react";
 import Service from "../../services/FollowerService";
-import { useNavigate } from "react-router-dom";
-import { APP_URL, RoutesNames } from "../../constants";
+import { RoutesNames } from "../../constants";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { RiDeleteBin6Line, RiUserFollowFill } from "react-icons/ri";
-import getRelativeTime from "../../hook/getRelativeTime";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export default function FollowersOverview() {
     const [followers, setFollowers] = useState([]);
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(true);
 
+    const [page, setPage] = useState(1);
+    const [condition, setCondition] = useState("");
+
     async function getFollowers() {
-        const response = await Service.get();
+        const response = await Service.getPagination(page, condition);
         if (response.error) {
             setError(response.message);
-        } else {
-            setFollowers(response);
-            setIsLoading(false);
+            return;
         }
+        if (response.message.length == 0) {
+            setPage(page - 1);
+            return;
+        }
+        setFollowers(response.message);
+        setIsLoading(false);
     }
 
     useEffect(() => {
         getFollowers();
-    }, []);
+    }, [page, condition]);
 
     useEffect(() => {
         if (error) {
@@ -49,11 +54,21 @@ export default function FollowersOverview() {
         removeAsync(id);
     }
 
-    function image(user) {
-        if (user.image != null) {
-            return APP_URL + user.image + `?${Date.now()}`;
+    function changeCondition(e) {
+        setPage(1);
+        setCondition(e.nativeEvent.srcElement.value);
+        setFollowers([]);
+    }
+
+    function increasePage() {
+        setPage(page + 1);
+    }
+
+    function reducePage() {
+        if (page == 1) {
+            return;
         }
-        return defaultImage;
+        setPage(page - 1);
     }
 
     return (
@@ -68,12 +83,51 @@ export default function FollowersOverview() {
             )}
             {!isLoading && (
                 <div className="space-y-6">
-                    <div className="flex justify-between items-center mb-5">
+                    <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
                         <h2 className="text-2xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Followers</h2>
-                        <button className="btn-main" onClick={() => navigate(RoutesNames.FOLLOWER_NEW)}>
-                            <RiUserFollowFill className="lg:mr-2" size={16} />
-                            <span className="hidden sm:inline">Add Follower</span>
-                        </button>
+
+                        {/* Search and Pagination */}
+                        <div className="flex flex-row justify-between gap-4">
+                            <div className="relative w-full sm:w-1/3">
+                                <input
+                                    type="text"
+                                    name="search"
+                                    placeholder="Search..."
+                                    maxLength={32}
+                                    onKeyUp={changeCondition}
+                                    className="w-fit p-2 pl-10 bg-gray-800 text-white border border-gray-700 rounded-full transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                                />
+                                <svg
+                                    className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+
+                            {followers && followers.length > 0 && (
+                                <div className="flex items-center justify-center space-x-3">
+                                    <button onClick={reducePage} className="p-2 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
+                                        </svg>
+                                    </button>
+                                    <span className="text-lg text-gray-300">{page}</span>
+                                    <button onClick={increasePage} className="p-2 bg-gray-700 text-white rounded-full hover:bg-gray-600 transition-colors">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+
+                        <Link to={RoutesNames.FOLLOWER_NEW} className="btn-main mt-2 sm:mt-0">
+                            <RiUserFollowFill size={16} className="sm:mr-2" /> <span>Add Follower</span>
+                        </Link>
                     </div>
 
                     {error && <div className="bg-red-600 p-4 rounded-lg text-center text-white font-semibold mb-4">{error}</div>}
@@ -84,7 +138,6 @@ export default function FollowersOverview() {
                                 .slice()
                                 .reverse()
                                 .map((follower, index) => {
-                                    const avatarColor = `from-blue-${500 - index * 50} to-purple-${500 - index * 50}`; // Simple gradient shift
                                     return (
                                         <li
                                             key={index}
@@ -105,18 +158,10 @@ export default function FollowersOverview() {
                                                 </div>
                                             </div>
                                             <div className="flex justify-end space-x-2 mt-3">
-                                                <button
-                                                    className="text-blue-400 p-2 rounded-full hover:bg-blue-500 hover:text-white transition duration-200"
-                                                    onClick={() => navigate(`/followers/${follower.id}`)}
-                                                    title="View"
-                                                >
+                                                <Link className="btn-edit" to={`/followers/${follower.id}`}>
                                                     <MdDriveFileRenameOutline size={20} />
-                                                </button>
-                                                <button
-                                                    className="text-red-400 p-2 rounded-full hover:bg-red-500 hover:text-white transition duration-200"
-                                                    onClick={() => removeUser(follower.id)}
-                                                    title="Unfollow"
-                                                >
+                                                </Link>
+                                                <button className="btn-delete" onClick={() => removeUser(follower.id)} title="Unfollow">
                                                     <RiDeleteBin6Line size={20} />
                                                 </button>
                                             </div>

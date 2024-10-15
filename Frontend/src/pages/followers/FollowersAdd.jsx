@@ -88,9 +88,6 @@ export default function FollowersAdd() {
                                     onChange={(e) => (field === "userID" ? setUsersID(e.target.value) : setFollowersUserID(e.target.value))}
                                     className="block w-full px-4 py-3 bg-gray-700 text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
                                 >
-                                    <option value="" disabled selected>
-                                        Choose a user
-                                    </option>
                                     {users.map((user, idx) => (
                                         <option key={idx} value={user.id}>
                                             {user.username}

@@ -70,10 +70,21 @@ async function change(id, comment) {
         });
 }
 
+async function getPagination(page, condition) {
+    return await HttpService.get("/Comment/pagination/" + page + "?condition=" + condition)
+        .then((response) => {
+            return { error: false, message: response.data };
+        })
+        .catch(() => {
+            return { error: true, message: "Problem when searching comments!" };
+        });
+}
+
 export default {
     get,
     getByID,
     remove,
     add,
     change,
+    getPagination,
 };
