@@ -3,6 +3,7 @@ using CSHARP_SocialMediaAPP.Data;
 using CSHARP_SocialMediaAPP.Models;
 using CSHARP_SocialMediaAPP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CSHARP_SocialMediaAPP.Controllers
 {
@@ -172,6 +173,30 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 var path = Path.Combine(dir + ds + id + ".png");
                 System.IO.File.WriteAllBytes(path, Convert.FromBase64String(image.Base64));
                 return Ok(new { message = "Image changed successfully!" });
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("pagination/{page}")]
+        public IActionResult Pagination(int page, string condition = "")
+        {
+            var perPage = 12;
+            condition = condition.ToLower();
+            try
+            {
+                var users = _context.Users
+                    .Where(u => EF.Functions.Like(u.Username.ToLower(), "%" + condition + "%")
+                        || EF.Functions.Like(u.FirstName.ToLower(), "%" + condition + "%")
+                        || EF.Functions.Like(u.LastName.ToLower(), "%" + condition + "%"))
+                    .Skip((perPage * page) - perPage)
+                    .Take(perPage)
+                    .OrderBy(u => u.Username)
+                    .ToList();
+                return Ok(_mapper.Map<List<UserDTORead>>(users));
             }
             catch (Exception e)
             {

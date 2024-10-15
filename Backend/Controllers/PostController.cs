@@ -173,5 +173,31 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("pagination/{page}")]
+        public IActionResult Pagination(int page, string condition = "")
+        {
+            var perPage = 5;
+            condition = condition.ToLower();
+            try
+            {
+                var posts = _context.Posts
+                    .Include(p => p.User)
+                    .Where(p => EF.Functions.Like(p.Content, "%" + condition + "%")
+                        || EF.Functions.Like(p.User.Username.ToLower(), "%" + condition + "%")
+                        || EF.Functions.Like(p.User.FirstName.ToLower(), "%" + condition + "%")
+                        || EF.Functions.Like(p.User.LastName.ToLower(), "%" + condition + "%"))
+                    .OrderBy(p => p.User.Username)
+                    .Skip((page - 1) * perPage)
+                    .Take(perPage)
+                    .ToList();
+                return Ok(_mapper.Map<List<PostDTORead>>(posts));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
     }
 }
