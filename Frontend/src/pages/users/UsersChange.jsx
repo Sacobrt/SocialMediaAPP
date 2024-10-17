@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { APP_URL, RoutesNames } from "../../constants";
 import UserService from "../../services/UserService";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import moment from "moment";
 
 import { Cropper } from "react-cropper";
@@ -10,6 +10,7 @@ import defaultImage from "../../assets/defaultImage.png";
 import { FaCamera } from "react-icons/fa";
 import { MdCancel, MdOutlineSaveAlt } from "react-icons/md";
 import { VscGitStashApply } from "react-icons/vsc";
+import { UserContext } from "../../components/UserContext";
 
 export default function UsersChange() {
     const navigate = useNavigate();
@@ -21,6 +22,8 @@ export default function UsersChange() {
     const [imageForCrop, setImageForCrop] = useState("");
     const [imageForServer, setImageForServer] = useState("");
     const cropperRef = useRef(null);
+
+    const { setUserImage } = useContext(UserContext);
 
     async function getUser() {
         const response = await UserService.getByID(routeParams.id);
@@ -109,10 +112,13 @@ export default function UsersChange() {
         const base64 = imageForServer;
         const response = await UserService.setImage(routeParams.id, { Base64: base64.replace("data:image/png;base64,", "") });
 
-        if (!response.ok) {
-            // setError(response.message);
+        if (response.error) {
+            setError(response.error);
+            return;
         }
+
         setCurrentImage(imageForServer);
+        setUserImage(imageForServer);
     }
 
     return (

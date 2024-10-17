@@ -6,7 +6,7 @@ import { MdDriveFileRenameOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import PostService from "../../services/PostService";
 import { FaComments } from "react-icons/fa";
-import getRelativeTime from "../../hook/getRelativeTime";
+import getRelativeTime from "../../hooks/getRelativeTime";
 import defaultImage from "../../assets/defaultImage.png";
 import { Link } from "react-router-dom";
 
@@ -107,7 +107,7 @@ export default function CommentsOverview() {
 
     function image(userImage) {
         if (userImage != null) {
-            return `${APP_URL}/${userImage}?${Date.now()}`;
+            return APP_URL + userImage + `?${Date.now()}`;
         }
         return defaultImage;
     }
@@ -193,43 +193,40 @@ export default function CommentsOverview() {
 
                     <div className="grid gap-6">
                         {comments.length > 0 ? (
-                            comments
-                                .slice()
-                                .reverse()
-                                .map((comment, index) => {
-                                    return (
-                                        <div
-                                            key={index}
-                                            className="bg-gray-800 rounded-2xl shadow-xl p-6 border-2 border-transparent hover:border-blue-400 transition-colors"
-                                        >
-                                            <div className="flex items-center space-x-4">
-                                                <div className="profile-avatar w-16 h-16 mb-4 rounded-full overflow-hidden">
-                                                    <img
-                                                        src={image(usernamesImageMap[comment.userID])}
-                                                        alt="User Profile Image"
-                                                        className="object-cover w-full h-full"
-                                                    />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <div className="text-sm text-gray-400">{getRelativeTime(comment.createdAt)}</div>
-                                                    <div className="flex-1 items-center">
-                                                        <p className="text-lg font-medium text-gray-200">{usernamesMap[comment.userID] || "Loading..."}</p>
-                                                        <p className="text-xs text-gray-500">{postsMap[comment.postID] || "Loading..."}</p>
-                                                    </div>
-                                                </div>
+                            comments.map((comment, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="bg-gray-800 rounded-2xl shadow-xl p-6 border-2 border-transparent hover:border-blue-400 transition-colors"
+                                    >
+                                        <div className="flex items-center space-x-4">
+                                            <div className="profile-avatar w-16 h-16 mb-4 rounded-full overflow-hidden">
+                                                <img
+                                                    src={image(usernamesImageMap[comment.userID])}
+                                                    alt="User Profile Image"
+                                                    className="object-cover w-full h-full"
+                                                />
                                             </div>
-                                            <p className="mt-2 text-gray-300 break-words">{comment.content}</p>
-                                            <div className="flex justify-end space-x-2 mt-4">
-                                                <Link className="btn-edit" to={`/comments/${comment.id}`}>
-                                                    <MdDriveFileRenameOutline size={20} />
-                                                </Link>
-                                                <button className="btn-delete" onClick={() => removeUser(comment.id)} title="Delete Comment">
-                                                    <RiDeleteBin6Line size={20} />
-                                                </button>
+                                            <div className="flex-1">
+                                                <div className="text-sm text-gray-400">{getRelativeTime(comment.createdAt)}</div>
+                                                <div className="flex-1 items-center">
+                                                    <p className="text-lg font-medium text-gray-200">{usernamesMap[comment.userID] || "Loading..."}</p>
+                                                    <p className="text-xs text-gray-500">{postsMap[comment.postID] || "Loading..."}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    );
-                                })
+                                        <p className="mt-2 text-gray-300 break-words">{comment.content}</p>
+                                        <div className="flex justify-end space-x-2 mt-4">
+                                            <Link className="btn-edit" to={`/comments/${comment.id}`}>
+                                                <MdDriveFileRenameOutline size={20} />
+                                            </Link>
+                                            <button className="btn-delete" onClick={() => removeUser(comment.id)} title="Delete Comment">
+                                                <RiDeleteBin6Line size={20} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })
                         ) : (
                             <div className="text-center py-20">
                                 <p className="text-gray-400 text-lg font-semibold">No comments found.</p>

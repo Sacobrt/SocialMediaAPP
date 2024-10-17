@@ -1,5 +1,8 @@
 export const RoutesNames = {
     HOME: "/",
+
+    LOGIN: "/login",
+
     USER_OVERVIEW: "/users",
     USER_NEW: "/users/add",
     USER_CHANGE: "/users/:id",

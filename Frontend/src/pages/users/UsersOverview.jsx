@@ -149,7 +149,7 @@ export default function UsersOverview() {
 
                     <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-content-center">
                         {users.length > 0 ? (
-                            users.map((user, index) => (
+                            users.reverse().map((user, index) => (
                                 <div
                                     key={index}
                                     className="relative bg-gray-900 border border-gray-600 rounded-2xl p-6 flex flex-col items-center text-center shadow-neon hover:shadow-neon-lg transition-shadow duration-300 ease-in-out"

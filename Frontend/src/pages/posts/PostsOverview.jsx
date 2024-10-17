@@ -4,7 +4,7 @@ import UserService from "../../services/UserService";
 import { APP_URL, RoutesNames } from "../../constants";
 import { MdDriveFileRenameOutline, MdOutlinePostAdd } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import getRelativeTime from "../../hook/getRelativeTime";
+import getRelativeTime from "../../hooks/getRelativeTime";
 import defaultImage from "../../assets/defaultImage.png";
 import { Link } from "react-router-dom";
 
@@ -88,7 +88,7 @@ export default function PostsOverview() {
 
     function image(userImage) {
         if (userImage != null) {
-            return `${APP_URL}/${userImage}?${Date.now()}`;
+            return APP_URL + userImage + `?${Date.now()}`;
         }
         return defaultImage;
     }
@@ -173,42 +173,39 @@ export default function PostsOverview() {
 
                     {posts.length > 0 ? (
                         <div className="grid gap-6">
-                            {posts
-                                .slice()
-                                .reverse()
-                                .map((post, index) => {
-                                    return (
-                                        <div
-                                            key={index}
-                                            className="bg-gray-800 rounded-2xl shadow-xl p-5 border-2 border-transparent hover:border-blue-400 transition-colors"
-                                        >
-                                            <div className="flex items-center space-x-4">
-                                                <div className="profile-avatar w-16 h-16 mb-4 rounded-full overflow-hidden">
-                                                    <img
-                                                        src={image(usernamesImageMap[post.userID])}
-                                                        alt="User Picture Profile"
-                                                        className="object-cover w-full h-full"
-                                                    />
-                                                </div>
-                                                <div className="flex-1">
-                                                    <div className="text-sm text-gray-400">{getRelativeTime(post.createdAt)}</div>
-                                                    <div className="flex justify-between items-center">
-                                                        <p className="text-lg font-medium text-gray-200">{usernamesMap[post.userID] || "Loading..."}</p>
-                                                    </div>
-                                                </div>
+                            {posts.reverse().map((post, index) => {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="bg-gray-800 rounded-2xl shadow-xl p-5 border-2 border-transparent hover:border-blue-400 transition-colors"
+                                    >
+                                        <div className="flex items-center space-x-4">
+                                            <div className="profile-avatar w-16 h-16 mb-4 rounded-full overflow-hidden">
+                                                <img
+                                                    src={image(usernamesImageMap[post.userID])}
+                                                    alt="User Picture Profile"
+                                                    className="object-cover w-full h-full"
+                                                />
                                             </div>
-                                            <p className="mt-2 text-gray-300">{post.content}</p>
-                                            <div className="flex justify-end space-x-2 mt-4">
-                                                <Link className="btn-edit" to={`/posts/${post.id}`}>
-                                                    <MdDriveFileRenameOutline size={20} />
-                                                </Link>
-                                                <button className="btn-delete" onClick={() => removeUser(post.id)} title="Delete Post">
-                                                    <RiDeleteBin6Line size={20} />
-                                                </button>
+                                            <div className="flex-1">
+                                                <div className="text-sm text-gray-400">{getRelativeTime(post.createdAt)}</div>
+                                                <div className="flex justify-between items-center">
+                                                    <p className="text-lg font-medium text-gray-200">{usernamesMap[post.userID] || "Loading..."}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    );
-                                })}
+                                        <p className="mt-2 text-gray-300">{post.content}</p>
+                                        <div className="flex justify-end space-x-2 mt-4">
+                                            <Link className="btn-edit" to={`/posts/${post.id}`}>
+                                                <MdDriveFileRenameOutline size={20} />
+                                            </Link>
+                                            <button className="btn-delete" onClick={() => removeUser(post.id)} title="Delete Post">
+                                                <RiDeleteBin6Line size={20} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                );
+                            })}
                         </div>
                     ) : (
                         <div className="text-center text-gray-400 text-lg font-semibold">No posts found.</div>

@@ -1,4 +1,4 @@
-function getRelativeTime(date) {
+export default function getRelativeTime(date) {
     const now = new Date();
     const postDate = new Date(date);
     const diffInMs = now - postDate;
@@ -20,5 +20,3 @@ function getRelativeTime(date) {
         return postDate.toLocaleDateString();
     }
 }
-
-export default getRelativeTime;
