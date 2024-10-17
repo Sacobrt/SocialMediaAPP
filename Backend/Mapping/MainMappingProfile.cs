@@ -41,6 +41,8 @@ namespace CSHARP_SocialMediaAPP.Mapping
                 .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User))
                 .ForMember(dest => dest.PostID, opt => opt.MapFrom(src => src.Post));
             CreateMap<CommentDTOInsertUpdate, Comment>();
+
+            CreateMap<Operator, OperatorDTO>().ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User));
         }
 
         private static string FilePath(User e)

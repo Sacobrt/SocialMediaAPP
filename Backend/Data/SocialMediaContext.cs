@@ -12,6 +12,7 @@ namespace CSHARP_SocialMediaAPP.Data
         public DbSet<Follower> Followers { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Operator> Operators { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,6 +21,7 @@ namespace CSHARP_SocialMediaAPP.Data
             modelBuilder.Entity<Post>().HasOne(p => p.User);
             modelBuilder.Entity<Comment>().HasOne(c => c.User);
             modelBuilder.Entity<Comment>().HasOne(c => c.Post);
+            modelBuilder.Entity<Operator>().HasOne(c => c.User);
         }
     }
 }

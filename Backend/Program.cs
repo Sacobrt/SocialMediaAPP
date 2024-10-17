@@ -1,4 +1,5 @@
 using CSHARP_SocialMediaAPP.Data;
+using CSHARP_SocialMediaAPP.Extensions;
 using CSHARP_SocialMediaAPP.Mapping;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSocialMediaSwaggerGen();
+builder.Services.AddSocialMediaCORS();
 
 builder.Services.AddDbContext<SocialMediaContext>(
     options =>
@@ -18,17 +20,11 @@ builder.Services.AddDbContext<SocialMediaContext>(
     }
     );
 
-builder.Services.AddCors(opcije =>
-{
-    opcije.AddPolicy("CorsPolicy",
-        builder =>
-            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
-    );
-
-});
-
 //automapper
 builder.Services.AddAutoMapper(typeof(MainMappingProfile));
+
+builder.Services.AddSocialMediaSecurity();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -40,22 +36,21 @@ var app = builder.Build();
     {
         options.ConfigObject.AdditionalItems.Add("requestSnippetsEnabled", true);
         options.EnableTryItOutByDefault();
+        //options.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
     });
 //}
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-//za potrebe produkcije
 app.UseStaticFiles();
 app.UseDefaultFiles();
 app.MapFallbackToFile("index.html");
 
 app.UseCors("CorsPolicy");
-//završio za potrebe produkcije
-
 
 app.Run();
