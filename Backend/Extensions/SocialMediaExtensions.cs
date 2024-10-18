@@ -77,7 +77,7 @@ namespace CSHARP_SocialMediaAPP.Extensions
                 var servers = new List<OpenApiServer>
                 {
                     new OpenApiServer { Url = "https://localhost:7256", Description = "Development Server" },  // Development URL
-                    new OpenApiServer { Url = "https://sacobrt-001-site1.ctempurl.com/", Description = "Production Server" } // Remote production URL
+                    new OpenApiServer { Url = "https://sacobrt-001-site1.ctempurl.com", Description = "Production Server" } // Remote production URL
                 };
 
                 // Add all servers to Swagger
