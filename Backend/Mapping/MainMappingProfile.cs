@@ -18,14 +18,14 @@ namespace CSHARP_SocialMediaAPP.Mapping
             // User to UserDTORead mapping, constructs the DTO using a custom constructor and maps properties
             CreateMap<User, UserDTORead>()
                 .ConstructUsing(e => new UserDTORead(
-                    e.ID ?? 0,
+                    e.ID,
                     e.Username,
                     e.Password,
                     e.Email,
                     e.FirstName,
                     e.LastName,
                     e.BirthDate,
-                    e.CreatedAt ?? DateTime.Now,
+                    e.CreatedAt,
                     FilePath(e)));
 
             // UserDTOInsertUpdate to User mapping

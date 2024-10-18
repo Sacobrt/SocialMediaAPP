@@ -13,6 +13,6 @@ namespace CSHARP_SocialMediaAPP.Models
         /// It is an optional field, allowing for nullable IDs in cases like newly created objects before they are persisted in the database.
         /// </summary>
         [Key]
-        public int? ID { get; set; }
+        public int ID { get; set; }
     }
 }

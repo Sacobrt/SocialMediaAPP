@@ -46,6 +46,6 @@
         /// The date and time when the user account was created.
         /// This field is optional.
         /// </summary>
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
