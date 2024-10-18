@@ -44,21 +44,23 @@ export default function NavBar() {
     }
 
     return (
-        <Disclosure as="nav" className="bg-gray-900 border-b-2 border-gray-700 shadow-lg">
+        <Disclosure as="nav" className="bg-gray-900 border-b-2 border-gray-700">
             {({ open }) => (
                 <>
                     <div className="mx-auto max-w-[1500px] px-4 sm:px-6 lg:px-8">
-                        <div className="flex md:justify-between justify-center gap-60 md:gap-0 h-20 items-center">
+                        <div className={`flex md:justify-between justify-center md:gap-0 ${isLoggedIn ? "h-32" : "h-20"} md:h-20 items-center`}>
                             <div className="flex items-center">
                                 <a href="/">
                                     <img
                                         alt="Social Media Logo"
                                         src="/logo.png"
-                                        className="-rotate-3 h-8 md:h-6 w-auto rounded-lg hover:rotate-3 transition-all duration-1000 ease-in-out hover:scale-125"
+                                        className={`-rotate-3 ${
+                                            isLoggedIn ? "-mt-12" : "-mt-0"
+                                        } md:mt-0 h-12 md:h-8 w-auto rounded-lg hover:rotate-3 transition-all duration-1000 ease-in-out hover:scale-125`}
                                     />
                                 </a>
-                                <div className="hidden md:block sm:ml-10">
-                                    <div className="flex space-x-5">
+                                <div className="hidden md:block sm:ml-5">
+                                    <div className="flex space-x-1 lg:space-x-4">
                                         <a
                                             onClick={() => navigate(RoutesNames.HOME)}
                                             className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 hover:bg-opacity-80 hover:text-white transition-all duration-300 ease-in-out"
@@ -90,10 +92,31 @@ export default function NavBar() {
                                 </div>
                             </div>
 
+                            {/* User card for mobile device */}
+                            {isLoggedIn && (
+                                <div className="absolute left-1/3 top-[70px] flex md:hidden w-40 items-center space-x-2 py-1 px-4 bg-gray-800 rounded-lg">
+                                    {/* Profile Image */}
+                                    <img
+                                        className="w-10 h-10 rounded-full"
+                                        src={image(userData.UserID)}
+                                        onError={(e) => (e.target.src = defaultImage)}
+                                        alt="User Image"
+                                    />
+
+                                    {/* First Name + Last Name and Username */}
+                                    <div className="flex flex-col">
+                                        <div className="flex items-center space-x-1">
+                                            <span className="text-xs font-bold text-teal-400">{userData.FirstName + " " + userData.LastName}</span>
+                                        </div>
+                                        <span className="text-xs text-gray-400">@{String(userData.Username).toLowerCase()}</span>
+                                    </div>
+                                </div>
+                            )}
+
                             <div className="hidden md:block">
                                 {isLoggedIn ? (
                                     <>
-                                        <div className="grid grid-flow-col items-center gap-2">
+                                        <div className="grid grid-flow-col items-center space-x-1">
                                             <button
                                                 onClick={logout}
                                                 className="text-gray-200 text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
@@ -201,7 +224,7 @@ export default function NavBar() {
                                     </>
                                 )}
                             </div>
-                            <div className="md:hidden flex items-center">
+                            <div className="md:hidden absolute right-5 top-5">
                                 <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-0 transition-all duration-300 ease-in-out">
                                     <span className="sr-only">Open main menu</span>
                                     {open ? <XMarkIcon className="block h-6 w-6" aria-hidden="true" /> : <Bars3Icon className="block h-6 w-6" aria-hidden="true" />}
@@ -210,23 +233,8 @@ export default function NavBar() {
                         </div>
                     </div>
 
-                    {isLoggedIn && (
-                        <div className="absolute top-4 right-32 flex md:hidden w-40 items-center space-x-2 py-1 px-4 bg-gray-800 rounded-lg">
-                            {/* Profile Image */}
-                            <img className="w-10 h-10 rounded-full" src={image(userData.UserID)} onError={(e) => (e.target.src = defaultImage)} alt="User Image" />
-
-                            {/* First Name + Last Name and Username */}
-                            <div className="flex flex-col">
-                                <div className="flex items-center space-x-1">
-                                    <span className="text-xs font-bold text-teal-400">{userData.FirstName + " " + userData.LastName}</span>
-                                </div>
-                                <span className="text-xs text-gray-400">@{String(userData.Username).toLowerCase()}</span>
-                            </div>
-                        </div>
-                    )}
-
                     <DisclosurePanel className="md:hidden">
-                        <div className="px-2 pt-2 pb-3 space-y-1">
+                        <div className="px-2 pb-3 space-y-2">
                             <a
                                 onClick={() => navigate(RoutesNames.HOME)}
                                 className="cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition duration-150"
@@ -256,7 +264,16 @@ export default function NavBar() {
                                 </div>
                             </a>
                             {isLoggedIn && (
-                                <Menu as="div" className="relative">
+                                <Menu as="div" className="relative space-y-2">
+                                    <button
+                                        onClick={logout}
+                                        className="text-gray-200 w-full text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
+                                    >
+                                        <div className="flex items-center gap-1.5">
+                                            <FaSignOutAlt />
+                                            Sign out
+                                        </div>
+                                    </button>
                                     <MenuButton className="w-full text-start cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition duration-150">
                                         <div className="flex items-center gap-1.5">
                                             <RiAdminFill />
