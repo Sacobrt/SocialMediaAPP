@@ -43,16 +43,16 @@ namespace CSHARP_SocialMediaAPP.Controllers
         /// 
         /// POST /api/v1/Authorization/token
         /// 
-        /// ```json
+        /// <code lang="json">
         /// {
         ///   "email": "demo@demo.com",
         ///   "password": "demo"
         /// }
-        /// ```
+        /// </code>
         /// 
         /// ### Example Response (200 OK):
         /// 
-        /// ```json
+        /// <code lang="json">
         /// {
         ///   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
         ///   "user": {
@@ -61,7 +61,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         ///     "image": "/images/users/1.png"
         ///   }
         /// }
-        /// ```
+        /// </code>
         /// </remarks>
         [HttpPost("token")]
         [ProducesResponseType(typeof(List<UserDTORead>), 200)]

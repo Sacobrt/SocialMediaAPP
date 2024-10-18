@@ -81,8 +81,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         /// <summary>
         /// Converts the two-dimensional matrix into a JSON-friendly list of lists.
         /// </summary>
-        /// <param name="matrix">The two-dimensional array of CellData representing the cyclic matrix.</param>
-        /// <returns>A list of lists of CellData, where each list represents a row in the matrix.</returns>
+        /// <returns>A list of lists of <see cref="CellData"/>, where each list represents a row in the matrix.</returns>
         private List<List<CellData>> ConvertToJson(CellData[,] matrix)
         {
             var result = new List<List<CellData>>();
