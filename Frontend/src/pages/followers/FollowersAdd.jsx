@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RoutesNames } from "../../constants";
 import Service from "../../services/FollowerService";
 import UserService from "../../services/UserService";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { RiUserFollowLine } from "react-icons/ri";
 import { MdCancel } from "react-icons/md";
 
@@ -12,16 +12,59 @@ export default function FollowersAdd() {
     const [users, setUsers] = useState([]);
     const [userID, setUsersID] = useState(0);
     const [followerUserID, setFollowersUserID] = useState(0);
+    const [userSearchTerm, setUserSearchTerm] = useState("");
+    const [followerSearchTerm, setFollowerSearchTerm] = useState("");
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [filteredFollowers, setFilteredFollowers] = useState([]);
+    const [userDropdownVisible, setUserDropdownVisible] = useState(false);
+    const [followerDropdownVisible, setFollowerDropdownVisible] = useState(false);
+
+    const userDropdownRef = useRef(null);
+    const followerDropdownRef = useRef(null);
 
     async function getUsers() {
         const response = await UserService.get();
         setUsers(response);
-        setUsersID(response[0].id);
-        setFollowersUserID(response[0].id);
     }
 
     useEffect(() => {
         getUsers();
+    }, []);
+
+    useEffect(() => {
+        if (userSearchTerm.length >= 2) {
+            const filtered = users.filter((user) => user.username.toLowerCase().includes(userSearchTerm.toLowerCase()));
+            setFilteredUsers(filtered);
+            setUserDropdownVisible(true);
+        } else {
+            setUserDropdownVisible(false);
+        }
+    }, [userSearchTerm, users]);
+
+    useEffect(() => {
+        if (followerSearchTerm.length >= 2) {
+            const filtered = users.filter((user) => user.username.toLowerCase().includes(followerSearchTerm.toLowerCase()));
+            setFilteredFollowers(filtered);
+            setFollowerDropdownVisible(true);
+        } else {
+            setFollowerDropdownVisible(false);
+        }
+    }, [followerSearchTerm, users]);
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
+                setUserDropdownVisible(false);
+            }
+            if (followerDropdownRef.current && !followerDropdownRef.current.contains(event.target)) {
+                setFollowerDropdownVisible(false);
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
     }, []);
 
     async function add(user) {
@@ -39,6 +82,11 @@ export default function FollowersAdd() {
         const localDate = new Date();
         const offset = localDate.getTimezoneOffset();
         const formattedDate = new Date(localDate.getTime() - offset * 60 * 1000).toISOString().slice(0, -1);
+
+        if (!userID || !followerUserID) {
+            setError(["Both a user and a follower must be selected!"]);
+            return;
+        }
 
         add({
             userID: userID,
@@ -72,31 +120,77 @@ export default function FollowersAdd() {
 
             <form onSubmit={handleSubmit} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {["userID", "followerUserID"].map((field, index) => {
-                        const labels = {
-                            userID: "Select a user",
-                            followerUserID: "Select a user to follow",
-                        };
-                        return (
-                            <div key={index}>
-                                <label htmlFor={field} className="block text-sm font-medium text-gray-300 mb-2">
-                                    {labels[field]} <span className="text-red-500">*</span>
-                                </label>
-                                <select
-                                    id={field}
-                                    name={field}
-                                    onChange={(e) => (field === "userID" ? setUsersID(e.target.value) : setFollowersUserID(e.target.value))}
-                                    className="block w-full px-4 py-3 bg-gray-700 text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
-                                >
-                                    {users.map((user, idx) => (
-                                        <option key={idx} value={user.id}>
+                    {/* Typeahead for selecting user */}
+                    <div className="relative" ref={userDropdownRef}>
+                        <label htmlFor="userID" className="block text-sm font-medium text-gray-300 mb-2">
+                            Select a user <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="userID"
+                            value={userSearchTerm}
+                            onChange={(e) => setUserSearchTerm(e.target.value)}
+                            className="block w-full px-4 py-3 bg-gray-700 text-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-all"
+                            placeholder="Search for a user"
+                        />
+                        {userDropdownVisible && (
+                            <ul className="absolute z-10 bg-gray-700 text-gray-200 rounded-lg mt-1 w-full max-h-60 overflow-y-auto shadow-lg">
+                                {filteredUsers.length > 0 ? (
+                                    filteredUsers.map((user) => (
+                                        <li
+                                            key={user.id}
+                                            className="px-4 py-2 hover:bg-gray-600 cursor-pointer"
+                                            onClick={() => {
+                                                setUsersID(user.id);
+                                                setUserSearchTerm(user.username);
+                                                setUserDropdownVisible(false);
+                                            }}
+                                        >
                                             {user.username}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        );
-                    })}
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="px-4 py-2 text-gray-400">No users found</li>
+                                )}
+                            </ul>
+                        )}
+                    </div>
+
+                    {/* Typeahead for selecting follower */}
+                    <div className="relative" ref={followerDropdownRef}>
+                        <label htmlFor="followerUserID" className="block text-sm font-medium text-gray-300 mb-2">
+                            Select a user to follow <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                            type="text"
+                            id="followerUserID"
+                            value={followerSearchTerm}
+                            onChange={(e) => setFollowerSearchTerm(e.target.value)}
+                            className="block w-full px-4 py-3 bg-gray-700 text-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-all"
+                            placeholder="Search for a user to follow"
+                        />
+                        {followerDropdownVisible && (
+                            <ul className="absolute z-10 bg-gray-700 text-gray-200 rounded-lg mt-1 w-full max-h-60 overflow-y-auto shadow-lg">
+                                {filteredFollowers.length > 0 ? (
+                                    filteredFollowers.map((user) => (
+                                        <li
+                                            key={user.id}
+                                            className="px-4 py-2 hover:bg-gray-600 cursor-pointer"
+                                            onClick={() => {
+                                                setFollowersUserID(user.id);
+                                                setFollowerSearchTerm(user.username);
+                                                setFollowerDropdownVisible(false);
+                                            }}
+                                        >
+                                            {user.username}
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="px-4 py-2 text-gray-400">No users found</li>
+                                )}
+                            </ul>
+                        )}
+                    </div>
                 </div>
 
                 <div className="flex justify-end space-x-4">
