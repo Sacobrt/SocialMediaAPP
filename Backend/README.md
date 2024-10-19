@@ -154,7 +154,7 @@
   - [Password](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Password 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Password')
   - [Username](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Username 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Username')
 - [UserDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead')
-  - [#ctor(ID,Username,Password,Email,FirstName,LastName,BirthDate,CreatedAt,Image)](#M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-String,System-Nullable{System-DateTime},System-DateTime,System-String- 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.String,System.Nullable{System.DateTime},System.DateTime,System.String)')
+  - [#ctor(ID,Username,Email,FirstName,LastName,BirthDate,CreatedAt,Image)](#M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-Nullable{System-DateTime},System-DateTime,System-String- 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.Nullable{System.DateTime},System.DateTime,System.String)')
   - [BirthDate](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-BirthDate 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.BirthDate')
   - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.CreatedAt')
   - [Email](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Email 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.Email')
@@ -162,7 +162,6 @@
   - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.ID')
   - [Image](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Image 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.Image')
   - [LastName](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-LastName 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.LastName')
-  - [Password](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Password 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.Password')
   - [Username](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Username 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.Username')
 
 <a name='T-CSHARP_SocialMediaAPP-Validations-AgeValidator'></a>
@@ -1940,8 +1939,8 @@ names, birth date, profile image, and creation timestamp.
 | ---- | ---- | ----------- |
 | ID | [T:CSHARP_SocialMediaAPP.Models.DTO.UserDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.UserDTORead') | The unique identifier of the user. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-String,System-Nullable{System-DateTime},System-DateTime,System-String-'></a>
-### #ctor(ID,Username,Password,Email,FirstName,LastName,BirthDate,CreatedAt,Image) `constructor`
+<a name='M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-Nullable{System-DateTime},System-DateTime,System-String-'></a>
+### #ctor(ID,Username,Email,FirstName,LastName,BirthDate,CreatedAt,Image) `constructor`
 
 ##### Summary
 
@@ -1955,7 +1954,6 @@ names, birth date, profile image, and creation timestamp.
 | ---- | ---- | ----------- |
 | ID | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the user. |
 | Username | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The username of the user. |
-| Password | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The password of the user. This field is required for internal use but should not be exposed to clients. |
 | Email | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address of the user. This field is optional. |
 | FirstName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The first name of the user. This field is optional. |
 | LastName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The last name of the user. This field is optional. |
@@ -2011,13 +2009,6 @@ The path or URL to the user's profile image. This field is optional.
 ##### Summary
 
 The last name of the user. This field is optional.
-
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Password'></a>
-### Password `property`
-
-##### Summary
-
-The password of the user. This field is required for internal use but should not be exposed to clients.
 
 <a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Username'></a>
 ### Username `property`
