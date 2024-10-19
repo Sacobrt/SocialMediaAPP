@@ -20,7 +20,6 @@ namespace CSHARP_SocialMediaAPP.Mapping
                 .ConstructUsing(e => new UserDTORead(
                     e.ID,
                     e.Username,
-                    e.Password,
                     e.Email,
                     e.FirstName,
                     e.LastName,

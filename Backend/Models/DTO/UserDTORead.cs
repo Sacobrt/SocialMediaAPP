@@ -7,7 +7,6 @@
     /// </summary>
     /// <param name="ID">The unique identifier of the user.</param>
     /// <param name="Username">The username of the user.</param>
-    /// <param name="Password">The password of the user. This field is required for internal use but should not be exposed to clients.</param>
     /// <param name="Email">The email address of the user. This field is optional.</param>
     /// <param name="FirstName">The first name of the user. This field is optional.</param>
     /// <param name="LastName">The last name of the user. This field is optional.</param>
@@ -17,7 +16,6 @@
     public record UserDTORead(
         int ID,
         string Username,
-        string Password,
         string? Email,
         string? FirstName,
         string? LastName,
