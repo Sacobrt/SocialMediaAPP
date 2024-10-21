@@ -234,7 +234,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
                         || EF.Functions.Like(p.User.FirstName.ToLower(), "%" + condition + "%")
                         || EF.Functions.Like(p.User.LastName.ToLower(), "%" + condition + "%")
                         || EF.Functions.Like(p.Post.Content, "%" + condition + "%"))
-                    .OrderBy(p => p.User.Username)
+                    .OrderByDescending(p => p.CreatedAt)
                     .Skip((page - 1) * perPage)
                     .Take(perPage)
                     .ToList();
@@ -245,6 +245,57 @@ namespace CSHARP_SocialMediaAPP.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Generates a specified number of random comments and associates them with random users and posts in the database.
+        /// </summary>
+        /// <param name="amount">The number of comments to generate. Must be between 1 and 500.</param>
+        /// <returns>A list of generated comments with their details or an error message if the amount is out of range.</returns>
+        /// <response code="200">Returns the list of generated comments.</response>
+        /// <response code="400">If the amount is not within the valid range.</response>
+        [HttpGet("generate/{amount}")]
+        [ProducesResponseType(typeof(Dictionary<string, string>), 400)]
+        public IActionResult GenerateComments(int amount)
+        {
+            if (amount < 1 || amount > 500)
+            {
+                return BadRequest(new { message = "The amount must be between 1 and 500." });
+            }
+
+            List<Comment> generatedComments = new List<Comment>();
+
+            for (int i = 0; i < amount; i++)
+            {
+                // Generate a new Comment
+                var comment = new Comment()
+                {
+                    User = _context.Users.OrderBy(u => Guid.NewGuid()).FirstOrDefault(),
+                    Post = _context.Posts.OrderBy(p => Guid.NewGuid()).FirstOrDefault(),
+                    Content = Faker.Lorem.Sentence(),
+                    Likes = Faker.RandomNumber.Next(0, 100),
+                    CreatedAt = DateTime.Now
+                };
+
+                // Add the comment to the context
+                _context.Comments.Add(comment);
+                _context.SaveChanges();
+                generatedComments.Add(comment);
+            }
+
+            // Return a list of the generated comments with relevant details
+            var result = generatedComments.Select(comment => new
+            {
+                CommentID = comment.ID,
+                UserID = comment.User.ID,
+                PostID = comment.Post.ID,
+                Content = comment.Content,
+                Likes = comment.Likes,
+                CreatedAt = comment.CreatedAt
+            });
+
+            // Return success message and generated comment details
+            return Ok(new { message = $"{amount} comments generated successfully.", comments = result });
         }
     }
 }
