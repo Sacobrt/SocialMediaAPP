@@ -57,6 +57,7 @@
   - [User](#P-CSHARP_SocialMediaAPP-Models-Follower-User 'CSHARP_SocialMediaAPP.Models.Follower.User')
 - [FollowerController](#T-CSHARP_SocialMediaAPP-Controllers-FollowerController 'CSHARP_SocialMediaAPP.Controllers.FollowerController')
   - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Delete(System.Int32)')
+  - [GenerateFollowers(amount)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GenerateFollowers-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.GenerateFollowers(System.Int32)')
   - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Get 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Get')
   - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.GetById(System.Int32)')
   - [GetFollowStatuses(currentUserId,followedUserIds)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetFollowStatuses-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.GetFollowStatuses(System.Int32,System.String)')
@@ -820,6 +821,23 @@ HTTP 200 OK if the deletion is successful, or an error message if the follower r
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the follower relationship to delete. |
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GenerateFollowers-System-Int32-'></a>
+### GenerateFollowers(amount) `method`
+
+##### Summary
+
+Generates a specified number of random follower relationships between users.
+
+##### Returns
+
+A success message and a list of the generated follower relationships, or a \`400 Bad Request\` if the amount is invalid.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of follower relationships to generate (between 1 and 500). |
 
 <a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Get'></a>
 ### Get() `method`
@@ -1839,7 +1857,7 @@ A success message and a list of the generated users with their details, or a \`4
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of users to generate (between 1 and 100). |
+| amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of users to generate (between 1 and 500). |
 
 <a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Get'></a>
 ### Get() `method`
