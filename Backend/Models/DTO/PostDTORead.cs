@@ -15,5 +15,6 @@
         int UserID,
         string Content,
         int? Likes,
-        DateTime CreatedAt);
+        DateTime CreatedAt,
+        List<CommentDTORead> Comments);
 }

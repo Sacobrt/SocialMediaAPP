@@ -22,6 +22,8 @@ namespace CSHARP_SocialMediaAPP.Models
         [Column("post")]
         public string Content { get; set; }
 
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+
         /// <summary>
         /// The number of likes that the post has received.
         /// </summary>
