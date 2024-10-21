@@ -12,7 +12,7 @@ import { RoutesNames } from "../constants";
 import { useNavigate } from "react-router-dom";
 import useError from "../hooks/useError";
 
-const PostComment = ({ postId, onNewComment, mode = "comment" }) => {
+const PostComment = ({ postId, onNewComment, post, mode = "comment" }) => {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const { authToken } = useContext(AuthContext);
     const [currentUserID, setUserID] = useState(null);
@@ -66,8 +66,12 @@ const PostComment = ({ postId, onNewComment, mode = "comment" }) => {
             };
             try {
                 const response = await CommentService.add(commentData);
-                if (response.message) {
-                    const newComment = { ...commentData, id: response.data };
+
+                if (response.message && response.message.id) {
+                    const newComment = {
+                        ...post,
+                        comments: [...post.comments, { ...commentData, id: response.message.id }],
+                    };
                     setEditorState(EditorState.createEmpty());
                     onNewComment && onNewComment(newComment);
                 }

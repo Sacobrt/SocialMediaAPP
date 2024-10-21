@@ -285,47 +285,6 @@ export default function HomePageOverview() {
         return userImage ? `${APP_URL}${userImage}?${Date.now()}` : defaultImage;
     }
 
-    const handleEditorChange = (state, post) => {
-        setNewComments((prevComments) => ({
-            ...prevComments,
-            [post]: state,
-        }));
-    };
-
-    // Submit comment for a specific post
-    const handleCommentSubmit = async (e, postId) => {
-        e.preventDefault();
-
-        const commentContent = draftToHtml(convertToRaw(newComments[postId].getCurrentContent()));
-        if (!commentContent) return;
-
-        const localDate = new Date();
-        const offset = localDate.getTimezoneOffset();
-        const formattedDate = new Date(localDate.getTime() - offset * 60 * 1000).toISOString().slice(0, -1);
-
-        const commentData = {
-            postID: postId,
-            userID: currentUserID,
-            content: commentContent,
-            createdAt: formattedDate,
-        };
-
-        try {
-            const response = await CommentService.add(commentData);
-            if (response.message) {
-                setPosts((prevPosts) =>
-                    prevPosts.map((post) => (post.id === postId ? { ...post, comments: [...post.comments, { ...commentData, id: response.data }] } : post))
-                );
-            } else {
-                setError("Failed to add comment.");
-            }
-            setNewComments({});
-        } catch (error) {
-            console.error("Error posting comment", error);
-            setError("Failed to add comment.");
-        }
-    };
-
     async function removeAsync(id) {
         const response = await CommentService.remove(id);
         if (response.error) {
@@ -359,15 +318,8 @@ export default function HomePageOverview() {
         return tempDiv.innerHTML;
     };
 
-    const handleNewComment = (postId, newComment) => {
-        setPosts((prevPosts) =>
-            prevPosts.map((post) => {
-                if (post.id === postId) {
-                    return { ...post, comments: [...post.comments, newComment] };
-                }
-                return post;
-            })
-        );
+    const handleNewComment = (updatedPost) => {
+        setPosts((prevPosts) => prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post)));
     };
 
     return (
@@ -603,7 +555,7 @@ export default function HomePageOverview() {
                                             )}
 
                                             {/* Comment form to add a new comment for the specific post */}
-                                            <PostComment postId={post.id} onNewComment={(newComment) => handleNewComment(post.id, newComment)} mode="comment" />
+                                            <PostComment post={post} postId={post.id} onNewComment={handleNewComment} mode="comment" />
                                         </div>
                                     );
                                 })}
