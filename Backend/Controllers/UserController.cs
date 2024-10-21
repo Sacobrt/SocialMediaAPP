@@ -254,7 +254,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         /// <summary>
         /// Generates a specified number of random user accounts.
         /// </summary>
-        /// <param name="amount">The number of users to generate (between 1 and 100).</param>
+        /// <param name="amount">The number of users to generate (between 1 and 500).</param>
         /// <returns>
         /// A success message and a list of the generated users with their details, or a `400 Bad Request` if the amount is invalid.
         /// </returns>
