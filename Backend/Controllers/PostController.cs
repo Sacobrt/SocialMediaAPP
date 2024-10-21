@@ -32,8 +32,17 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             try
             {
-                // Retrieve all posts, including associated user information
-                return Ok(_mapper.Map<List<PostDTORead>>(_context.Posts.Include(g => g.User)));
+                // Retrieve the post with the associated user and comments
+                var posts = _context.Posts
+                                    .Include(p => p.User)          // Include user information
+                                    .Include(p => p.Comments)      // Include the list of comments
+                                    .ThenInclude(c => c.User)      // Include user information for each comment
+                                    .ToList();
+
+                // Map the post to PostDTORead, including nested comments
+                var dtoPosts = _mapper.Map<List<PostDTORead>>(posts);
+
+                return Ok(dtoPosts); // Return the post with associated comments
             }
             catch (Exception ex)
             {
@@ -247,7 +256,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
                         || EF.Functions.Like(p.User.Username.ToLower(), "%" + condition + "%")
                         || EF.Functions.Like(p.User.FirstName.ToLower(), "%" + condition + "%")
                         || EF.Functions.Like(p.User.LastName.ToLower(), "%" + condition + "%"))
-                    .OrderBy(p => p.User.Username)
+                    .OrderByDescending(p => p.CreatedAt)
                     .Skip((page - 1) * perPage)
                     .Take(perPage)
                     .ToList();
@@ -258,6 +267,53 @@ namespace CSHARP_SocialMediaAPP.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Generates a specified number of random posts and associates them with random users in the database.
+        /// </summary>
+        /// <param name="amount">The number of posts to generate. Must be between 1 and 500.</param>
+        /// <returns>A list of generated posts with their details or an error message if the amount is invalid.</returns>
+        /// <response code="200">Returns the list of generated posts.</response>
+        /// <response code="400">If the amount is not within the valid range.</response>
+        [HttpGet("generate/{amount}")]
+        public IActionResult Generate(int amount)
+        {
+            if (amount < 1 || amount > 500)
+            {
+                return BadRequest(new { message = "The amount must be between 1 and 500." });
+            }
+
+            List<Post> generatedPosts = new List<Post>();
+
+            for (int i = 0; i < amount; i++)
+            {
+                // Generate a new Post
+                var p = new Post()
+                {
+                    User = _context.Users.OrderBy(u => Guid.NewGuid()).FirstOrDefault(),
+                    Content = Faker.Lorem.Sentence(),
+                    Likes = Faker.RandomNumber.Next(),
+                    CreatedAt = Faker.Identification.DateOfBirth(),
+                };
+
+                // Add the post to the context
+                _context.Posts.Add(p);
+                _context.SaveChanges();
+                generatedPosts.Add(p);
+            }
+
+            // Return a list of the generated posts with relevant details
+            var result = generatedPosts.Select(post => new
+            {
+                PostID = post.ID,
+                UserID = post.User.ID,
+                Content = post.Content,
+                CreatedAt = post.CreatedAt
+            });
+
+            // Return success message and generated post details
+            return Ok(new { message = $"{amount} posts generated successfully.", posts = result });
         }
     }
 }
