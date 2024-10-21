@@ -82,13 +82,13 @@ namespace CSHARP_SocialMediaAPP.Controllers
             // If the operator is not found, return 403 Forbidden.
             if (optDb == null)
             {
-                return StatusCode(StatusCodes.Status403Forbidden, "You are not authorized, I cannot find the operator!");
+                return StatusCode(StatusCodes.Status403Forbidden, "Access denied: Account not found. Please verify your credentials.");
             }
 
             // Verify the provided password using BCrypt.
             if (!BCrypt.Net.BCrypt.Verify(opt.Password, optDb.Password))
             {
-                return StatusCode(StatusCodes.Status403Forbidden, "You are not authorized, the password does not match!");
+                return StatusCode(StatusCodes.Status403Forbidden, "Access denied: Incorrect password.");
             }
 
             // Map the associated User entity to a DTO.
