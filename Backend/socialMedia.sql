@@ -12,7 +12,7 @@ USE socialMedia;
 CREATE TABLE Users (
 	ID INT NOT NULL PRIMARY KEY IDENTITY(1, 1),
 	username VARCHAR(40) NOT NULL,
-	password VARCHAR(40) NOT NULL,
+	password NVARCHAR(64) NOT NULL,
 	email VARCHAR(50) NOT NULL,
 	firstName VARCHAR(20),
 	lastName VARCHAR(20),
