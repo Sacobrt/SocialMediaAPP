@@ -80,6 +80,16 @@ async function getPagination(page, condition) {
         });
 }
 
+async function homePagination(page, condition) {
+    return await HttpService.get("/Home/pagination/" + page + "?condition=" + condition)
+        .then((response) => {
+            return { error: false, message: response.data };
+        })
+        .catch((e) => {
+            return { error: true, message: e.response.data };
+        });
+}
+
 export default {
     get,
     getByID,
@@ -87,4 +97,5 @@ export default {
     add,
     change,
     getPagination,
+    homePagination,
 };
