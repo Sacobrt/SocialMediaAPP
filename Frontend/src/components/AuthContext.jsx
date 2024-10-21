@@ -9,7 +9,7 @@ export const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [authToken, setAuthToken] = useState("");
-    const { prikaziError } = useError();
+    const { showError } = useError();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
             setIsLoggedIn(true);
             navigate(RoutesNames.HOME);
         } else {
-            prikaziError(response.message);
+            showError(response.message);
             localStorage.setItem("Bearer", "");
             setAuthToken("");
             setIsLoggedIn(false);
@@ -44,17 +44,11 @@ export function AuthProvider({ children }) {
         navigate(RoutesNames.HOME);
     }
 
-    const updateAuthToken = (newToken) => {
-        setAuthToken(newToken);
-        localStorage.setItem("Bearer", newToken);
-    };
-
     const value = {
         isLoggedIn,
         authToken,
         login,
         logout,
-        updateAuthToken,
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

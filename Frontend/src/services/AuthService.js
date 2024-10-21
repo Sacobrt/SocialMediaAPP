@@ -9,7 +9,7 @@ export async function logInService(data) {
                 user: response.data.user,
             };
         })
-        .catch(() => {
-            return { error: true, message: "Problem with authorization!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data };
         });
 }
