@@ -24,6 +24,7 @@
   - [User](#P-CSHARP_SocialMediaAPP-Models-Comment-User 'CSHARP_SocialMediaAPP.Models.Comment.User')
 - [CommentController](#T-CSHARP_SocialMediaAPP-Controllers-CommentController 'CSHARP_SocialMediaAPP.Controllers.CommentController')
   - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.CommentController.Delete(System.Int32)')
+  - [GenerateComments(amount)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-GenerateComments-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.CommentController.GenerateComments(System.Int32)')
   - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-Get 'CSHARP_SocialMediaAPP.Controllers.CommentController.Get')
   - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.CommentController.GetById(System.Int32)')
   - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.CommentController.Pagination(System.Int32,System.String)')
@@ -58,6 +59,7 @@
   - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Delete(System.Int32)')
   - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Get 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Get')
   - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.GetById(System.Int32)')
+  - [GetFollowStatuses(currentUserId,followedUserIds)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetFollowStatuses-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.GetFollowStatuses(System.Int32,System.String)')
   - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Pagination(System.Int32,System.String)')
   - [Post(dto)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Post-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Post(CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate)')
   - [Put(id,dto)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Put(System.Int32,CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate)')
@@ -72,6 +74,8 @@
   - [FollowerUser](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-FollowerUser 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.FollowerUser')
   - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.ID')
   - [User](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-User 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.User')
+- [HomeController](#T-CSHARP_SocialMediaAPP-Controllers-HomeController 'CSHARP_SocialMediaAPP.Controllers.HomeController')
+  - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-HomeController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.HomeController.Pagination(System.Int32,System.String)')
 - [ImageDTO](#T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO')
   - [#ctor(Base64)](#M-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-#ctor-System-String- 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO.#ctor(System.String)')
   - [Base64](#P-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-Base64 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO.Base64')
@@ -94,6 +98,7 @@
   - [User](#P-CSHARP_SocialMediaAPP-Models-Post-User 'CSHARP_SocialMediaAPP.Models.Post.User')
 - [PostController](#T-CSHARP_SocialMediaAPP-Controllers-PostController 'CSHARP_SocialMediaAPP.Controllers.PostController')
   - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.PostController.Delete(System.Int32)')
+  - [Generate(amount)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Generate-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.PostController.Generate(System.Int32)')
   - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Get 'CSHARP_SocialMediaAPP.Controllers.PostController.Get')
   - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.PostController.GetById(System.Int32)')
   - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.PostController.Pagination(System.Int32,System.String)')
@@ -106,7 +111,7 @@
   - [Likes](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Likes 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.Likes')
   - [UserID](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-UserID 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.UserID')
 - [PostDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead')
-  - [#ctor(ID,UserID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime- 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.#ctor(System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime)')
+  - [#ctor(ID,UserID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead}- 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.#ctor(System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime,System.Collections.Generic.List{CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead})')
   - [Content](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-Content 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.Content')
   - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.CreatedAt')
   - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.ID')
@@ -138,6 +143,7 @@
   - [Username](#P-CSHARP_SocialMediaAPP-Models-User-Username 'CSHARP_SocialMediaAPP.Models.User.Username')
 - [UserController](#T-CSHARP_SocialMediaAPP-Controllers-UserController 'CSHARP_SocialMediaAPP.Controllers.UserController')
   - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.UserController.Delete(System.Int32)')
+  - [Generate(amount)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Generate-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.UserController.Generate(System.Int32)')
   - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Get 'CSHARP_SocialMediaAPP.Controllers.UserController.Get')
   - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.UserController.GetById(System.Int32)')
   - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.UserController.Pagination(System.Int32,System.String)')
@@ -408,6 +414,23 @@ HTTP 200 OK status if the deletion is successful.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the comment to delete. |
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-GenerateComments-System-Int32-'></a>
+### GenerateComments(amount) `method`
+
+##### Summary
+
+Generates a specified number of random comments and associates them with random users and posts in the database.
+
+##### Returns
+
+A list of generated comments with their details or an error message if the amount is out of range.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of comments to generate. Must be between 1 and 500. |
 
 <a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-Get'></a>
 ### Get() `method`
@@ -830,6 +853,32 @@ The follower relationship if found, or an error message if not found.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the follower relationship. |
 
+<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetFollowStatuses-System-Int32,System-String-'></a>
+### GetFollowStatuses(currentUserId,followedUserIds) `method`
+
+##### Summary
+
+Retrieves the follow statuses of a list of users for the specified current user.
+
+##### Returns
+
+An IActionResult containing a dictionary where each key is a user ID from the provided list,
+and the value is an object indicating if the current user is following that user and the follower's ID if applicable.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| currentUserId | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the current user for whom the follow statuses are being checked. |
+| followedUserIds | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | A comma-separated string of user IDs representing the users the current user may follow. |
+
+##### Remarks
+
+This endpoint expects a valid comma-separated string of followed user IDs in the query parameter.
+If the string is empty or improperly formatted, the API will respond with a BadRequest (400).
+The method checks which users from the provided list the current user follows, and returns
+a dictionary where each entry contains a boolean \`isFollowing\` flag and the follower's ID.
+
 <a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Pagination-System-Int32,System-String-'></a>
 ### Pagination(page,condition) `method`
 
@@ -1002,6 +1051,37 @@ The unique identifier of the follower relationship.
 ##### Summary
 
 The username of the user being followed.
+
+<a name='T-CSHARP_SocialMediaAPP-Controllers-HomeController'></a>
+## HomeController `type`
+
+##### Namespace
+
+CSHARP_SocialMediaAPP.Controllers
+
+##### Summary
+
+API Controller responsible for handling home-related operations for the social media application.
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-HomeController-Pagination-System-Int32,System-String-'></a>
+### Pagination(page,condition) `method`
+
+##### Summary
+
+Retrieves a paginated list of posts, with optional filtering based on a search term.
+
+##### Returns
+
+A paginated list of posts that match the search condition. If no posts match, an empty list is returned. 
+In the case of an error, a \`400 Bad Request\` is returned with the error message.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| page | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The page number to retrieve, starting from 1. Each page contains a fixed number of posts. |
+| condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An optional search term used to filter posts. The search will match the post content, username, first name, or last name.
+If no condition is provided, all posts are retrieved. |
 
 <a name='T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO'></a>
 ## ImageDTO `type`
@@ -1245,6 +1325,23 @@ HTTP 200 OK if the deletion is successful, otherwise an error message.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the post to delete. |
 
+<a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-Generate-System-Int32-'></a>
+### Generate(amount) `method`
+
+##### Summary
+
+Generates a specified number of random posts and associates them with random users in the database.
+
+##### Returns
+
+A list of generated posts with their details or an error message if the amount is invalid.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of posts to generate. Must be between 1 and 500. |
+
 <a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-Get'></a>
 ### Get() `method`
 
@@ -1413,7 +1510,7 @@ the user who created it, its content, the number of likes, and the date it was c
 | ---- | ---- | ----------- |
 | ID | [T:CSHARP_SocialMediaAPP.Models.DTO.PostDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.PostDTORead') | The unique identifier of the post. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime-'></a>
+<a name='M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead}-'></a>
 ### #ctor(ID,UserID,Content,Likes,CreatedAt) `constructor`
 
 ##### Summary
@@ -1726,6 +1823,23 @@ A status code indicating success or failure.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the user to delete. |
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Generate-System-Int32-'></a>
+### Generate(amount) `method`
+
+##### Summary
+
+Generates a specified number of random user accounts.
+
+##### Returns
+
+A success message and a list of the generated users with their details, or a \`400 Bad Request\` if the amount is invalid.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of users to generate (between 1 and 100). |
 
 <a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Get'></a>
 ### Get() `method`
