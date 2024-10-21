@@ -268,10 +268,11 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 // Filter and paginate follower relationships based on the condition (username)
                 var followers = _context.Followers
                     .Include(u => u.User)
-                    .Include(f => f.FollowerUser)
-                    .Where(u => EF.Functions.Like(u.User.Username.ToLower(), "%" + condition + "%")
-                        || EF.Functions.Like(u.FollowerUser.Username.ToLower(), "%" + condition + "%"))
-                    .OrderBy(u => u.User.Username)
+                    .Include(u => u.FollowerUser)
+                    .Where(u => EF.Functions.Like(u.User.Username.ToLower(), "%" + condition + "%"))
+                    .Where(u => EF.Functions.Like(u.User.FirstName.ToLower(), "%" + condition + "%"))
+                    .Where(u => EF.Functions.Like(u.User.LastName.ToLower(), "%" + condition + "%"))
+                    .OrderByDescending(u => u.FollowedAt)
                     .Skip((page - 1) * perPage)
                     .Take(perPage)
                     .ToList();
@@ -282,6 +283,67 @@ namespace CSHARP_SocialMediaAPP.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Retrieves the follow statuses of a list of users for the specified current user.
+        /// </summary>
+        /// <param name="currentUserId">The ID of the current user for whom the follow statuses are being checked.</param>
+        /// <param name="followedUserIds">
+        /// A comma-separated string of user IDs representing the users the current user may follow.
+        /// </param>
+        /// <returns>
+        /// An IActionResult containing a dictionary where each key is a user ID from the provided list,
+        /// and the value is an object indicating if the current user is following that user and the follower's ID if applicable.
+        /// </returns>
+        /// <response code="200">Returns a dictionary containing follow statuses for the specified users.</response>
+        /// <response code="400">If the followedUserIds parameter is missing or improperly formatted.</response>
+        /// <remarks>
+        /// This endpoint expects a valid comma-separated string of followed user IDs in the query parameter.
+        /// If the string is empty or improperly formatted, the API will respond with a BadRequest (400).
+        /// The method checks which users from the provided list the current user follows, and returns
+        /// a dictionary where each entry contains a boolean `isFollowing` flag and the follower's ID.
+        /// </remarks>
+        [HttpGet("statuses/{currentUserId}")]
+        [ProducesResponseType(typeof(string), 400)]
+        public IActionResult GetFollowStatuses(int currentUserId, [FromQuery] string followedUserIds)
+        {
+            if (string.IsNullOrWhiteSpace(followedUserIds))
+            {
+                return BadRequest(new { message = "Followed user IDs are required." });
+            }
+
+            List<int> followedUserIdList;
+            try
+            {
+                followedUserIdList = followedUserIds.Split(',').Select(id => int.Parse(id.Trim())).ToList();
+            }
+            catch (FormatException)
+            {
+                return BadRequest(new { message = "Invalid format for followed user IDs. Please provide a comma-separated list of integers." });
+            }
+
+            // Fetch followers with FollowerUser eagerly loaded
+            var followStatuses = _context.Followers
+                .Include(f => f.FollowerUser) // Ensure FollowerUser is included
+                .Where(f => f.User.ID == currentUserId && followedUserIdList.Contains(f.FollowerUser.ID))
+                .ToList();
+
+            // Create a dictionary to store the results
+            var result = followedUserIdList.ToDictionary(
+                id => id,
+                id =>
+                {
+                    var follower = followStatuses.FirstOrDefault(f => f.FollowerUser?.ID == id);
+                    return new // Explicitly create a new anonymous type
+                    {
+                        isFollowing = follower != null,
+                        followerId = follower?.ID
+                    };
+                }
+            );
+
+            return Ok(result);
         }
     }
 }
