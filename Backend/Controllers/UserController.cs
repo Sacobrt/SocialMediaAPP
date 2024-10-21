@@ -228,7 +228,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         [ProducesResponseType(typeof(Dictionary<string, string>), 400)]
         public IActionResult Pagination(int page, string condition = "")
         {
-            var perPage = 12; // Number of users per page
+            var perPage = 20; // Number of users per page
             condition = condition.ToLower();
             try
             {
@@ -237,7 +237,8 @@ namespace CSHARP_SocialMediaAPP.Controllers
                     .Where(u => EF.Functions.Like(u.Username.ToLower(), "%" + condition + "%")
                         || EF.Functions.Like(u.FirstName.ToLower(), "%" + condition + "%")
                         || EF.Functions.Like(u.LastName.ToLower(), "%" + condition + "%"))
-                    .OrderBy(u => u.Username)
+                    .OrderByDescending(u => u.CreatedAt)
+                    .ThenBy(u => u.Username)
                     .Skip((perPage * page) - perPage)
                     .Take(perPage)
                     .ToList();
@@ -248,6 +249,63 @@ namespace CSHARP_SocialMediaAPP.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        /// <summary>
+        /// Generates a specified number of random user accounts.
+        /// </summary>
+        /// <param name="amount">The number of users to generate (between 1 and 100).</param>
+        /// <returns>
+        /// A success message and a list of the generated users with their details, or a `400 Bad Request` if the amount is invalid.
+        /// </returns>
+        [HttpGet("generate/{amount}")]
+        [ProducesResponseType(typeof(Dictionary<string, string>), 400)]
+        public IActionResult Generate(int amount)
+        {
+            if (amount < 1 || amount > 500)
+            {
+                return BadRequest(new { message = "The amount must be between 1 and 500." });
+            }
+
+            List<User> generatedUsers = new List<User>();
+
+            for (int i = 0; i < amount; i++)
+            {
+                string rawPassword = Faker.Name.Middle();
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(rawPassword);
+
+                // Generate a new User
+                var user = new User()
+                {
+                    Username = Faker.Internet.UserName(),
+                    Password = hashedPassword,
+                    Email = Faker.Internet.Email(),
+                    FirstName = Faker.Name.First(),
+                    LastName = Faker.Name.Last(),
+                    BirthDate = Faker.Identification.DateOfBirth(),
+                    CreatedAt = DateTime.Now
+                };
+
+                // Add the user to the context
+                _context.Users.Add(user);
+                _context.SaveChanges();
+                generatedUsers.Add(user);
+            }
+
+            // Return a list of the generated users with relevant details
+            var result = generatedUsers.Select(user => new
+            {
+                UserID = user.ID,
+                Username = user.Username,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate,
+                CreatedAt = user.CreatedAt
+            });
+
+            // Return success message and generated user details
+            return Ok(new { message = $"{amount} users generated successfully.", users = result });
         }
     }
 }
