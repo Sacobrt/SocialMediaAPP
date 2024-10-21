@@ -1,4 +1,4 @@
-import NavBarEdunova from "./components/NavBar";
+import NavBar from "./components/NavBar";
 import { Route, Routes } from "react-router-dom";
 import { RoutesNames } from "./constants";
 
@@ -33,8 +33,8 @@ function App() {
 
     return (
         <>
-            <NavBarEdunova />
-            <ErrorModal show={showModalError} errors={errors} onHide={hideError} />
+            <NavBar />
+            <ErrorModal show={showModalError} errors={[errors]} onHide={hideError} />
             <div className="flex flex-col min-h-screen">
                 <main className="flex-grow bg-gradient-to-br from-gray-700 via-gray-900 to-gray-800">
                     <Routes>
