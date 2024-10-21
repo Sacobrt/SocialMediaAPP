@@ -27,6 +27,6 @@
         /// The associated User entity, representing the operator's corresponding user information.
         /// This is optional and may be null.
         /// </summary>
-        public User? User { get; set; }
+        public required User User { get; set; }
     }
 }
