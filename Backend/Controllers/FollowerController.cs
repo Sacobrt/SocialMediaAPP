@@ -345,5 +345,69 @@ namespace CSHARP_SocialMediaAPP.Controllers
 
             return Ok(result);
         }
+
+        /// <summary>
+        /// Generates a specified number of random follower relationships between users.
+        /// </summary>
+        /// <param name="amount">The number of follower relationships to generate (between 1 and 500).</param>
+        /// <returns>
+        /// A success message and a list of the generated follower relationships, or a `400 Bad Request` if the amount is invalid.
+        /// </returns>
+        [HttpGet("generate/{amount}")]
+        [ProducesResponseType(typeof(Dictionary<string, string>), 400)]
+        public IActionResult GenerateFollowers(int amount)
+        {
+            if (amount < 1 || amount > 500)
+            {
+                return BadRequest(new { message = "The amount must be between 1 and 500." });
+            }
+
+            List<Follower> generatedFollowers = new List<Follower>();
+            var users = _context.Users.ToList();
+
+            if (users.Count < 2)
+            {
+                return BadRequest(new { message = "Not enough users in the system to create follower relationships." });
+            }
+
+            var random = new Random();
+
+            for (int i = 0; i < amount; i++)
+            {
+                // Select random users for follower relationships
+                User user = users[random.Next(users.Count)];
+                User followerUser;
+
+                do
+                {
+                    followerUser = users[random.Next(users.Count)];
+                } while (user.ID == followerUser.ID || _context.Followers.Any(f => f.User.ID == user.ID && f.FollowerUser.ID == followerUser.ID));
+
+                // Create new follower relationship
+                var follower = new Follower()
+                {
+                    User = user,
+                    FollowerUser = followerUser,
+                    FollowedAt = DateTime.Now
+                };
+
+                // Add the follower relationship to the context
+                _context.Followers.Add(follower);
+                _context.SaveChanges();
+                generatedFollowers.Add(follower);
+            }
+
+            // Return a list of the generated follower relationships with relevant details
+            var result = generatedFollowers.Select(f => new
+            {
+                UserId = f.User.ID,
+                Username = f.User.Username,
+                FollowerUserId = f.FollowerUser.ID,
+                FollowerUsername = f.FollowerUser.Username,
+                FollowedAt = f.FollowedAt
+            });
+
+            return Ok(new { message = $"{amount} follower relationships generated successfully.", followers = result });
+        }
     }
 }
