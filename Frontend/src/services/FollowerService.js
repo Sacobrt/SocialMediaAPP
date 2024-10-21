@@ -75,8 +75,18 @@ async function getPagination(page, condition) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch(() => {
-            return { error: true, message: "Problem when searching followers!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data };
+        });
+}
+
+async function getFollowingStatuses(currentUserId, userIds) {
+    return await HttpService.get(`/Follower/statuses/${currentUserId}?followedUserIds=${userIds.join(",")}`)
+        .then((response) => {
+            return { error: false, message: response.data };
+        })
+        .catch((e) => {
+            return { error: true, message: e.response.data };
         });
 }
 
@@ -87,4 +97,5 @@ export default {
     add,
     change,
     getPagination,
+    getFollowingStatuses,
 };
