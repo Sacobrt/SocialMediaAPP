@@ -96,12 +96,7 @@ export default function NavBar() {
                             {isLoggedIn && (
                                 <div className="absolute left-1/3 top-[70px] flex md:hidden w-40 items-center space-x-2 py-1 px-4 bg-gray-800 rounded-lg">
                                     {/* Profile Image */}
-                                    <img
-                                        className="w-10 h-10 rounded-full"
-                                        src={image(userData.UserID)}
-                                        onError={(e) => (e.target.src = defaultImage)}
-                                        alt="User Image"
-                                    />
+                                    <img className="w-10 h-10 rounded-full" src={image(userData.UserID)} alt="User Image" />
 
                                     {/* First Name + Last Name and Username */}
                                     <div className="flex flex-col">
@@ -192,12 +187,7 @@ export default function NavBar() {
                                             {isLoggedIn && (
                                                 <div className="flex items-center space-x-2 py-1 px-6 bg-gray-800 rounded-lg">
                                                     {/* Profile Image */}
-                                                    <img
-                                                        className="w-10 h-10 rounded-full"
-                                                        src={image(userData.UserID)}
-                                                        onError={(e) => (e.target.src = defaultImage)}
-                                                        alt="User Image"
-                                                    />
+                                                    <img className="w-10 h-10 rounded-full" src={image(userData.UserID)} alt="User Image" />
 
                                                     {/* First Name + Last Name and Username */}
                                                     <div className="flex flex-col">

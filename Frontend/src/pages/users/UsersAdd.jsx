@@ -98,11 +98,11 @@ export default function UsersAdd() {
 
                 <div className="flex justify-end space-x-4">
                     <Link to={RoutesNames.USER_OVERVIEW} className="btn-cancel">
-                        <MdCancel className="lg:mr-2" />
+                        <MdCancel />
                         Cancel
                     </Link>
                     <button type="submit" className="btn-main">
-                        <RiUserFollowLine className="lg:mr-2" />
+                        <RiUserFollowLine />
                         Create Account
                     </button>
                 </div>

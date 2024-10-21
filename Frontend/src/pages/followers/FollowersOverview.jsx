@@ -16,6 +16,7 @@ export default function FollowersOverview() {
 
     async function getFollowers() {
         const response = await Service.getPagination(page, condition);
+
         if (response.error) {
             setError(response.message);
             return;
@@ -134,40 +135,37 @@ export default function FollowersOverview() {
 
                     {followers.length > 0 ? (
                         <ul className="space-y-4">
-                            {followers
-                                .slice()
-                                .reverse()
-                                .map((follower, index) => {
-                                    return (
-                                        <li
-                                            key={index}
-                                            className="bg-gray-800 border-2 border-transparent hover:border-blue-400 shadow-xl rounded-2xl p-5 transition-colors duration-300"
-                                        >
-                                            <div className="flex items-start space-x-4">
-                                                <div className="flex-1">
-                                                    <div className="text-xs text-gray-500 mt-2 flex items-center gap-1">
-                                                        <FaRegCalendarAlt />
-                                                        {`Following since ${new Date(follower.followedAt).toLocaleDateString("en-GB", {
-                                                            day: "2-digit",
-                                                            month: "long",
-                                                            year: "numeric",
-                                                        })}`}
-                                                    </div>
-                                                    <p className="text-lg font-medium text-gray-200">{follower.followerUser || "Loading..."}</p>
-                                                    <p className="text-sm text-gray-500">Followed by {follower.user || "Loading..."}</p>
+                            {followers.map((follower, index) => {
+                                return (
+                                    <li
+                                        key={index}
+                                        className="bg-gray-800 border-2 border-transparent hover:border-blue-400 shadow-xl rounded-2xl p-5 transition-colors duration-300"
+                                    >
+                                        <div className="flex items-start space-x-4">
+                                            <div className="flex-1">
+                                                <div className="text-xs text-gray-500 mt-2 flex items-center gap-1">
+                                                    <FaRegCalendarAlt />
+                                                    {`Following since ${new Date(follower.followedAt).toLocaleDateString("en-GB", {
+                                                        day: "2-digit",
+                                                        month: "long",
+                                                        year: "numeric",
+                                                    })}`}
                                                 </div>
+                                                <p className="text-lg font-medium text-gray-200">{follower.followerUser || "Loading..."}</p>
+                                                <p className="text-sm text-gray-500">Followed by {follower.user || "Loading..."}</p>
                                             </div>
-                                            <div className="flex justify-end space-x-2 mt-3">
-                                                <Link className="btn-edit" to={`/followers/${follower.id}`}>
-                                                    <MdDriveFileRenameOutline size={20} />
-                                                </Link>
-                                                <button className="btn-delete" onClick={() => removeUser(follower.id)} title="Unfollow">
-                                                    <RiDeleteBin6Line size={20} />
-                                                </button>
-                                            </div>
-                                        </li>
-                                    );
-                                })}
+                                        </div>
+                                        <div className="flex justify-end space-x-2 mt-3">
+                                            <Link className="btn-edit" to={`/followers/${follower.id}`}>
+                                                <MdDriveFileRenameOutline size={20} />
+                                            </Link>
+                                            <button className="btn-delete" onClick={() => removeUser(follower.id)} title="Unfollow">
+                                                <RiDeleteBin6Line size={20} />
+                                            </button>
+                                        </div>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     ) : (
                         <div className="text-center text-gray-400 text-lg">

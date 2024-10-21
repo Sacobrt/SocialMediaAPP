@@ -136,11 +136,11 @@ export default function FollowersChange() {
 
                 <div className="flex justify-end space-x-4">
                     <Link to={RoutesNames.FOLLOWER_OVERVIEW} className="btn-cancel">
-                        <MdCancel className="lg:mr-2" />
+                        <MdCancel />
                         <span>Cancel</span>
                     </Link>
                     <button type="submit" className="btn-main">
-                        <MdOutlineSaveAlt className="lg:mr-2" />
+                        <MdOutlineSaveAlt />
                         <span>Save Changes</span>
                     </button>
                 </div>

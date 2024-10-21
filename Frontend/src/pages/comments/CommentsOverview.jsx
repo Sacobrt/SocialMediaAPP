@@ -129,6 +129,16 @@ export default function CommentsOverview() {
         setPage(page - 1);
     }
 
+    const sanitizeHtmlWithClasses = (html) => {
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = html;
+
+        tempDiv.querySelectorAll("ul").forEach((ul) => ul.classList.add("list-disc", "ml-4"));
+        tempDiv.querySelectorAll("ol").forEach((ol) => ol.classList.add("list-decimal", "ml-4"));
+
+        return tempDiv.innerHTML;
+    };
+
     return (
         <div className="container mx-auto py-8 px-5">
             {isLoading && (
@@ -183,10 +193,6 @@ export default function CommentsOverview() {
                                 </div>
                             )}
                         </div>
-
-                        <Link to={RoutesNames.COMMENT_NEW} className="btn-main mt-2 sm:mt-0">
-                            <FaComments size={16} className="sm:mr-2" /> <span>Add Comment</span>
-                        </Link>
                     </div>
 
                     {error && <div className="mb-5 bg-red-500 p-3 rounded-xl text-center text-white font-semibold animate-bounce">{error}</div>}
@@ -194,6 +200,9 @@ export default function CommentsOverview() {
                     <div className="grid gap-6">
                         {comments.length > 0 ? (
                             comments.map((comment, index) => {
+                                const processedPostContent = sanitizeHtmlWithClasses(postsMap[comment.postID] || "Loading...");
+                                const processedCommentsContent = sanitizeHtmlWithClasses(comment.content);
+
                                 return (
                                     <div
                                         key={index}
@@ -211,11 +220,15 @@ export default function CommentsOverview() {
                                                 <div className="text-sm text-gray-400">{getRelativeTime(comment.createdAt)}</div>
                                                 <div className="flex-1 items-center">
                                                     <p className="text-lg font-medium text-gray-200">{usernamesMap[comment.userID] || "Loading..."}</p>
-                                                    <p className="text-xs text-gray-500">{postsMap[comment.postID] || "Loading..."}</p>
+                                                    <p className="text-xs text-gray-500">
+                                                        <div dangerouslySetInnerHTML={{ __html: processedPostContent }} />
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <p className="mt-2 text-gray-300 break-words">{comment.content}</p>
+                                        <p className="mt-2 text-gray-300 break-words">
+                                            <div dangerouslySetInnerHTML={{ __html: processedCommentsContent }} />
+                                        </p>
                                         <div className="flex justify-end space-x-2 mt-4">
                                             <Link className="btn-edit" to={`/comments/${comment.id}`}>
                                                 <MdDriveFileRenameOutline size={20} />

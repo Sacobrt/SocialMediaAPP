@@ -110,6 +110,16 @@ export default function PostsOverview() {
         setPage(page - 1);
     }
 
+    const sanitizeHtmlWithClasses = (html) => {
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = html;
+
+        tempDiv.querySelectorAll("ul").forEach((ul) => ul.classList.add("list-disc", "ml-4"));
+        tempDiv.querySelectorAll("ol").forEach((ol) => ol.classList.add("list-decimal", "ml-4"));
+
+        return tempDiv.innerHTML;
+    };
+
     return (
         <div className="container mx-auto py-8 px-5">
             {isLoading && (
@@ -163,17 +173,15 @@ export default function PostsOverview() {
                                 </div>
                             )}
                         </div>
-
-                        <Link to={RoutesNames.POST_NEW} className="btn-main mt-2 sm:mt-0">
-                            <MdOutlinePostAdd size={16} className="sm:mr-2" /> <span>Add Post</span>
-                        </Link>
                     </div>
 
                     {error && <div className="mb-5 bg-red-500 p-3 rounded-xl text-center text-white font-semibold animate-bounce">{error}</div>}
 
                     {posts.length > 0 ? (
                         <div className="grid gap-6">
-                            {posts.reverse().map((post, index) => {
+                            {posts.map((post, index) => {
+                                const processedPostContent = sanitizeHtmlWithClasses(post.content);
+
                                 return (
                                     <div
                                         key={index}
@@ -194,7 +202,9 @@ export default function PostsOverview() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <p className="mt-2 text-gray-300">{post.content}</p>
+                                        <p className="mt-2 text-gray-300">
+                                            <div dangerouslySetInnerHTML={{ __html: processedPostContent }} />
+                                        </p>
                                         <div className="flex justify-end space-x-2 mt-4">
                                             <Link className="btn-edit" to={`/posts/${post.id}`}>
                                                 <MdDriveFileRenameOutline size={20} />

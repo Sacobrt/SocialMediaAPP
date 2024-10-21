@@ -224,11 +224,11 @@ export default function UsersChange() {
 
                     <div className="flex justify-end space-x-4">
                         <button type="button" onClick={() => navigate(RoutesNames.USER_OVERVIEW)} className="btn-cancel">
-                            <MdCancel className="lg:mr-2" />
+                            <MdCancel />
                             Cancel
                         </button>
                         <button type="submit" className="btn-main">
-                            <MdOutlineSaveAlt className="lg:mr-2" />
+                            <MdOutlineSaveAlt />
                             Save Changes
                         </button>
                     </div>

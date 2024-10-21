@@ -57,11 +57,11 @@ export default function Login() {
                 </div>
                 <div className="flex gap-2 justify-end">
                     <Link to={RoutesNames.HOME} className="btn-cancel">
-                        <MdCancel className="mr-2 text-lg" />
+                        <MdCancel />
                         <span>Cancel</span>
                     </Link>
                     <button type="submit" className="btn-main">
-                        <FaSignInAlt className="mr-2" />
+                        <FaSignInAlt />
                         Authorize
                     </button>
                 </div>
