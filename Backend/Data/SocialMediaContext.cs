@@ -57,6 +57,9 @@ namespace CSHARP_SocialMediaAPP.Data
             // Configures a one-to-one or one-to-many relationship between Post and User
             modelBuilder.Entity<Post>().HasOne(p => p.User);
 
+            // A Post can have many Comments, and each Comment is associated with one Post.
+            modelBuilder.Entity<Post>().HasMany(p => p.Comments).WithOne(c => c.Post);
+
             // Configures a one-to-one or one-to-many relationship between Comment and User
             modelBuilder.Entity<Comment>().HasOne(c => c.User);
 

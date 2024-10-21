@@ -37,13 +37,15 @@ namespace CSHARP_SocialMediaAPP.Mapping
 
             // Follower to FollowerDTOInsertUpdate mapping, maps the UserID property
             CreateMap<Follower, FollowerDTOInsertUpdate>()
-                .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User.ID));
+                .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User.ID))
+                .ForMember(dest => dest.FollowerUserID, opt => opt.MapFrom(src => src.FollowerUser.ID));
 
             // FollowerDTOInsertUpdate to Follower mapping
             CreateMap<FollowerDTOInsertUpdate, Follower>();
 
             // Post to PostDTORead mapping, maps the UserID property
             CreateMap<Post, PostDTORead>()
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
                 .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User));
 
             // Post to PostDTOInsertUpdate mapping, maps the UserID property
@@ -68,7 +70,8 @@ namespace CSHARP_SocialMediaAPP.Mapping
 
             // Operator to OperatorDTO mapping, maps the Email property
             CreateMap<Operator, OperatorDTO>()
-                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User));
+                .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.User))
+                .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.User));
         }
 
         /// <summary>
