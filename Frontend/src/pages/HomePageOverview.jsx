@@ -330,11 +330,11 @@ export default function HomePageOverview() {
     };
 
     return (
-        <div className="container mx-auto py-8 px-4">
+        <div className="container mx-auto py-4 px-4">
             {isLoggedIn ? (
                 <>
                     {isLoading && (
-                        <div className="flex justify-center items-center pb-4">
+                        <div className="flex justify-center items-center pb-">
                             <div className="inline-flex flex-col items-center space-y-3 py-4 px-8 bg-gray-900 rounded-lg shadow-2xl">
                                 <div className="w-6 h-6 border-4 border-t-transparent border-gray-300 rounded-full animate-spin"></div>
                                 <div className="text-white font-mono text-xl tracking-wide animate-pulse">Loading content, please wait...</div>
@@ -348,7 +348,7 @@ export default function HomePageOverview() {
                             <div className="flex justify-center">
                                 <Link
                                     to={RoutesNames.POST_NEW}
-                                    className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-gray-200 font-medium rounded-full shadow-lg transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl focus:ring-0"
+                                    className="flex mb-5 md:mb-0 items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-gray-200 font-medium rounded-full shadow-lg transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl focus:ring-0"
                                 >
                                     <MdOutlinePostAdd size={20} className="mr-3" />
                                     <span className="text-lg">Create New Post</span>
