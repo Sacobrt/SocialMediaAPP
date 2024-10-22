@@ -202,9 +202,9 @@ export default function PostsOverview() {
                                                 </div>
                                             </div>
                                         </div>
-                                        <p className="mt-2 text-gray-300">
+                                        <div className="mt-2 text-gray-300">
                                             <div dangerouslySetInnerHTML={{ __html: processedPostContent }} />
-                                        </p>
+                                        </div>
                                         <div className="flex justify-end space-x-2 mt-4">
                                             <Link className="btn-edit" to={`/posts/${post.id}`}>
                                                 <MdDriveFileRenameOutline size={20} />

@@ -220,15 +220,15 @@ export default function CommentsOverview() {
                                                 <div className="text-sm text-gray-400">{getRelativeTime(comment.createdAt)}</div>
                                                 <div className="flex-1 items-center">
                                                     <p className="text-lg font-medium text-gray-200">{usernamesMap[comment.userID] || "Loading..."}</p>
-                                                    <p className="text-xs text-gray-500">
+                                                    <div className="text-xs text-gray-500">
                                                         <div dangerouslySetInnerHTML={{ __html: processedPostContent }} />
-                                                    </p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <p className="mt-2 text-gray-300 break-words">
+                                        <div className="mt-2 text-gray-300 break-words">
                                             <div dangerouslySetInnerHTML={{ __html: processedCommentsContent }} />
-                                        </p>
+                                        </div>
                                         <div className="flex justify-end space-x-2 mt-4">
                                             <Link className="btn-edit" to={`/comments/${comment.id}`}>
                                                 <MdDriveFileRenameOutline size={20} />
