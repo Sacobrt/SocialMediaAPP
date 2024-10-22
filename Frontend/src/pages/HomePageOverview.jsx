@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FaSignInAlt } from "react-icons/fa";
 import { parseJwt } from "../hooks/parseJwt";
 import { AuthContext } from "../components/AuthContext";
-import { RiDeleteBin6Line } from "react-icons/ri";
+import { RiDeleteBin6Line, RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
 
 import { convertToRaw } from "draft-js";
 
@@ -437,26 +437,39 @@ export default function HomePageOverview() {
                                                     />
                                                 </div>
                                                 <div className="flex flex-col ml-4">
-                                                    <div className="flex items-center space-x-1">
-                                                        <span className="text-sm font-bold text-teal-400">{usernamesMap[post.userID]?.fullName}</span>
-                                                    </div>
-                                                    <span className="text-xs text-gray-400">@{usernamesMap[post.userID]?.username || "Loading..."}</span>
-                                                    <time className="text-[11px] text-gray-400">{getRelativeTime(post.createdAt)}</time>
-
                                                     <div className="flex items-center space-x-2">
                                                         {post.userID != currentUserID && (
                                                             <button
                                                                 onClick={() => handleFollowToggle(post.userID)}
-                                                                className={`px-3 py-1 text-xs mt-1 -ml-1 rounded-full font-semibold transition duration-300 ease-in-out ${
+                                                                className={`px-2 text-xs rounded-md font-semibold transition duration-300 ease-in-out ${
                                                                     followStatus[post.userID]
                                                                         ? "bg-red-500 hover:bg-red-600 text-gray-200"
                                                                         : "bg-teal-500 hover:bg-teal-600 text-gray-700"
                                                                 }`}
                                                             >
-                                                                {followStatus[post.userID] ? "Unfollow" : "Follow"}
+                                                                {followStatus[post.userID] ? (
+                                                                    <>
+                                                                        <div className="flex items-center gap-1">
+                                                                            <RiUserUnfollowLine />
+                                                                            Unfolow
+                                                                        </div>
+                                                                    </>
+                                                                ) : (
+                                                                    <>
+                                                                        <div className="flex items-center gap-1">
+                                                                            <RiUserFollowLine />
+                                                                            Follow
+                                                                        </div>
+                                                                    </>
+                                                                )}
                                                             </button>
                                                         )}
                                                     </div>
+                                                    <div className="flex items-center space-x-1">
+                                                        <span className="text-sm font-bold text-teal-400">{usernamesMap[post.userID]?.fullName}</span>
+                                                    </div>
+                                                    <span className="text-xs text-gray-400">@{usernamesMap[post.userID]?.username || "Loading..."}</span>
+                                                    <time className="text-[11px] text-gray-400">{getRelativeTime(post.createdAt)}</time>
                                                 </div>
                                             </div>
 
