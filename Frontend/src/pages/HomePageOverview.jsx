@@ -308,6 +308,13 @@ export default function HomePageOverview() {
         }));
     };
 
+    const toggleExpandModal = (commentId) => {
+        setExpandedModalComments((prevState) => ({
+            ...prevState,
+            [commentId]: !prevState[commentId],
+        }));
+    };
+
     const sanitizeHtmlWithClasses = (html) => {
         const tempDiv = document.createElement("div");
         tempDiv.innerHTML = html;
@@ -341,7 +348,7 @@ export default function HomePageOverview() {
                             <div className="flex justify-center">
                                 <Link
                                     to={RoutesNames.POST_NEW}
-                                    className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-full shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300"
+                                    className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-gray-200 font-medium rounded-full shadow-lg transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl focus:ring-0"
                                 >
                                     <MdOutlinePostAdd size={20} className="mr-3" />
                                     <span className="text-lg">Create New Post</span>
@@ -639,6 +646,8 @@ export default function HomePageOverview() {
                                                     const isExpanded = expandedModalComments[comment.id] || false;
                                                     const isTruncated = comment.content.length > 150;
                                                     const processedContent = sanitizeHtmlWithClasses(comment.content);
+
+                                                    !users[comment.userID] && getUsers(comment.userID);
 
                                                     return (
                                                         <li key={idx} className="flex items-start" onClick={() => toggleExpandModal(comment.id)}>
