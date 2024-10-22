@@ -38,16 +38,14 @@ export default function PostsAdd() {
                 </div>
             )}
 
-            <div className="space-y-8">
+            <div className="space-y-4">
                 <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 ">
                     Make a Post
                 </h1>
 
-                <div className="mb-6">
-                    <label htmlFor="userID" className="block text-xl font-medium text-gray-300 mb-2">
-                        What is in your mind, @{userName.toLowerCase()}?
-                    </label>
-                </div>
+                <label htmlFor="userID" className="text-xl font-medium text-gray-200 mb-2 flex gap-1">
+                    What is in your mind, <p className="text-teal-500 font-bold">@{userName.toLowerCase()}</p>
+                </label>
 
                 <div>
                     <PostComment mode="post" />
