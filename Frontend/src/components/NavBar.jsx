@@ -61,24 +61,28 @@ export default function NavBar() {
                                 </a>
                                 <div className="hidden md:block sm:ml-5">
                                     <div className="flex space-x-1 lg:space-x-4">
-                                        <a
-                                            onClick={() => navigate(RoutesNames.HOME)}
-                                            className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 hover:bg-opacity-80 hover:text-white transition-all duration-300 ease-in-out"
-                                        >
-                                            <div className="flex items-center gap-1.5">
-                                                <IoHomeSharp />
-                                                Home
-                                            </div>
-                                        </a>
-                                        <a
-                                            onClick={() => OpenSwaggerURL()}
-                                            className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 hover:bg-opacity-80 hover:text-white transition-all duration-300 ease-in-out"
-                                        >
-                                            <div className="flex items-center gap-2">
-                                                <SiSwagger />
-                                                Swagger
-                                            </div>
-                                        </a>
+                                        {isLoggedIn && (
+                                            <>
+                                                <a
+                                                    onClick={() => navigate(RoutesNames.HOME)}
+                                                    className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 hover:bg-opacity-80 hover:text-white transition-all duration-300 ease-in-out"
+                                                >
+                                                    <div className="flex items-center gap-1.5">
+                                                        <IoHomeSharp />
+                                                        Home
+                                                    </div>
+                                                </a>
+                                                <a
+                                                    onClick={() => OpenSwaggerURL()}
+                                                    className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 hover:bg-opacity-80 hover:text-white transition-all duration-300 ease-in-out"
+                                                >
+                                                    <div className="flex items-center gap-2">
+                                                        <SiSwagger />
+                                                        Swagger
+                                                    </div>
+                                                </a>
+                                            </>
+                                        )}
                                         <a
                                             onClick={() => navigate(RoutesNames.CYCLIC_OVERVIEW)}
                                             className="cursor-pointer rounded-md px-3 py-2 text-sm font-medium text-gray-200 hover:bg-gray-700 hover:bg-opacity-80 hover:text-white transition-all duration-300 ease-in-out"
@@ -235,25 +239,29 @@ export default function NavBar() {
 
                     <DisclosurePanel className="md:hidden">
                         <div className="px-2 pb-3 space-y-2">
-                            <a
-                                onClick={() => navigate(RoutesNames.HOME)}
-                                className="cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition duration-150"
-                            >
-                                <div className="flex items-center gap-1.5">
-                                    <IoHomeSharp />
-                                    Home
-                                </div>
-                            </a>
-                            <a
-                                href="https://sacobrt-001-site1.ctempurl.com/swagger/index.html"
-                                className="cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition duration-150"
-                                target="_blank"
-                            >
-                                <div className="flex items-center gap-2">
-                                    <SiSwagger />
-                                    Swagger
-                                </div>
-                            </a>
+                            {isLoggedIn && (
+                                <>
+                                    <a
+                                        onClick={() => navigate(RoutesNames.HOME)}
+                                        className="cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition duration-150"
+                                    >
+                                        <div className="flex items-center gap-1.5">
+                                            <IoHomeSharp />
+                                            Home
+                                        </div>
+                                    </a>
+                                    <a
+                                        href="https://sacobrt-001-site1.ctempurl.com/swagger/index.html"
+                                        className="cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition duration-150"
+                                        target="_blank"
+                                    >
+                                        <div className="flex items-center gap-2">
+                                            <SiSwagger />
+                                            Swagger
+                                        </div>
+                                    </a>
+                                </>
+                            )}
                             <a
                                 onClick={() => navigate(RoutesNames.CYCLIC_OVERVIEW)}
                                 className="cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition duration-150"
