@@ -110,7 +110,7 @@ export default function NetworkGraph() {
         );
 
     return (
-        <div style={{ height: "700px" }}>
+        <div className="max-h-lg">
             <HighchartsReact highcharts={Highcharts} options={chartOptions} />
         </div>
     );
