@@ -90,6 +90,26 @@ async function getPagination(page, condition) {
         });
 }
 
+async function totalData() {
+    return await HttpService.get("/Home/TotalData")
+        .then((response) => {
+            return response.data;
+        })
+        .catch((e) => {
+            console.error(e);
+        });
+}
+
+async function randomUsers() {
+    return await HttpService.get("/Home/RandomUsers")
+        .then((response) => {
+            return response.data;
+        })
+        .catch((e) => {
+            console.error(e);
+        });
+}
+
 export default {
     get,
     getByID,
@@ -98,4 +118,6 @@ export default {
     change,
     setImage,
     getPagination,
+    totalData,
+    randomUsers,
 };
