@@ -38,7 +38,7 @@
   - [PostID](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-PostID 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.PostID')
   - [UserID](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-UserID 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.UserID')
 - [CommentDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead')
-  - [#ctor(ID,UserID,PostID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-#ctor-System-Int32,System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime- 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime)')
+  - [#ctor(ID,UserID,PostID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-#ctor-System-Int32,System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,CSHARP_SocialMediaAPP-Models-DTO-UserDTORead- 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime,CSHARP_SocialMediaAPP.Models.DTO.UserDTORead)')
   - [Content](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-Content 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.Content')
   - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.CreatedAt')
   - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.ID')
@@ -77,6 +77,8 @@
   - [User](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-User 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.User')
 - [HomeController](#T-CSHARP_SocialMediaAPP-Controllers-HomeController 'CSHARP_SocialMediaAPP.Controllers.HomeController')
   - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-HomeController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.HomeController.Pagination(System.Int32,System.String)')
+  - [RandomUsers()](#M-CSHARP_SocialMediaAPP-Controllers-HomeController-RandomUsers 'CSHARP_SocialMediaAPP.Controllers.HomeController.RandomUsers')
+  - [TotalData()](#M-CSHARP_SocialMediaAPP-Controllers-HomeController-TotalData 'CSHARP_SocialMediaAPP.Controllers.HomeController.TotalData')
 - [ImageDTO](#T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO')
   - [#ctor(Base64)](#M-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-#ctor-System-String- 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO.#ctor(System.String)')
   - [Base64](#P-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-Base64 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO.Base64')
@@ -112,7 +114,7 @@
   - [Likes](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Likes 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.Likes')
   - [UserID](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-UserID 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.UserID')
 - [PostDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead')
-  - [#ctor(ID,UserID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead}- 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.#ctor(System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime,System.Collections.Generic.List{CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead})')
+  - [#ctor(ID,UserID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead},CSHARP_SocialMediaAPP-Models-DTO-UserDTORead- 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.#ctor(System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime,System.Collections.Generic.List{CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead},CSHARP_SocialMediaAPP.Models.DTO.UserDTORead)')
   - [Content](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-Content 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.Content')
   - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.CreatedAt')
   - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.ID')
@@ -611,7 +613,7 @@ the content of the comment, the number of likes, and the date it was created.
 | ---- | ---- | ----------- |
 | ID | [T:CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead') | The unique identifier of the comment. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-#ctor-System-Int32,System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime-'></a>
+<a name='M-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-#ctor-System-Int32,System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-'></a>
 ### #ctor(ID,UserID,PostID,Content,Likes,CreatedAt) `constructor`
 
 ##### Summary
@@ -1101,6 +1103,32 @@ In the case of an error, a \`400 Bad Request\` is returned with the error messag
 | condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An optional search term used to filter posts. The search will match the post content, username, first name, or last name.
 If no condition is provided, all posts are retrieved. |
 
+<a name='M-CSHARP_SocialMediaAPP-Controllers-HomeController-RandomUsers'></a>
+### RandomUsers() `method`
+
+##### Summary
+
+Retrieves a random list of up to 50 users.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+This endpoint returns a random set of users shuffled and limited to 50 users.
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-HomeController-TotalData'></a>
+### TotalData() `method`
+
+##### Summary
+
+Retrieves total counts of users, posts, and comments.
+
+##### Parameters
+
+This method has no parameters.
+
 <a name='T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO'></a>
 ## ImageDTO `type`
 
@@ -1528,7 +1556,7 @@ the user who created it, its content, the number of likes, and the date it was c
 | ---- | ---- | ----------- |
 | ID | [T:CSHARP_SocialMediaAPP.Models.DTO.PostDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.PostDTORead') | The unique identifier of the post. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead}-'></a>
+<a name='M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead},CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-'></a>
 ### #ctor(ID,UserID,Content,Likes,CreatedAt) `constructor`
 
 ##### Summary
