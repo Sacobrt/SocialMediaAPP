@@ -16,7 +16,7 @@ export default function UsersAdd() {
             setError(response.message);
             return;
         }
-        navigate(RoutesNames.USER_OVERVIEW);
+        navigate(RoutesNames.HOME);
     }
 
     function handleSubmit(e) {
@@ -97,7 +97,7 @@ export default function UsersAdd() {
                 <hr className="my-10 border-1 border-gray-700" />
 
                 <div className="flex justify-end space-x-4">
-                    <Link to={RoutesNames.USER_OVERVIEW} className="btn-cancel">
+                    <Link to={RoutesNames.HOME} className="btn-cancel">
                         <MdCancel />
                         Cancel
                     </Link>
