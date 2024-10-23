@@ -33,12 +33,13 @@ function App() {
 
     return (
         <>
-            <NavBar />
+            {isLoggedIn && <NavBar />}
             <ErrorModal show={showModalError} errors={[errors]} onHide={hideError} />
             <div className="flex flex-col min-h-screen">
                 <main className="flex-grow bg-gradient-to-br from-gray-700 via-gray-900 to-gray-800">
                     <Routes>
                         <Route path={RoutesNames.HOME} element={<Home />} />
+                        <Route path={RoutesNames.USER_NEW} element={<UsersAdd />} />
 
                         {/* Extra tasks */}
                         <Route path={RoutesNames.CYCLIC_OVERVIEW} element={<CyclicView />} />
@@ -46,7 +47,6 @@ function App() {
                         {isLoggedIn ? (
                             <>
                                 <Route path={RoutesNames.USER_OVERVIEW} element={<UsersOverview />} />
-                                <Route path={RoutesNames.USER_NEW} element={<UsersAdd />} />
                                 <Route path={RoutesNames.USER_CHANGE} element={<UsersChange />}></Route>
 
                                 <Route path={RoutesNames.FOLLOWER_OVERVIEW} element={<FollowersOverview />} />
