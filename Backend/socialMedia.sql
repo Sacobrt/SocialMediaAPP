@@ -58,4 +58,4 @@ ALTER TABLE Comments ADD FOREIGN KEY (userID) REFERENCES Users(ID);
 ALTER TABLE Comments ADD FOREIGN KEY (postID) REFERENCES Posts(ID);
 ALTER TABLE Operators ADD FOREIGN KEY (userID) REFERENCES Users(ID);
 
-INSERT INTO Operators (UserID, Email, Password) VALUES (47, 'demo@demo.com', '$2a$12$nk156JFXGNNH.GfgRq.Zx.CJz/34Oeqgy43A0/qRWb90jLgmSqw/2');
+INSERT INTO Operators (UserID, Email, Password) VALUES (3, 'demo@demo.com', '$2a$12$nk156JFXGNNH.GfgRq.Zx.CJz/34Oeqgy43A0/qRWb90jLgmSqw/2');
