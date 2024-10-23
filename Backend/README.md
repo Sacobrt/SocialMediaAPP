@@ -163,7 +163,7 @@
   - [Password](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Password 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Password')
   - [Username](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Username 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Username')
 - [UserDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead')
-  - [#ctor(ID,Username,Email,FirstName,LastName,BirthDate,CreatedAt,Image)](#M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-Nullable{System-DateTime},System-DateTime,System-String- 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.Nullable{System.DateTime},System.DateTime,System.String)')
+  - [#ctor(ID,Username,Email,FirstName,LastName,BirthDate,CreatedAt,Image)](#M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime,System-String- 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime,System.String)')
   - [BirthDate](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-BirthDate 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.BirthDate')
   - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.CreatedAt')
   - [Email](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Email 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.Email')
@@ -1858,7 +1858,8 @@ Provides CRUD operations, image management, and pagination functionalities for u
 
 ##### Summary
 
-Deletes a user by ID.
+Deletes a user by ID if the user has no posts, comments, or followers.
+Also deletes the corresponding Operator record.
 
 ##### Returns
 
@@ -1943,7 +1944,7 @@ A paginated list of users matching the condition.
 
 ##### Summary
 
-Creates a new user in the system.
+Creates a new user in the system and also creates a corresponding operator record.
 
 ##### Returns
 
@@ -1960,7 +1961,7 @@ A status code indicating success or failure.
 
 ##### Summary
 
-Updates an existing user by ID.
+Updates an existing user by ID and updates or creates the corresponding operator record if applicable.
 
 ##### Returns
 
@@ -2026,8 +2027,8 @@ email, and date of birth. Optional fields include the first and last name.
 | Username | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The unique username of the user. This field is required. |
 | Password | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The password of the user. This field is required. |
 | Email | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address of the user. This field is required and must be in a valid email format. |
-| FirstName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The first name of the user. This field is optional. |
-| LastName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The last name of the user. This field is optional. |
+| FirstName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The first name of the user. This field is required. |
+| LastName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The last name of the user. This field is required. |
 | BirthDate | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The date of birth of the user. This field is required and must pass the custom age validation, ensuring the user is at least 10 years old. |
 | CreatedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the user account was created. This field is required. |
 
@@ -2057,14 +2058,14 @@ The email address of the user. This field is required and must be in a valid ema
 
 ##### Summary
 
-The first name of the user. This field is optional.
+The first name of the user. This field is required.
 
 <a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-LastName'></a>
 ### LastName `property`
 
 ##### Summary
 
-The last name of the user. This field is optional.
+The last name of the user. This field is required.
 
 <a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Password'></a>
 ### Password `property`
@@ -2099,7 +2100,7 @@ names, birth date, profile image, and creation timestamp.
 | ---- | ---- | ----------- |
 | ID | [T:CSHARP_SocialMediaAPP.Models.DTO.UserDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.UserDTORead') | The unique identifier of the user. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-Nullable{System-DateTime},System-DateTime,System-String-'></a>
+<a name='M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime,System-String-'></a>
 ### #ctor(ID,Username,Email,FirstName,LastName,BirthDate,CreatedAt,Image) `constructor`
 
 ##### Summary
@@ -2114,10 +2115,10 @@ names, birth date, profile image, and creation timestamp.
 | ---- | ---- | ----------- |
 | ID | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the user. |
 | Username | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The username of the user. |
-| Email | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address of the user. This field is optional. |
-| FirstName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The first name of the user. This field is optional. |
-| LastName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The last name of the user. This field is optional. |
-| BirthDate | [System.Nullable{System.DateTime}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.DateTime}') | The date of birth of the user. This field is optional. |
+| Email | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address of the user. |
+| FirstName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The first name of the user. |
+| LastName | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The last name of the user. |
+| BirthDate | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The date of birth of the user. |
 | CreatedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the user was created. |
 | Image | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The path or URL to the user's profile image. This field is optional. |
 
@@ -2126,7 +2127,7 @@ names, birth date, profile image, and creation timestamp.
 
 ##### Summary
 
-The date of birth of the user. This field is optional.
+The date of birth of the user.
 
 <a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-CreatedAt'></a>
 ### CreatedAt `property`
@@ -2140,14 +2141,14 @@ The timestamp indicating when the user was created.
 
 ##### Summary
 
-The email address of the user. This field is optional.
+The email address of the user.
 
 <a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-FirstName'></a>
 ### FirstName `property`
 
 ##### Summary
 
-The first name of the user. This field is optional.
+The first name of the user.
 
 <a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-ID'></a>
 ### ID `property`
@@ -2168,7 +2169,7 @@ The path or URL to the user's profile image. This field is optional.
 
 ##### Summary
 
-The last name of the user. This field is optional.
+The last name of the user.
 
 <a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Username'></a>
 ### Username `property`
