@@ -11,8 +11,8 @@ namespace CSHARP_SocialMediaAPP.Models.DTO
     /// <param name="Username">The unique username of the user. This field is required.</param>
     /// <param name="Password">The password of the user. This field is required.</param>
     /// <param name="Email">The email address of the user. This field is required and must be in a valid email format.</param>
-    /// <param name="FirstName">The first name of the user. This field is optional.</param>
-    /// <param name="LastName">The last name of the user. This field is optional.</param>
+    /// <param name="FirstName">The first name of the user. This field is required.</param>
+    /// <param name="LastName">The last name of the user. This field is required.</param>
     /// <param name="BirthDate">The date of birth of the user. This field is required and must pass the custom age validation, ensuring the user is at least 10 years old.</param>
     /// <param name="CreatedAt">The timestamp indicating when the user account was created. This field is required.</param>
     public record UserDTOInsertUpdate(
@@ -24,11 +24,13 @@ namespace CSHARP_SocialMediaAPP.Models.DTO
 
         [Required(ErrorMessage = "Email is required!")]
         [EmailAddress(ErrorMessage = "Email is not in good format!")]
-        string? Email,
+        string Email,
 
-        string? FirstName,
+        [Required(ErrorMessage = "First name is required!")]
+        string FirstName,
 
-        string? LastName,
+        [Required(ErrorMessage = "Last name is required!")]
+        string LastName,
 
         [Required(ErrorMessage = "Date of birth is required!")]
         [AgeValidator(10, ErrorMessage = "You must be at least 10 years old.")]
