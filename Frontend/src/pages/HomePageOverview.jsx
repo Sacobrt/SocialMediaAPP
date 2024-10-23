@@ -1,6 +1,5 @@
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import Service from "../services/PostService";
-import UserService from "../services/UserService";
 import CommentService from "../services/CommentService";
 import { IoIosClose } from "react-icons/io";
 import getRelativeTime from "../hooks/getRelativeTime";
@@ -13,19 +12,16 @@ import { parseJwt } from "../hooks/parseJwt";
 import { AuthContext } from "../components/AuthContext";
 import { RiDeleteBin6Line, RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
 
-import { convertToRaw } from "draft-js";
-
-import draftToHtml from "draftjs-to-html";
-
 import InfiniteScroll from "react-infinite-scroll-component";
 import FollowerService from "../services/FollowerService";
 import PostComment from "../components/PostComment";
 import { MdOutlinePostAdd } from "react-icons/md";
+import UserService from "../services/UserService";
+import CountUp from "react-countup";
+import NetworkGraph from "../components/NetworkGraph";
 
 export default function HomePageOverview() {
     const [posts, setPosts] = useState([]);
-    const [users, setUsers] = useState({});
-    const [newComments, setNewComments] = useState({});
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -45,6 +41,8 @@ export default function HomePageOverview() {
     const [showTopBtn, setShowTopBtn] = useState(false);
 
     const [followStatus, setFollowStatus] = useState([]);
+
+    const [totalData, setTotalData] = useState(0);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -78,25 +76,6 @@ export default function HomePageOverview() {
         }
     };
 
-    async function getUsers(userId) {
-        if (!userId) return;
-
-        // Check if user is already fetched
-        if (users[userId]) return users[userId];
-
-        const response = await UserService.getByID(userId);
-        if (!response.error) {
-            setUsers((prevUsers) => ({
-                ...prevUsers,
-                [userId]: response,
-            }));
-
-            return response;
-        } else {
-            setError(response.message);
-        }
-    }
-
     async function getPosts() {
         const response = await Service.homePagination(page, condition);
 
@@ -111,9 +90,6 @@ export default function HomePageOverview() {
 
         const newPosts = response.message;
         const uniqueUserIds = [...new Set(newPosts.map((post) => post.userID))];
-
-        // Fetch users for these posts if not already fetched
-        await Promise.all(uniqueUserIds.map((id) => getUsers(id)));
 
         // Fetch follow statuses for all unique user IDs in a single request
         await getFollowStatusesForUsers(uniqueUserIds);
@@ -161,6 +137,20 @@ export default function HomePageOverview() {
         setCondition(e.nativeEvent.srcElement.value);
         setPosts([]);
     }
+
+    async function getTotalData() {
+        await UserService.totalData()
+            .then((response) => {
+                setTotalData(response);
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    }
+
+    useEffect(() => {
+        getTotalData();
+    }, [!isLoggedIn]);
 
     async function getData() {
         try {
@@ -251,38 +241,11 @@ export default function HomePageOverview() {
         };
     }, [showModal]);
 
-    const usernamesMap = useMemo(() => {
-        if (!users || typeof users !== "object") {
-            console.error("Users state is not in the expected format");
-            return {};
-        }
-
-        return Object.keys(users).reduce((acc, userId) => {
-            if (!userId) {
-                console.error("Unexpected userId value:", userId);
-                return acc;
-            }
-
-            const user = users[userId] || {};
-            const username = user.message.username || "";
-            const firstName = user.message.firstName || "";
-            const lastName = user.message.lastName || "";
-            const fullName = firstName || lastName ? `${firstName} ${lastName}`.trim() : "";
-
-            acc[userId] = { username, fullName };
-            return acc;
-        }, {});
-    }, [users]);
-
-    const usernamesImageMap = useMemo(() => {
-        return Object.keys(users).reduce((acc, userId) => {
-            acc[userId] = users[userId]?.message.image;
-            return acc;
-        }, {});
-    }, [users]);
-
     function image(userImage) {
-        return userImage ? `${APP_URL}${userImage}?${Date.now()}` : defaultImage;
+        if (userImage) {
+            return `${APP_URL}${userImage}?${Date.now()}`;
+        }
+        return defaultImage;
     }
 
     async function removeAsync(id) {
@@ -424,21 +387,14 @@ export default function HomePageOverview() {
                                             key={index}
                                             className="bg-gray-800 shadow-xl rounded-2xl p-6 transition-all duration-300 transform hover:scale-102 hover:shadow-2xl text-white"
                                         >
-                                            {/* Ensure the user is fetched if not already in state */}
-                                            {!users[post.userID] && getUsers(post.userID)}
-
                                             {/* Post Header */}
                                             <div className="flex items-center mb-4">
                                                 <div className="profile-avatar w-20 h-20 rounded-full overflow-hidden">
-                                                    <img
-                                                        src={image(usernamesImageMap[post.userID])}
-                                                        alt="User Profile Picture"
-                                                        className="object-cover w-full h-full"
-                                                    />
+                                                    <img src={image(post.user.image)} alt="User Profile Picture" className="object-cover w-full h-full" />
                                                 </div>
                                                 <div className="flex flex-col ml-4">
                                                     <div className="flex items-center space-x-2">
-                                                        {post.userID != currentUserID && (
+                                                        {post.user.id != currentUserID && (
                                                             <button
                                                                 onClick={() => handleFollowToggle(post.userID)}
                                                                 className={`px-2 text-xs rounded-md font-semibold transition duration-300 ease-in-out ${
@@ -466,9 +422,9 @@ export default function HomePageOverview() {
                                                         )}
                                                     </div>
                                                     <div className="flex items-center space-x-1">
-                                                        <span className="text-sm font-bold text-teal-400">{usernamesMap[post.userID]?.fullName}</span>
+                                                        <span className="text-sm font-bold text-teal-400">{post.user.firstName + " " + post.user.lastName}</span>
                                                     </div>
-                                                    <span className="text-xs text-gray-400">@{usernamesMap[post.userID]?.username || "Loading..."}</span>
+                                                    <span className="text-xs text-gray-400">@{post.user.username || "Loading..."}</span>
                                                     <time className="text-[11px] text-gray-400">{getRelativeTime(post.createdAt)}</time>
                                                 </div>
                                             </div>
@@ -493,19 +449,16 @@ export default function HomePageOverview() {
                                                                 const isTruncated = comment.content.length > 1000;
                                                                 const processedContent = sanitizeHtmlWithClasses(comment.content);
 
-                                                                /* Ensure the user is fetched if not already in state */
-                                                                !users[comment.userID] && getUsers(comment.userID);
-
                                                                 return (
                                                                     <div
-                                                                        key={idx}
+                                                                        key={comment.id || idx}
                                                                         className="flex items-start bg-gray-700 p-4 rounded-lg"
                                                                         onClick={() => toggleExpand(comment.id)}
                                                                     >
                                                                         {/* Profile Avatar */}
                                                                         <div className="profile-avatar w-10 h-10 mb-4 rounded-full overflow-hidden">
                                                                             <img
-                                                                                src={image(usernamesImageMap[comment.userID])}
+                                                                                src={image(comment.user?.image)}
                                                                                 alt="User Profile Picture"
                                                                                 className="object-cover w-full h-full"
                                                                             />
@@ -516,10 +469,12 @@ export default function HomePageOverview() {
                                                                             <div className="relative flex justify-between items-start">
                                                                                 <div className="flex flex-col">
                                                                                     <span className="text-sm text-teal-400 font-semibold">
-                                                                                        {usernamesMap[comment.userID]?.fullName}
+                                                                                        {comment.user?.firstName + " " + comment.user?.lastName}
+                                                                                        {/* Show fallback only if firstName is undefined */}
                                                                                     </span>
                                                                                     <span className="text-xs text-gray-400">
-                                                                                        @{usernamesMap[comment.userID]?.username || "Loading..."}
+                                                                                        @{comment.user?.username || "Loading..."}{" "}
+                                                                                        {/* Show fallback only if username is undefined */}
                                                                                     </span>
                                                                                     <time className="text-[11px] text-gray-400">
                                                                                         {getRelativeTime(comment.createdAt)}
@@ -611,7 +566,7 @@ export default function HomePageOverview() {
                                     {/* Post Header */}
                                     <div className="flex items-center mb-6">
                                         <img
-                                            src={image(usernamesImageMap[posts.find((post) => post.id === activePost)?.userID])}
+                                            src={image(posts.find((post) => post.id === activePost)?.user.image)}
                                             alt="Profile"
                                             className="w-16 h-16 rounded-full overflow-hidden"
                                         />
@@ -619,11 +574,13 @@ export default function HomePageOverview() {
                                             <div className="flex flex-col">
                                                 <div className="flex items-center space-x-1">
                                                     <span className="text-lg font-bold text-teal-400">
-                                                        {usernamesMap[posts.find((post) => post.id === activePost)?.userID]?.fullName}
+                                                        {posts.find((post) => post.id === activePost)?.user.firstName +
+                                                            " " +
+                                                            posts.find((post) => post.id === activePost)?.user.lastName}
                                                     </span>
                                                 </div>
                                                 <span className="text-sm text-gray-400">
-                                                    @{usernamesMap[posts.find((post) => post.id === activePost)?.userID]?.username || "Loading..."}
+                                                    @{posts.find((post) => post.id === activePost)?.user.username || "Loading..."}
                                                 </span>
                                                 <time className="text-sm text-gray-400">
                                                     {getRelativeTime(posts.find((post) => post.id === activePost)?.createdAt)}
@@ -660,23 +617,19 @@ export default function HomePageOverview() {
                                                     const isTruncated = comment.content.length > 150;
                                                     const processedContent = sanitizeHtmlWithClasses(comment.content);
 
-                                                    !users[comment.userID] && getUsers(comment.userID);
-
                                                     return (
                                                         <li key={idx} className="flex items-start" onClick={() => toggleExpandModal(comment.id)}>
                                                             <img
-                                                                src={image(usernamesImageMap[comment.userID])}
+                                                                src={image(comment.user.image)}
                                                                 alt="Commenter's Profile"
                                                                 className="w-12 h-12 rounded-full shadow-sm overflow-hidden mr-2"
                                                             />
                                                             <div className="flex-1 bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-sm mb-4">
                                                                 <div className="grid items-center">
                                                                     <span className="text-md font-bold text-teal-400">
-                                                                        {usernamesMap[comment.userID]?.fullName}
+                                                                        {comment.user.firstName + " " + comment.user.lastName}
                                                                     </span>
-                                                                    <span className="text-sm text-gray-400">
-                                                                        @{usernamesMap[comment.userID]?.username || "Loading..."}
-                                                                    </span>
+                                                                    <span className="text-sm text-gray-400">@{comment.user.username || "Loading..."}</span>
                                                                     <time className="text-xs text-gray-400">{getRelativeTime(comment.createdAt)}</time>
                                                                 </div>
 
@@ -714,17 +667,52 @@ export default function HomePageOverview() {
                     )}
                 </>
             ) : (
-                <div className="text-center w-full py-8 px-10 rounded-lg shadow-lg bg-gray-900 bg-opacity-80 flex flex-col justify-center items-center">
-                    <p className="text-lg font-medium text-gray-200 mb-4">
-                        Sign in to connect, share ideas, and stay informed with the latest posts from our active members.
-                    </p>
-                    <button onClick={() => navigate(RoutesNames.LOGIN)} className="btn-main w-fit">
-                        <div className="flex items-center gap-1.5">
-                            <FaSignInAlt />
-                            Sign In
+                <>
+                    <div className="w-full max-w-4xl mx-auto px-6">
+                        {/* Main call to action for Sign In */}
+                        <div className="text-center w-full py-8 px-10 rounded-lg shadow-lg bg-gray-900 bg-opacity-80 flex flex-col justify-center items-center">
+                            <p className="text-lg font-medium text-gray-200 mb-4">
+                                Sign in to connect, share ideas, and stay informed with the latest posts from our active members.
+                            </p>
+                            <button onClick={() => navigate(RoutesNames.LOGIN)} className="btn-main w-fit">
+                                <div className="flex items-center gap-1.5">
+                                    <FaSignInAlt />
+                                    Sign In
+                                </div>
+                            </button>
                         </div>
-                    </button>
-                </div>
+
+                        {/* Total Data */}
+                        <div className="flex flex-col items-center justify-center mt-8 space-y-6">
+                            <div className="border border-gray-700 shadow-lg rounded-lg p-8 w-full max-w-4xl text-center">
+                                <div className="grid grid-cols-3 gap-8">
+                                    <div className="flex flex-col items-center">
+                                        <p className="text-4xl font-extrabold text-gray-300">
+                                            <CountUp start={0} end={totalData.users} duration={20} separator="."></CountUp>
+                                        </p>
+                                        <p className="text-sm text-gray-500">Active Members</p>
+                                    </div>
+
+                                    <div className="flex flex-col items-center">
+                                        <p className="text-4xl font-extrabold text-gray-300">
+                                            <CountUp start={0} end={totalData.posts} duration={20} separator="."></CountUp>
+                                        </p>
+                                        <p className="text-sm text-gray-500">Active Posts</p>
+                                    </div>
+
+                                    <div className="flex flex-col items-center">
+                                        <p className="text-4xl font-extrabold text-gray-300">
+                                            <CountUp start={0} end={totalData.comments} duration={20} separator="."></CountUp>
+                                        </p>
+                                        <p className="text-sm text-gray-500">Total Comments</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <NetworkGraph />
+                    </div>
+                </>
             )}
         </div>
     );
