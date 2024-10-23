@@ -63,5 +63,64 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        /// <summary>
+        /// Retrieves total counts of users, posts, and comments.
+        /// </summary>
+        /// <response code="200">Returns the total counts of users, posts, and comments.</response>
+        /// <response code="400">If an error occurs while fetching data.</response>
+        [HttpGet("TotalData")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult TotalData()
+        {
+            try
+            {
+                var totalUsers = _context.Users.Count();
+                var totalPosts = _context.Posts.Count();
+                var totalComments = _context.Comments.Count();
+
+                return Ok(new { users = totalUsers, posts = totalPosts, comments = totalComments });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a random list of up to 50 users.
+        /// </summary>
+        /// <remarks>
+        /// This endpoint returns a random set of users shuffled and limited to 50 users.
+        /// </remarks>
+        /// <response code="200">Returns a list of up to 50 random users.</response>
+        /// <response code="404">If no users are found.</response>
+        /// <response code="400">If an error occurs while fetching data.</response>
+        [HttpGet]
+        [Route("RandomUsers")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<List<UserDTORead>> RandomUsers()
+        {
+            try
+            {
+                var users = _mapper.Map<List<UserDTORead>>(_context.Users.ToList());
+
+                if (!users.Any())
+                {
+                    return NotFound(new { message = "No users found." });
+                }
+
+                var random = new Random();
+                var shuffledUsers = users.OrderBy(u => random.Next()).ToList();
+                var randomUsers = shuffledUsers.Take(50).ToList();
+
+                return Ok(new { message = randomUsers });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }
