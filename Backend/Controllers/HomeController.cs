@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
-using CSHARP_SocialMediaAPP.Controllers;
 using CSHARP_SocialMediaAPP.Data;
 using CSHARP_SocialMediaAPP.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CSHARP_SocialMediaAPP.Controllers
 {
-
     /// <summary>
     /// API Controller responsible for handling home-related operations for the social media application.
     /// </summary>
@@ -70,6 +69,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         /// <response code="200">Returns the total counts of users, posts, and comments.</response>
         /// <response code="400">If an error occurs while fetching data.</response>
         [HttpGet("TotalData")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult TotalData()
         {
@@ -98,6 +98,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         /// <response code="400">If an error occurs while fetching data.</response>
         [HttpGet]
         [Route("RandomUsers")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<List<UserDTORead>> RandomUsers()
