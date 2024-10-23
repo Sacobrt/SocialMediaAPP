@@ -2,6 +2,7 @@
 using CSHARP_SocialMediaAPP.Data;
 using CSHARP_SocialMediaAPP.Models;
 using CSHARP_SocialMediaAPP.Models.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -71,12 +72,13 @@ namespace CSHARP_SocialMediaAPP.Controllers
         }
 
         /// <summary>
-        /// Creates a new user in the system.
+        /// Creates a new user in the system and also creates a corresponding operator record.
         /// </summary>
         /// <param name="dto">The UserDTOInsertUpdate object containing user details for the new user.</param>
         /// <returns>A status code indicating success or failure.</returns>
         [HttpPost]
-        [ProducesResponseType(typeof(UserDTORead), 200)]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(UserDTORead), 201)]
         [ProducesResponseType(typeof(Dictionary<string, string>), 400)]
         public IActionResult Post(UserDTOInsertUpdate dto)
         {
@@ -86,11 +88,25 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             try
             {
-                // Map DTO to User model and save the new user
-                var e = _mapper.Map<User>(dto);
-                _context.Users.Add(e);
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+                var user = _mapper.Map<User>(dto);
+                user.Password = hashedPassword;
+
+                _context.Users.Add(user);
                 _context.SaveChanges();
-                return StatusCode(StatusCodes.Status201Created, _mapper.Map<UserDTORead>(e));
+
+                var operatorEntity = new Operator
+                {
+                    Email = user.Email,
+                    Password = hashedPassword,
+                    UserId = user.ID,
+                    User = user
+                };
+
+                _context.Operators.Add(operatorEntity);
+                _context.SaveChanges();
+
+                return StatusCode(StatusCodes.Status201Created, _mapper.Map<UserDTORead>(user));
             }
             catch (Exception ex)
             {
@@ -99,7 +115,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         }
 
         /// <summary>
-        /// Updates an existing user by ID.
+        /// Updates an existing user by ID and updates or creates the corresponding operator record if applicable.
         /// </summary>
         /// <param name="id">The unique identifier of the user to update.</param>
         /// <param name="dto">The UserDTOInsertUpdate object containing updated user details.</param>
@@ -114,20 +130,41 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             try
             {
-                // Find the user by ID and map the updated data
-                User? e = _context.Users.Find(id);
-                if (e == null)
+                User? user = _context.Users.Find(id);
+                if (user == null)
                 {
                     return NotFound(new { message = "User cannot be found!" });
                 }
 
-                e = _mapper.Map(dto, e);
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-                // Update the user in the database
-                _context.Users.Update(e);
+                _mapper.Map(dto, user);
+                _context.Users.Update(user);
                 _context.SaveChanges();
 
-                return Ok(new { message = "Successfully changed!" });
+                var operatorEntity = _context.Operators.FirstOrDefault(o => o.UserId == id);
+
+                if (operatorEntity != null)
+                {
+                    operatorEntity.Email = user.Email;
+                    operatorEntity.Password = hashedPassword; 
+                    _context.Operators.Update(operatorEntity);
+                }
+                else
+                {
+                    var newOperator = new Operator
+                    {
+                        Email = user.Email,
+                        Password = hashedPassword,
+                        UserId = user.ID,
+                        User = user
+                    };
+                    _context.Operators.Add(newOperator);
+                }
+
+                _context.SaveChanges();
+
+                return Ok(new { message = "Successfully updated!" });
             }
             catch (Exception ex)
             {
@@ -136,7 +173,8 @@ namespace CSHARP_SocialMediaAPP.Controllers
         }
 
         /// <summary>
-        /// Deletes a user by ID.
+        /// Deletes a user by ID if the user has no posts, comments, or followers.
+        /// Also deletes the corresponding Operator record.
         /// </summary>
         /// <param name="id">The unique identifier of the user to delete.</param>
         /// <returns>A status code indicating success or failure.</returns>
@@ -150,16 +188,30 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
             try
             {
-                // Find the user by ID
-                User? e = _context.Users.Find(id);
-                if (e == null)
+                User? user = _context.Users.Find(id);
+                if (user == null)
                 {
                     return NotFound(new { message = "User cannot be found!" });
                 }
 
-                // Remove the user from the database
-                _context.Users.Remove(e);
+                bool hasPosts = _context.Posts.Any(p => p.ID == id);
+                bool hasComments = _context.Comments.Any(c => c.ID == id);
+                bool hasFollowers = _context.Followers.Any(f => f.ID == id);
+
+                if (hasPosts || hasComments || hasFollowers)
+                {
+                    return BadRequest(new { message = "Cannot delete user with posts, comments, or followers." });
+                }
+
+                var operatorEntity = _context.Operators.FirstOrDefault(o => o.UserId == id);
+                if (operatorEntity != null)
+                {
+                    _context.Operators.Remove(operatorEntity);
+                }
+
+                _context.Users.Remove(user);
                 _context.SaveChanges();
+
                 return Ok(new { message = "Successfully deleted!" });
             }
             catch (Exception ex)
