@@ -18,5 +18,6 @@
         int PostID,
         string Content,
         int? Likes,
-        DateTime CreatedAt);
+        DateTime CreatedAt,
+        UserDTORead User);
 }

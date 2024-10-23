@@ -48,6 +48,10 @@ namespace CSHARP_SocialMediaAPP.Mapping
                 .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
                 .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User));
 
+            CreateMap<Post, PostDTORead>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
+                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
+
             // Post to PostDTOInsertUpdate mapping, maps the UserID property
             CreateMap<Post, PostDTOInsertUpdate>()
                 .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User));
@@ -57,6 +61,7 @@ namespace CSHARP_SocialMediaAPP.Mapping
 
             // Comment to CommentDTORead mapping, maps the UserID and PostID properties
             CreateMap<Comment, CommentDTORead>()
+                .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
                 .ForMember(dest => dest.UserID, opt => opt.MapFrom(src => src.User))
                 .ForMember(dest => dest.PostID, opt => opt.MapFrom(src => src.Post));
 
