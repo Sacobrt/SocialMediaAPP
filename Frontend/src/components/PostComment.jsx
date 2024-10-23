@@ -109,11 +109,19 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
         const formattedDate = new Date(localDate.getTime() - offset * 60 * 1000).toISOString().slice(0, -1);
 
         if (mode === "comment") {
+            const token = parseJwt(authToken);
+
             const commentData = {
                 postID: postId,
                 userID: editMode ? originalUserID : currentUserID,
                 content: content,
                 createdAt: formattedDate,
+                user: {
+                    id: editMode ? originalUserID : currentUserID,
+                    firstName: token.FirstName,
+                    username: token.Username,
+                    image: `/images/users/${editMode ? originalUserID : currentUserID}.png`,
+                },
             };
 
             if (editMode) {
