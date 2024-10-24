@@ -14,6 +14,7 @@ import { parseJwt } from "../hooks/parseJwt";
 import { AuthContext } from "./AuthContext";
 import defaultImage from "../assets/defaultImage.png";
 import { UserContext } from "./UserContext";
+import { ImStatsDots } from "react-icons/im";
 
 export default function NavBar() {
     const navigate = useNavigate();
@@ -128,6 +129,15 @@ export default function NavBar() {
                                                 <div className="flex items-center gap-1.5">
                                                     <FaSignOutAlt />
                                                     Sign out
+                                                </div>
+                                            </button>
+                                            <button
+                                                onClick={() => navigate(RoutesNames.STATISTICS)}
+                                                className="text-gray-200 text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
+                                            >
+                                                <div className="flex items-center gap-1.5">
+                                                    <ImStatsDots />
+                                                    Statistics
                                                 </div>
                                             </button>
                                             <Menu as="div" className="relative">
@@ -280,6 +290,15 @@ export default function NavBar() {
                                         <div className="flex items-center gap-1.5">
                                             <FaSignOutAlt />
                                             Sign out
+                                        </div>
+                                    </button>
+                                    <button
+                                        onClick={() => navigate(RoutesNames.STATISTICS)}
+                                        className="text-gray-200 w-full text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
+                                    >
+                                        <div className="flex items-center gap-1.5">
+                                            <ImStatsDots />
+                                            Statistics
                                         </div>
                                     </button>
                                     <MenuButton className="w-full text-start cursor-pointer text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium transition duration-150">
