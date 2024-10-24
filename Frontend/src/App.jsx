@@ -26,6 +26,7 @@ import PostsAdd from "./pages/posts/PostsAdd";
 import PostsChange from "./pages/posts/PostsChange";
 
 import CyclicView from "./pages/cyclic/CyclicView";
+import Statistics from "./pages/Statistics";
 
 function App() {
     const { errors, showModalError, hideError } = useError();
@@ -60,6 +61,8 @@ function App() {
                                 <Route path={RoutesNames.POST_OVERVIEW} element={<PostsOverview />} />
                                 <Route path={RoutesNames.POST_NEW} element={<PostsAdd />} />
                                 <Route path={RoutesNames.POST_CHANGE} element={<PostsChange />} />
+
+                                <Route path={RoutesNames.STATISTICS} element={<Statistics />} />
                             </>
                         ) : (
                             <>

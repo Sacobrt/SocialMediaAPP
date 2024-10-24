@@ -19,6 +19,8 @@ export const RoutesNames = {
     COMMENT_NEW: "/comments/add",
     COMMENT_CHANGE: "/comments/:id",
 
+    STATISTICS: "/statistics",
+
     // Extra tasks
     CYCLIC_OVERVIEW: "/cyclic",
 };
