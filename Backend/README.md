@@ -424,7 +424,8 @@ HTTP 200 OK status if the deletion is successful.
 
 ##### Summary
 
-Generates a specified number of random comments and associates them with random users and one of the 100 most recently created posts in the database.
+Generates a specified number of random comments and associates them with random users and posts from the database.
+The comments are assigned randomized content, likes, and timestamps within the past 120 days.
 
 ##### Returns
 
