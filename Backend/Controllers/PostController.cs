@@ -271,11 +271,12 @@ namespace CSHARP_SocialMediaAPP.Controllers
 
         /// <summary>
         /// Generates a specified number of random posts and associates them with random users in the database.
+        /// Each post will have randomized content, likes, and a created date within the past 120 days.
         /// </summary>
         /// <param name="amount">The number of posts to generate. Must be between 1 and 500.</param>
         /// <returns>A list of generated posts with their details or an error message if the amount is invalid.</returns>
-        /// <response code="200">Returns the list of generated posts.</response>
-        /// <response code="400">If the amount is not within the valid range.</response>
+        /// <response code="200">Returns the list of generated posts with their details including PostID, UserID, Content, and CreatedAt date.</response>
+        /// <response code="400">If the amount is not within the valid range, or if there are no users available to associate with the posts.</response>
         [HttpGet("generate/{amount}")]
         public IActionResult Generate(int amount)
         {
@@ -285,16 +286,22 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
 
             List<Post> generatedPosts = new List<Post>();
+            Random random = new Random();
+            int totalUsers = _context.Users.Count();
 
             for (int i = 0; i < amount; i++)
             {
+                // Generate a random timespan between 0 and 120 days
+                int randomDays = random.Next(0, 121);
+                DateTime randomizedCreatedAt = DateTime.Now.AddDays(-randomDays);
+
                 // Generate a new Post
                 var p = new Post()
                 {
                     User = _context.Users.OrderBy(u => Guid.NewGuid()).FirstOrDefault(),
                     Content = Faker.Lorem.Sentence(),
-                    Likes = Faker.RandomNumber.Next(),
-                    CreatedAt = Faker.Identification.DateOfBirth(),
+                    Likes = random.Next(0, totalUsers + 1),
+                    CreatedAt = randomizedCreatedAt,
                 };
 
                 // Add the post to the context
