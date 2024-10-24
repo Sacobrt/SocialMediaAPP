@@ -15,8 +15,8 @@ async function getByID(id) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch(() => {
-            return { error: true, message: "User doesn't exist!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -25,8 +25,8 @@ async function remove(id) {
         .then((response) => {
             return { error: false, message: response.data.message };
         })
-        .catch(() => {
-            return { error: true, message: "User cannot be deleted!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -85,13 +85,13 @@ async function getPagination(page, condition) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch(() => {
-            return { error: true, message: "Problem when searching users!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
 async function totalData() {
-    return await HttpService.get("/Home/TotalData")
+    return await HttpService.get("/Statistics/TotalData")
         .then((response) => {
             return response.data;
         })
@@ -101,7 +101,7 @@ async function totalData() {
 }
 
 async function randomUsers() {
-    return await HttpService.get("/Home/RandomUsers")
+    return await HttpService.get("/Statistics/RandomUsers")
         .then((response) => {
             return response.data;
         })

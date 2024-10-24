@@ -15,8 +15,8 @@ async function getByID(id) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch(() => {
-            return { error: true, message: "Post doesn't exist!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -25,8 +25,8 @@ async function remove(id) {
         .then((response) => {
             return { error: false, message: response.data.message };
         })
-        .catch(() => {
-            return { error: true, message: "Post cannot be deleted!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -75,18 +75,18 @@ async function getPagination(page, condition) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch(() => {
-            return { error: true, message: "Problem when searching posts!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
 async function homePagination(page, condition) {
-    return await HttpService.get("/Home/pagination/" + page + "?condition=" + condition)
+    return await HttpService.get("/Statistics/pagination/" + page + "?condition=" + condition)
         .then((response) => {
             return { error: false, message: response.data };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data };
+            return { error: true, message: e.response.data.message };
         });
 }
 

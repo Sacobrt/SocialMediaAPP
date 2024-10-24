@@ -15,8 +15,8 @@ async function getByID(id) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch(() => {
-            return { error: true, message: "Follower doesn't exist!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -25,8 +25,8 @@ async function remove(id) {
         .then((response) => {
             return { error: false, message: response.data.message };
         })
-        .catch(() => {
-            return { error: true, message: "Followers cannot be deleted!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -76,7 +76,7 @@ async function getPagination(page, condition) {
             return { error: false, message: response.data };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data };
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -86,7 +86,7 @@ async function getFollowingStatuses(currentUserId, userIds) {
             return { error: false, message: response.data };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data };
+            return { error: true, message: e.response.data.message };
         });
 }
 

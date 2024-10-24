@@ -10,6 +10,6 @@ export async function logInService(data) {
             };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data };
+            return { error: true, message: e.response.data.message };
         });
 }

@@ -15,8 +15,8 @@ async function getByID(id) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch(() => {
-            return { error: true, message: "Comment doesn't exist!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -25,8 +25,8 @@ async function remove(id) {
         .then((response) => {
             return { error: false, message: response.data.message };
         })
-        .catch(() => {
-            return { error: true, message: "Comment cannot be deleted!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
@@ -75,8 +75,8 @@ async function getPagination(page, condition) {
         .then((response) => {
             return { error: false, message: response.data };
         })
-        .catch(() => {
-            return { error: true, message: "Problem when searching comments!" };
+        .catch((e) => {
+            return { error: true, message: e.response.data.message };
         });
 }
 
