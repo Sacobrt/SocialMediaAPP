@@ -12,9 +12,9 @@ namespace CSHARP_SocialMediaAPP.Controllers
     /// </summary>
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class HomeController : SocialMediaController
+    public class StatisticsController : SocialMediaController
     {
-        public HomeController(SocialMediaContext context, IMapper mapper) : base(context, mapper) { }
+        public StatisticsController(SocialMediaContext context, IMapper mapper) : base(context, mapper) { }
 
         /// <summary>
         /// Retrieves a paginated list of posts, with optional filtering based on a search term.
@@ -96,8 +96,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         /// <response code="200">Returns a list of up to 50 random users.</response>
         /// <response code="404">If no users are found.</response>
         /// <response code="400">If an error occurs while fetching data.</response>
-        [HttpGet]
-        [Route("RandomUsers")]
+        [HttpGet("RandomUsers")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -117,6 +116,116 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 var randomUsers = shuffledUsers.Take(50).ToList();
 
                 return Ok(new { message = randomUsers });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Retrieves various platform statistics, including top users by posts and comments, most liked posts and comments,
+        /// most followed user, and recent user registrations over the last 30 days.
+        /// </summary>
+        /// <remarks>
+        /// This API returns the following data:
+        /// - Top 10 users by number of posts.
+        /// - Top 10 users by number of comments.
+        /// - The post with the most likes.
+        /// - The comment with the most likes.
+        /// - The user with the most followers.
+        /// - A count of registered users grouped by date for the last 30 days.
+        /// </remarks>
+        /// <response code="200">Returns the platform statistics.</response>
+        /// <response code="400">Returns a bad request error if something goes wrong during processing.</response>
+        [HttpGet("TopUserStats")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public IActionResult TopUserStats()
+        {
+            try
+            {
+                var today = DateTime.UtcNow;
+                var last240Days = today.AddDays(-30);
+
+                // Top users by number of posts
+                var topUsersByPosts = _context.Users
+                    .Select(u => new
+                    {
+                        User = _mapper.Map<UserDTORead>(u),
+                        PostCount = _context.Posts.Count(p => p.User.ID == u.ID)
+                    })
+                    .OrderByDescending(u => u.PostCount)
+                    .Take(10)
+                    .ToList();
+
+                // Top users by number of comments
+                var topUsersByComments = _context.Users
+                    .Select(u => new
+                    {
+                        User = _mapper.Map<UserDTORead>(u),
+                        CommentCount = _context.Comments.Count(c => c.User.ID == u.ID)
+                    })
+                    .OrderByDescending(u => u.CommentCount)
+                    .Take(10)
+                    .ToList();
+
+                // Most liked post
+                var mostLikedPost = _context.Posts
+                    .OrderByDescending(p => p.Likes)
+                    .Select(p => new
+                    {
+                        Post = _mapper.Map<PostDTORead>(p),
+                        LikeCount = p.Likes
+                    })
+                    .Take(10)
+                    .FirstOrDefault();
+
+                // Most liked comment
+                var mostLikedComment = _context.Comments
+                    .OrderByDescending(c => c.Likes)
+                    .Select(c => new
+                    {
+                        Comment = _mapper.Map<CommentDTORead>(c),
+                        LikeCount = c.Likes
+                    })
+                    .FirstOrDefault();
+
+                // Most followed user
+                var topUserByFollows = _context.Followers
+                    .GroupBy(f => f.FollowerUser.ID)
+                    .OrderByDescending(g => g.Count())
+                    .Select(g => new
+                    {
+                        FollowerUser = _mapper.Map<UserDTORead>(g.First().FollowerUser),
+                        FollowsCount = g.Count()
+                    })
+                    .FirstOrDefault();
+
+                // Most registered users in the last 30 days (grouped by day)
+                var mostRecentUsers = _context.Users
+                    .Where(u => u.CreatedAt >= last240Days)
+                    .GroupBy(u => u.CreatedAt.Date)
+                    .Select(g => new
+                    {
+                        Date = g.Key,
+                        Count = g.Count()
+                    })
+                    .OrderBy(g => g.Date)
+                    .ToList();
+
+                // Combined all the results into a single response
+                var result = new
+                {
+                    TopUsersByPosts = topUsersByPosts,
+                    TopUsersByComments = topUsersByComments,
+                    MostLikedPost = mostLikedPost,
+                    MostLikedComment = mostLikedComment,
+                    TopUserByFollows = topUserByFollows,
+                    MostRecentUsers = mostRecentUsers
+                };
+
+                return Ok(result);  
             }
             catch (Exception ex)
             {
