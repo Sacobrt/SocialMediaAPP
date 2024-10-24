@@ -75,19 +75,18 @@ export default function UsersAdd() {
                         { field: "password", label: "Password" },
                         { field: "birthDate", label: "Date of Birth" },
                     ].map(({ field, label }, index) => {
-                        const isRequired = ["username", "email", "password"].includes(field);
                         return (
                             <div key={index}>
                                 <label htmlFor={field} className="block text-sm font-medium text-gray-300 mb-2">
                                     {label}
-                                    {isRequired && <span className="text-red-500"> *</span>}
+                                    {<span className="text-red-500"> *</span>}
                                 </label>
                                 <input
                                     type={field === "password" ? "password" : field === "birthDate" ? "date" : "text"}
                                     name={field}
                                     id={field}
                                     className="px-4 py-3 w-full bg-gray-700 text-white rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-                                    required={isRequired}
+                                    required
                                 />
                             </div>
                         );
