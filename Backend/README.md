@@ -75,10 +75,6 @@
   - [FollowerUser](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-FollowerUser 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.FollowerUser')
   - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.ID')
   - [User](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-User 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.User')
-- [HomeController](#T-CSHARP_SocialMediaAPP-Controllers-HomeController 'CSHARP_SocialMediaAPP.Controllers.HomeController')
-  - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-HomeController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.HomeController.Pagination(System.Int32,System.String)')
-  - [RandomUsers()](#M-CSHARP_SocialMediaAPP-Controllers-HomeController-RandomUsers 'CSHARP_SocialMediaAPP.Controllers.HomeController.RandomUsers')
-  - [TotalData()](#M-CSHARP_SocialMediaAPP-Controllers-HomeController-TotalData 'CSHARP_SocialMediaAPP.Controllers.HomeController.TotalData')
 - [ImageDTO](#T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO')
   - [#ctor(Base64)](#M-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-#ctor-System-String- 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO.#ctor(System.String)')
   - [Base64](#P-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-Base64 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO.Base64')
@@ -136,6 +132,11 @@
   - [AddSocialMediaCORS(services)](#M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaCORS-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'CSHARP_SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaCORS(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
   - [AddSocialMediaSecurity(services)](#M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSecurity-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'CSHARP_SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaSecurity(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
   - [AddSocialMediaSwaggerGen(services)](#M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSwaggerGen-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'CSHARP_SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaSwaggerGen(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
+- [StatisticsController](#T-CSHARP_SocialMediaAPP-Controllers-StatisticsController 'CSHARP_SocialMediaAPP.Controllers.StatisticsController')
+  - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.StatisticsController.Pagination(System.Int32,System.String)')
+  - [RandomUsers()](#M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-RandomUsers 'CSHARP_SocialMediaAPP.Controllers.StatisticsController.RandomUsers')
+  - [TopUserStats()](#M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-TopUserStats 'CSHARP_SocialMediaAPP.Controllers.StatisticsController.TopUserStats')
+  - [TotalData()](#M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-TotalData 'CSHARP_SocialMediaAPP.Controllers.StatisticsController.TotalData')
 - [User](#T-CSHARP_SocialMediaAPP-Models-User 'CSHARP_SocialMediaAPP.Models.User')
   - [BirthDate](#P-CSHARP_SocialMediaAPP-Models-User-BirthDate 'CSHARP_SocialMediaAPP.Models.User.BirthDate')
   - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-User-CreatedAt 'CSHARP_SocialMediaAPP.Models.User.CreatedAt')
@@ -423,7 +424,7 @@ HTTP 200 OK status if the deletion is successful.
 
 ##### Summary
 
-Generates a specified number of random comments and associates them with random users and posts in the database.
+Generates a specified number of random comments and associates them with random users and one of the 100 most recently created posts in the database.
 
 ##### Returns
 
@@ -1072,63 +1073,6 @@ The unique identifier of the follower relationship.
 
 The username of the user being followed.
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-HomeController'></a>
-## HomeController `type`
-
-##### Namespace
-
-CSHARP_SocialMediaAPP.Controllers
-
-##### Summary
-
-API Controller responsible for handling home-related operations for the social media application.
-
-<a name='M-CSHARP_SocialMediaAPP-Controllers-HomeController-Pagination-System-Int32,System-String-'></a>
-### Pagination(page,condition) `method`
-
-##### Summary
-
-Retrieves a paginated list of posts, with optional filtering based on a search term.
-
-##### Returns
-
-A paginated list of posts that match the search condition. If no posts match, an empty list is returned. 
-In the case of an error, a \`400 Bad Request\` is returned with the error message.
-
-##### Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| page | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The page number to retrieve, starting from 1. Each page contains a fixed number of posts. |
-| condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An optional search term used to filter posts. The search will match the post content, username, first name, or last name.
-If no condition is provided, all posts are retrieved. |
-
-<a name='M-CSHARP_SocialMediaAPP-Controllers-HomeController-RandomUsers'></a>
-### RandomUsers() `method`
-
-##### Summary
-
-Retrieves a random list of up to 50 users.
-
-##### Parameters
-
-This method has no parameters.
-
-##### Remarks
-
-This endpoint returns a random set of users shuffled and limited to 50 users.
-
-<a name='M-CSHARP_SocialMediaAPP-Controllers-HomeController-TotalData'></a>
-### TotalData() `method`
-
-##### Summary
-
-Retrieves total counts of users, posts, and comments.
-
-##### Parameters
-
-This method has no parameters.
-
 <a name='T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO'></a>
 ## ImageDTO `type`
 
@@ -1377,6 +1321,7 @@ HTTP 200 OK if the deletion is successful, otherwise an error message.
 ##### Summary
 
 Generates a specified number of random posts and associates them with random users in the database.
+Each post will have randomized content, likes, and a created date within the past 120 days.
 
 ##### Returns
 
@@ -1773,6 +1718,85 @@ Adds and configures Swagger/OpenAPI documentation for the Social Media API.
 | ---- | ---- | ----------- |
 | services | [Microsoft.Extensions.DependencyInjection.IServiceCollection](#T-Microsoft-Extensions-DependencyInjection-IServiceCollection 'Microsoft.Extensions.DependencyInjection.IServiceCollection') | The IServiceCollection to add SwaggerGen to. |
 
+<a name='T-CSHARP_SocialMediaAPP-Controllers-StatisticsController'></a>
+## StatisticsController `type`
+
+##### Namespace
+
+CSHARP_SocialMediaAPP.Controllers
+
+##### Summary
+
+API Controller responsible for handling home-related operations for the social media application.
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-Pagination-System-Int32,System-String-'></a>
+### Pagination(page,condition) `method`
+
+##### Summary
+
+Retrieves a paginated list of posts, with optional filtering based on a search term.
+
+##### Returns
+
+A paginated list of posts that match the search condition. If no posts match, an empty list is returned. 
+In the case of an error, a \`400 Bad Request\` is returned with the error message.
+
+##### Parameters
+
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| page | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The page number to retrieve, starting from 1. Each page contains a fixed number of posts. |
+| condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An optional search term used to filter posts. The search will match the post content, username, first name, or last name.
+If no condition is provided, all posts are retrieved. |
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-RandomUsers'></a>
+### RandomUsers() `method`
+
+##### Summary
+
+Retrieves a random list of up to 50 users.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+This endpoint returns a random set of users shuffled and limited to 50 users.
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-TopUserStats'></a>
+### TopUserStats() `method`
+
+##### Summary
+
+Retrieves various platform statistics, including top users by posts and comments, most liked posts and comments,
+most followed user, and recent user registrations over the last 30 days.
+
+##### Parameters
+
+This method has no parameters.
+
+##### Remarks
+
+This API returns the following data:
+- Top 10 users by number of posts.
+- Top 10 users by number of comments.
+- The post with the most likes.
+- The comment with the most likes.
+- The user with the most followers.
+- A count of registered users grouped by date for the last 30 days.
+
+<a name='M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-TotalData'></a>
+### TotalData() `method`
+
+##### Summary
+
+Retrieves total counts of users, posts, and comments.
+
+##### Parameters
+
+This method has no parameters.
+
 <a name='T-CSHARP_SocialMediaAPP-Models-User'></a>
 ## User `type`
 
@@ -1876,7 +1900,7 @@ A status code indicating success or failure.
 
 ##### Summary
 
-Generates a specified number of random user accounts.
+Generates a specified number of random user accounts with randomized creation dates from the last 30 days.
 
 ##### Returns
 
@@ -1945,6 +1969,7 @@ A paginated list of users matching the condition.
 ##### Summary
 
 Creates a new user in the system and also creates a corresponding operator record.
+Checks if the user with the same email or username already exists.
 
 ##### Returns
 
@@ -1962,6 +1987,7 @@ A status code indicating success or failure.
 ##### Summary
 
 Updates an existing user by ID and updates or creates the corresponding operator record if applicable.
+Checks if the email or username already exists for another user.
 
 ##### Returns
 
