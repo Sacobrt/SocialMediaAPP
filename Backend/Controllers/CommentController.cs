@@ -248,12 +248,12 @@ namespace CSHARP_SocialMediaAPP.Controllers
         }
 
         /// <summary>
-        /// Generates a specified number of random comments and associates them with random users and posts in the database.
+        /// Generates a specified number of random comments and associates them with random users and one of the 100 most recently created posts in the database.
         /// </summary>
         /// <param name="amount">The number of comments to generate. Must be between 1 and 500.</param>
         /// <returns>A list of generated comments with their details or an error message if the amount is out of range.</returns>
         /// <response code="200">Returns the list of generated comments.</response>
-        /// <response code="400">If the amount is not within the valid range.</response>
+        /// <response code="400">If the amount is not within the valid range, or if there are no users or posts available to associate with the comments.</response>
         [HttpGet("generate/{amount}")]
         [ProducesResponseType(typeof(Dictionary<string, string>), 400)]
         public IActionResult GenerateComments(int amount)
@@ -264,17 +264,23 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
 
             List<Comment> generatedComments = new List<Comment>();
+            Random random = new Random();
+            int totalUsers = _context.Users.Count();
 
             for (int i = 0; i < amount; i++)
             {
+                // Generate a random timespan between 0 and 120 days
+                int randomDays = random.Next(0, 121);
+                DateTime randomizedCreatedAt = DateTime.Now.AddDays(-randomDays);
+
                 // Generate a new Comment
                 var comment = new Comment()
                 {
                     User = _context.Users.OrderBy(u => Guid.NewGuid()).FirstOrDefault(),
                     Post = _context.Posts.OrderBy(p => Guid.NewGuid()).FirstOrDefault(),
                     Content = Faker.Lorem.Sentence(),
-                    Likes = Faker.RandomNumber.Next(0, 100),
-                    CreatedAt = DateTime.Now
+                    Likes = random.Next(0, totalUsers + 1),
+                    CreatedAt = randomizedCreatedAt
                 };
 
                 // Add the comment to the context
