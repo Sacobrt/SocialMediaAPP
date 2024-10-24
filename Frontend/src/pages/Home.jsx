@@ -16,9 +16,9 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import FollowerService from "../services/FollowerService";
 import PostComment from "../components/PostComment";
 import { MdOutlinePostAdd } from "react-icons/md";
-import UserService from "../services/UserService";
-import CountUp from "react-countup";
 import NetworkGraph from "../components/NetworkGraph";
+import { FcLike } from "react-icons/fc";
+import TotalData from "../components/TotalData";
 
 export default function Home() {
     const [posts, setPosts] = useState([]);
@@ -41,8 +41,6 @@ export default function Home() {
     const [showTopBtn, setShowTopBtn] = useState(false);
 
     const [followStatus, setFollowStatus] = useState([]);
-
-    const [totalData, setTotalData] = useState(0);
 
     useEffect(() => {
         if (isLoggedIn) {
@@ -137,20 +135,6 @@ export default function Home() {
         setCondition(e.nativeEvent.srcElement.value);
         setPosts([]);
     }
-
-    async function getTotalData() {
-        await UserService.totalData()
-            .then((response) => {
-                setTotalData(response);
-            })
-            .catch((e) => {
-                console.error(e);
-            });
-    }
-
-    useEffect(() => {
-        getTotalData();
-    }, [!isLoggedIn]);
 
     async function getData() {
         try {
@@ -434,9 +418,17 @@ export default function Home() {
                                                 <div dangerouslySetInnerHTML={{ __html: processedPostContent }} />
                                             </div>
 
+                                            {/* Likes */}
+                                            <div>
+                                                <p className="text-sm text-gray-200 flex items-center gap-1">
+                                                    <FcLike />
+                                                    {post.likes.toLocaleString()} likes
+                                                </p>
+                                            </div>
+
                                             {/* Comments Section */}
                                             {post.comments && post.comments.length > 0 && (
-                                                <div className="mt-4">
+                                                <div className="mt-2">
                                                     <h3 className="text-sm font-semibold mb-2 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
                                                         Comments
                                                     </h3>
@@ -494,7 +486,7 @@ export default function Home() {
                                                                             </div>
 
                                                                             {/* Comment Content with expandable option */}
-                                                                            <div className="text-sm text-gray-300 mt-2 leading-relaxed">
+                                                                            <div className="text-sm text-gray-200 mt-2 leading-relaxed">
                                                                                 {isExpanded ? (
                                                                                     <div dangerouslySetInnerHTML={{ __html: processedContent }} />
                                                                                 ) : (
@@ -515,6 +507,11 @@ export default function Home() {
                                                                                     {isExpanded ? "Read less" : "Read more"}
                                                                                 </button>
                                                                             )}
+
+                                                                            <p className="text-xs mt-2 text-gray-200 flex items-center gap-1">
+                                                                                <FcLike />
+                                                                                {comment.likes.toLocaleString()} likes
+                                                                            </p>
                                                                         </div>
                                                                     </div>
                                                                 );
@@ -590,15 +587,21 @@ export default function Home() {
                                     </div>
 
                                     {/* Post Content */}
-                                    <div className="text-lg mb-6 scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-900">
+                                    <div className="text-lg scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-gray-900">
                                         {(() => {
                                             const activePostData = posts.find((post) => post.id === activePost);
                                             if (activePostData) {
                                                 const processedPostContent = sanitizeHtmlWithClasses(activePostData.content);
                                                 return (
-                                                    <div className="text-gray-200 mb-4 text-lg">
-                                                        <div dangerouslySetInnerHTML={{ __html: processedPostContent }} />
-                                                    </div>
+                                                    <>
+                                                        <div className="text-gray-200 mb-4 text-lg">
+                                                            <div dangerouslySetInnerHTML={{ __html: processedPostContent }} />
+                                                        </div>
+                                                        <p className="text-xs mt-2 text-gray-200 flex items-center gap-1">
+                                                            <FcLike />
+                                                            {posts.find((post) => post.id === activePost)?.likes.toLocaleString()} likes
+                                                        </p>
+                                                    </>
                                                 );
                                             } else {
                                                 return <p>No post selected.</p>;
@@ -607,7 +610,7 @@ export default function Home() {
                                     </div>
 
                                     {/* Comments Section */}
-                                    <div className="h-full mt-4 space-y-4 scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-gray-900">
+                                    <div className="h-full space-y-4 scrollbar-thin scrollbar-thumb-purple-400 scrollbar-track-gray-900">
                                         <h3 className="text-lg font-semibold text-center pb-2 border-b border-purple-500 mb-4">Comments</h3>
                                         <ul>
                                             {posts
@@ -634,7 +637,7 @@ export default function Home() {
                                                                 </div>
 
                                                                 {/* Comment content with expandable option */}
-                                                                <div className="text-sm text-gray-300 mt-2 leading-relaxed">
+                                                                <div className="text-gray-200 mt-2 leading-relaxed">
                                                                     {isExpanded ? (
                                                                         <div dangerouslySetInnerHTML={{ __html: processedContent }} />
                                                                     ) : (
@@ -655,6 +658,10 @@ export default function Home() {
                                                                         {isExpanded ? "Read less" : "Read more"}
                                                                     </button>
                                                                 )}
+                                                                <p className="text-xs mt-2 text-gray-200 flex items-center gap-1">
+                                                                    <FcLike />
+                                                                    {comment.likes.toLocaleString()} likes
+                                                                </p>
                                                             </div>
                                                         </li>
                                                     );
@@ -679,7 +686,7 @@ export default function Home() {
                                 />
                                 <p className="text-sm text-gray-500">Connect, share, and explore with friends!</p>
                             </div>
-                            <p className="text-md text-gray-300 max-w-lg px-6 lg:px-0">
+                            <p className="text-md text-gray-200 max-w-lg px-6 lg:px-0">
                                 Sign in to connect, share ideas, and engage with our vibrant community. Don’t have an account? Create one in just a few clicks!
                             </p>
 
@@ -699,35 +706,7 @@ export default function Home() {
                                 </div>
                             </div>
                         </div>
-
-                        {/* Total Data */}
-                        <div className="flex flex-col items-center justify-center mt-8 space-y-6">
-                            <div className="shadow-lg hover:shadow-xl transition-all duration-500 ease-in-out rounded-lg p-8 w-full max-w-4xl text-center">
-                                <div className="grid grid-cols-3 gap-8">
-                                    <div className="flex flex-col items-center">
-                                        <p className="text-4xl font-extrabold text-gray-300">
-                                            <CountUp start={0} end={totalData.users} duration={20} separator="."></CountUp>
-                                        </p>
-                                        <p className="text-sm text-gray-500">Active Members</p>
-                                    </div>
-
-                                    <div className="flex flex-col items-center">
-                                        <p className="text-4xl font-extrabold text-gray-300">
-                                            <CountUp start={0} end={totalData.posts} duration={20} separator="."></CountUp>
-                                        </p>
-                                        <p className="text-sm text-gray-500">Active Posts</p>
-                                    </div>
-
-                                    <div className="flex flex-col items-center">
-                                        <p className="text-4xl font-extrabold text-gray-300">
-                                            <CountUp start={0} end={totalData.comments} duration={20} separator="."></CountUp>
-                                        </p>
-                                        <p className="text-sm text-gray-500">Total Comments</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        <TotalData />
                         <NetworkGraph />
                     </div>
                 </>
