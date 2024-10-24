@@ -73,6 +73,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
 
         /// <summary>
         /// Creates a new user in the system and also creates a corresponding operator record.
+        /// Checks if the user with the same email or username already exists.
         /// </summary>
         /// <param name="dto">The UserDTOInsertUpdate object containing user details for the new user.</param>
         /// <returns>A status code indicating success or failure.</returns>
@@ -86,8 +87,16 @@ namespace CSHARP_SocialMediaAPP.Controllers
             {
                 return BadRequest(new { message = ModelState });
             }
+
             try
             {
+                // Check if a user with the same email or username already exists
+                var existingUser = _context.Users.FirstOrDefault(u => u.Email == dto.Email || u.Username == dto.Username);
+                if (existingUser != null)
+                {
+                    return BadRequest(new { message = "A user with the same email or username already exists." });
+                }
+
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
                 var user = _mapper.Map<User>(dto);
                 user.Password = hashedPassword;
@@ -116,6 +125,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
 
         /// <summary>
         /// Updates an existing user by ID and updates or creates the corresponding operator record if applicable.
+        /// Checks if the email or username already exists for another user.
         /// </summary>
         /// <param name="id">The unique identifier of the user to update.</param>
         /// <param name="dto">The UserDTOInsertUpdate object containing updated user details.</param>
@@ -136,18 +146,35 @@ namespace CSHARP_SocialMediaAPP.Controllers
                     return NotFound(new { message = "User cannot be found!" });
                 }
 
-                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+                // Check if another user with the same email or username exists
+                var existingUser = _context.Users.FirstOrDefault(u => (u.Email == dto.Email || u.Username == dto.Username) && u.ID != id);
 
+                if (existingUser != null)
+                {
+                    return BadRequest(new { message = "A user with the same email or username already exists." });
+                }
+
+                // Hash the password if it's provided in the dto (if you're allowing password updates)
+                if (!string.IsNullOrEmpty(dto.Password))
+                {
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+                }
+
+                // Map the other updated fields from the DTO to the user entity
                 _mapper.Map(dto, user);
                 _context.Users.Update(user);
                 _context.SaveChanges();
 
+                // Check if the operator record exists
                 var operatorEntity = _context.Operators.FirstOrDefault(o => o.UserId == id);
 
                 if (operatorEntity != null)
                 {
                     operatorEntity.Email = user.Email;
-                    operatorEntity.Password = hashedPassword; 
+                    if (!string.IsNullOrEmpty(dto.Password))
+                    {
+                        operatorEntity.Password = user.Password;
+                    }
                     _context.Operators.Update(operatorEntity);
                 }
                 else
@@ -155,7 +182,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
                     var newOperator = new Operator
                     {
                         Email = user.Email,
-                        Password = hashedPassword,
+                        Password = user.Password,
                         UserId = user.ID,
                         User = user
                     };
@@ -194,9 +221,9 @@ namespace CSHARP_SocialMediaAPP.Controllers
                     return NotFound(new { message = "User cannot be found!" });
                 }
 
-                bool hasPosts = _context.Posts.Any(p => p.ID == id);
-                bool hasComments = _context.Comments.Any(c => c.ID == id);
-                bool hasFollowers = _context.Followers.Any(f => f.ID == id);
+                bool hasPosts = _context.Posts.Any(p => p.User.ID == id);
+                bool hasComments = _context.Comments.Any(c => c.User.ID == id);
+                bool hasFollowers = _context.Followers.Any(f => f.User.ID == id || f.FollowerUser.ID == id);
 
                 if (hasPosts || hasComments || hasFollowers)
                 {
@@ -212,7 +239,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 _context.Users.Remove(user);
                 _context.SaveChanges();
 
-                return Ok(new { message = "Successfully deleted!" });
+                return Ok(new { message = "User deleted successfully!" });
             }
             catch (Exception ex)
             {
@@ -304,7 +331,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
         }
 
         /// <summary>
-        /// Generates a specified number of random user accounts.
+        /// Generates a specified number of random user accounts with randomized creation dates from the last 30 days.
         /// </summary>
         /// <param name="amount">The number of users to generate (between 1 and 500).</param>
         /// <returns>
@@ -320,11 +347,16 @@ namespace CSHARP_SocialMediaAPP.Controllers
             }
 
             List<User> generatedUsers = new List<User>();
+            Random random = new Random();
 
             for (int i = 0; i < amount; i++)
             {
                 string rawPassword = Faker.Name.Middle();
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(rawPassword);
+
+                // Generate a random timespan between 0 and 30 days
+                int randomDays = random.Next(0, 31);
+                DateTime randomizedCreatedAt = DateTime.Now.AddDays(-randomDays);
 
                 // Generate a new User
                 var user = new User()
@@ -335,7 +367,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
                     FirstName = Faker.Name.First(),
                     LastName = Faker.Name.Last(),
                     BirthDate = Faker.Identification.DateOfBirth(),
-                    CreatedAt = DateTime.Now
+                    CreatedAt = randomizedCreatedAt
                 };
 
                 // Add the user to the context
