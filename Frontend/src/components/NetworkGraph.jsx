@@ -18,7 +18,7 @@ function getRandomColor() {
     return color;
 }
 
-export default function NetworkGraph() {
+export default function NetworkGraph({ customHeight = "100%" }) {
     const [chartOptions, setChartOptions] = useState(null);
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export default function NetworkGraph() {
                 const options = {
                     chart: {
                         type: "networkgraph",
-                        height: "100%",
+                        height: customHeight,
                         backgroundColor: null,
                     },
                     title: {
