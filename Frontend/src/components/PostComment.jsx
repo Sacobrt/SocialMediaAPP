@@ -119,6 +119,7 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
                 user: {
                     id: editMode ? originalUserID : currentUserID,
                     firstName: token.FirstName,
+                    lastName: token.LastName,
                     username: token.Username,
                     image: `/images/users/${editMode ? originalUserID : currentUserID}.png`,
                 },

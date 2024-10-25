@@ -422,7 +422,7 @@ export default function Home() {
                                             <div>
                                                 <p className="text-sm text-gray-200 flex items-center gap-1">
                                                     <FcLike />
-                                                    {post.likes.toLocaleString()} likes
+                                                    {post.likes} likes
                                                 </p>
                                             </div>
 
@@ -453,6 +453,7 @@ export default function Home() {
                                                                                 src={image(comment.user?.image)}
                                                                                 alt="User Profile Picture"
                                                                                 className="object-cover w-full h-full"
+                                                                                onError={(e) => (e.target.src = defaultImage)}
                                                                             />
                                                                         </div>
 
@@ -510,7 +511,7 @@ export default function Home() {
 
                                                                             <p className="text-xs mt-2 text-gray-200 flex items-center gap-1">
                                                                                 <FcLike />
-                                                                                {comment.likes.toLocaleString()} likes
+                                                                                {comment.likes} likes
                                                                             </p>
                                                                         </div>
                                                                     </div>
@@ -599,7 +600,7 @@ export default function Home() {
                                                         </div>
                                                         <p className="text-xs mt-2 text-gray-200 flex items-center gap-1">
                                                             <FcLike />
-                                                            {posts.find((post) => post.id === activePost)?.likes.toLocaleString()} likes
+                                                            {posts.find((post) => post.id === activePost)?.likes} likes
                                                         </p>
                                                     </>
                                                 );
@@ -660,7 +661,7 @@ export default function Home() {
                                                                 )}
                                                                 <p className="text-xs mt-2 text-gray-200 flex items-center gap-1">
                                                                     <FcLike />
-                                                                    {comment.likes.toLocaleString()} likes
+                                                                    {comment.likes} likes
                                                                 </p>
                                                             </div>
                                                         </li>
