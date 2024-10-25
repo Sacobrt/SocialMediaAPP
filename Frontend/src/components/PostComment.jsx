@@ -190,7 +190,9 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
     };
 
     const handleCancel = () => {
-        if (mode === "post") {
+        if (mode === "post" && !editMode) {
+            navigate(RoutesNames.HOME);
+        } else if (mode === "post" && editMode) {
             navigate(RoutesNames.POST_OVERVIEW);
         } else if (mode === "comment") {
             navigate(RoutesNames.COMMENT_OVERVIEW);
