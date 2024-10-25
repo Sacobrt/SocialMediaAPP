@@ -16,7 +16,7 @@ async function getByID(id) {
             return { error: false, message: response.data };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data.message };
+            return { error: true, message: e.response.data };
         });
 }
 
@@ -26,7 +26,7 @@ async function remove(id) {
             return { error: false, message: response.data.message };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data.message };
+            return { error: true, message: e.response.data };
         });
 }
 
@@ -76,7 +76,7 @@ async function getPagination(page, condition) {
             return { error: false, message: response.data };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data.message };
+            return { error: true, message: e.response.data };
         });
 }
 
@@ -86,7 +86,7 @@ async function homePagination(page, condition) {
             return { error: false, message: response.data };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data.message };
+            return { error: true, message: e.response.data };
         });
 }
 
