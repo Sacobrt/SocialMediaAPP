@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using CSHARP_SocialMediaAPP.Models;
-using CSHARP_SocialMediaAPP.Models.DTO;
+using SocialMediaAPP.Models;
+using SocialMediaAPP.Models.DTO;
 
-namespace CSHARP_SocialMediaAPP.Mapping
+namespace SocialMediaAPP.Mapping
 {
     /// <summary>
     /// Defines the AutoMapper profile for mapping between domain models and DTOs used in the application.

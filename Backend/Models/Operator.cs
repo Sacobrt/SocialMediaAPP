@@ -1,4 +1,4 @@
-﻿namespace CSHARP_SocialMediaAPP.Models
+﻿namespace SocialMediaAPP.Models
 {
     /// <summary>
     /// Represents an operator in the Social Media application, responsible for administrative or system-level tasks.

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CSHARP_SocialMediaAPP.Data;
-using CSHARP_SocialMediaAPP.Models;
-using CSHARP_SocialMediaAPP.Models.DTO;
+using SocialMediaAPP.Data;
+using SocialMediaAPP.Models;
+using SocialMediaAPP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CSHARP_SocialMediaAPP.Controllers
+namespace SocialMediaAPP.Controllers
 {
     /// <summary>
     /// API Controller to manage follower relationships between users.

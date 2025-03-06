@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CSHARP_SocialMediaAPP.Models
+namespace SocialMediaAPP.Models
 {
     /// <summary>
     /// Represents a comment made by a user on a post in the Social Media application.

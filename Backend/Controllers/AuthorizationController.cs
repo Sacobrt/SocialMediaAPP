@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using CSHARP_SocialMediaAPP.Data;
-using CSHARP_SocialMediaAPP.Models.DTO;
+using SocialMediaAPP.Data;
+using SocialMediaAPP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -8,7 +8,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace CSHARP_SocialMediaAPP.Controllers
+namespace SocialMediaAPP.Controllers
 {
     /// <summary>
     /// Handles authorization and authentication for operators by validating credentials and generating JWT tokens.

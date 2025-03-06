@@ -1,7 +1,7 @@
-﻿using CSHARP_SocialMediaAPP.Models;
+﻿using SocialMediaAPP.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace CSHARP_SocialMediaAPP.Data
+namespace SocialMediaAPP.Data
 {
     /// <summary>
     /// Database context for the SocialMediaApp, responsible for managing entities and database interactions.

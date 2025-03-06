@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CSHARP_SocialMediaAPP.Validations
+namespace SocialMediaAPP.Validations
 {
     /// <summary>
     /// Custom validation attribute to ensure a user's age is at least a specified minimum.

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CSHARP_SocialMediaAPP.Models
+namespace SocialMediaAPP.Models
 {
     /// <summary>
     /// Represents a follower relationship between two users in the Social Media application.

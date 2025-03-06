@@ -4,7 +4,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 
-namespace CSHARP_SocialMediaAPP.Extensions
+namespace SocialMediaAPP.Extensions
 {
     /// <summary>
     /// Provides extension methods for configuring Swagger, CORS, and security (JWT authentication) for the Social Media API.

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using CSHARP_SocialMediaAPP.Data;
+using SocialMediaAPP.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CSHARP_SocialMediaAPP.Controllers
+namespace SocialMediaAPP.Controllers
 {
     /// <summary>
     /// Abstract base controller for all controllers in the SocialMediaApp.

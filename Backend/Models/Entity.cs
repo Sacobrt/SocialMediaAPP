@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CSHARP_SocialMediaAPP.Models
+namespace SocialMediaAPP.Models
 {
     /// <summary>
     /// Abstract base class representing a common entity with an optional ID.

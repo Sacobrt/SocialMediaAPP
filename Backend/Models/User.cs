@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CSHARP_SocialMediaAPP.Models
+namespace SocialMediaAPP.Models
 {
     /// <summary>
     /// Represents a user in the Social Media application.

@@ -1,6 +1,6 @@
-using CSHARP_SocialMediaAPP.Data;
-using CSHARP_SocialMediaAPP.Extensions;
-using CSHARP_SocialMediaAPP.Mapping;
+using SocialMediaAPP.Data;
+using SocialMediaAPP.Extensions;
+using SocialMediaAPP.Mapping;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

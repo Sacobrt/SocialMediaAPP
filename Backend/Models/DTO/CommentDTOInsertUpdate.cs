@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CSHARP_SocialMediaAPP.Models.DTO
+namespace SocialMediaAPP.Models.DTO
 {
     /// <summary>
     /// Data Transfer Object (DTO) for inserting or updating a comment.
