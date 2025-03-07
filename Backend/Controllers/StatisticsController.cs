@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CSHARP_SocialMediaAPP.Data;
-using CSHARP_SocialMediaAPP.Models.DTO;
+using SocialMediaAPP.Data;
+using SocialMediaAPP.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CSHARP_SocialMediaAPP.Controllers
+namespace SocialMediaAPP.Controllers
 {
     /// <summary>
     /// API Controller responsible for handling home-related operations for the social media application.
@@ -145,9 +145,6 @@ namespace CSHARP_SocialMediaAPP.Controllers
         {
             try
             {
-                var today = DateTime.UtcNow;
-                var last240Days = today.AddDays(-30);
-
                 // Top users by number of posts
                 var topUsersByPosts = _context.Users
                     .Select(u => new
@@ -204,7 +201,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
 
                 // Most registered users in the last 30 days (grouped by day)
                 var mostRecentUsers = _context.Users
-                    .Where(u => u.CreatedAt >= last240Days)
+                    .Where(u => u.CreatedAt >= DateTime.UtcNow.AddDays(-30))
                     .GroupBy(u => u.CreatedAt.Date)
                     .Select(g => new
                     {
