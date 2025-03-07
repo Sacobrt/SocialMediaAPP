@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using CSHARP_SocialMediaAPP.Data;
-using CSHARP_SocialMediaAPP.Models;
-using CSHARP_SocialMediaAPP.Models.DTO;
+using SocialMediaAPP.Data;
+using SocialMediaAPP.Models;
+using SocialMediaAPP.Models.DTO;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CSHARP_SocialMediaAPP.Controllers
+namespace SocialMediaAPP.Controllers
 {
     /// <summary>
     /// API Controller for managing users in the social media application.
@@ -346,8 +346,8 @@ namespace CSHARP_SocialMediaAPP.Controllers
                 return BadRequest(new { message = "The amount must be between 1 and 500." });
             }
 
-            List<User> generatedUsers = new List<User>();
-            Random random = new Random();
+            List<User> generatedUsers = [];
+            Random random = new();
 
             for (int i = 0; i < amount; i++)
             {
@@ -379,13 +379,13 @@ namespace CSHARP_SocialMediaAPP.Controllers
             // Return a list of the generated users with relevant details
             var result = generatedUsers.Select(user => new
             {
-                UserID = user.ID,
-                Username = user.Username,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                BirthDate = user.BirthDate,
-                CreatedAt = user.CreatedAt
+                user.ID,
+                user.Username,
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.BirthDate,
+                user.CreatedAt
             });
 
             // Return success message and generated user details
