@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using CSHARP_SocialMediaAPP.Data;
-using CSHARP_SocialMediaAPP.Models;
-using CSHARP_SocialMediaAPP.Models.DTO;
+using SocialMediaAPP.Data;
+using SocialMediaAPP.Models;
+using SocialMediaAPP.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CSHARP_SocialMediaAPP.Controllers
+namespace SocialMediaAPP.Controllers
 {
     /// <summary>
     /// API Controller to manage user posts in the social media platform.
@@ -55,13 +55,13 @@ namespace CSHARP_SocialMediaAPP.Controllers
         /// </summary>
         /// <param name="id">The ID of the post to retrieve.</param>
         /// <returns>
-        /// A PostDTOInsertUpdate object with the post details if found, 
+        /// A PostDTORead object with the post details if found, 
         /// or an error message if the post is not found.
         /// </returns>
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(Dictionary<string, string>), 400)]
         [ProducesResponseType(typeof(Dictionary<string, string>), 404)]
-        public ActionResult<PostDTOInsertUpdate> GetById(int id)
+        public ActionResult<PostDTORead> GetById(int id)
         {
             if (!ModelState.IsValid)
             {
@@ -70,8 +70,11 @@ namespace CSHARP_SocialMediaAPP.Controllers
             Post? e;
             try
             {
-                // Retrieve the post by ID, including associated user information
-                e = _context.Posts.Include(g => g.User).FirstOrDefault(g => g.ID == id);
+                e = _context.Posts
+                            .Include(u => u.User)
+                            .Include(c => c.Comments)
+                            .ThenInclude(u => u.User)
+                            .FirstOrDefault(p => p.ID == id);
             }
             catch (Exception ex)
             {
@@ -81,7 +84,7 @@ namespace CSHARP_SocialMediaAPP.Controllers
             {
                 return NotFound(new { message = "Post cannot be found!" });
             }
-            return Ok(_mapper.Map<PostDTOInsertUpdate>(e));
+            return Ok(_mapper.Map<PostDTORead>(e));
         }
 
         /// <summary>
