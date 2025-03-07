@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import Service from "../../services/CommentService";
 import UserService from "../../services/UserService";
-import { APP_URL, RoutesNames } from "../../constants";
+import { APP_URL } from "../../constants";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import PostService from "../../services/PostService";
-import { FaComments } from "react-icons/fa";
 import getRelativeTime from "../../hooks/getRelativeTime";
 import defaultImage from "../../assets/defaultImage.png";
 import { Link } from "react-router-dom";

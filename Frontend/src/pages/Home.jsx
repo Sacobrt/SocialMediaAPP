@@ -1,20 +1,18 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import Service from "../services/PostService";
-import CommentService from "../services/CommentService";
 import { IoIosClose } from "react-icons/io";
 import getRelativeTime from "../hooks/getRelativeTime";
 import defaultImage from "../assets/defaultImage.png";
 import { APP_URL, RoutesNames } from "../constants";
 import useAuth from "../hooks/useAuth";
 import { Link, useNavigate } from "react-router-dom";
-import { FaSignInAlt } from "react-icons/fa";
+import { FaRegComments, FaRegHeart, FaSignInAlt } from "react-icons/fa";
 import { parseJwt } from "../hooks/parseJwt";
 import { AuthContext } from "../components/AuthContext";
-import { RiDeleteBin6Line, RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
+import { RiUserFollowLine, RiUserUnfollowLine } from "react-icons/ri";
 
 import InfiniteScroll from "react-infinite-scroll-component";
 import FollowerService from "../services/FollowerService";
-import PostComment from "../components/PostComment";
 import { MdOutlinePostAdd } from "react-icons/md";
 import NetworkGraph from "../components/NetworkGraph";
 import { FcLike } from "react-icons/fc";
@@ -232,28 +230,7 @@ export default function Home() {
         return defaultImage;
     }
 
-    async function removeAsync(id) {
-        const response = await CommentService.remove(id);
-        if (response.error) {
-            setError(response.message);
-            return;
-        }
-        setPosts((prevPosts) => prevPosts.map((post) => (post.comments ? { ...post, comments: post.comments.filter((comment) => comment.id !== id) } : post)));
-    }
-
-    function removeCommentId(id) {
-        removeAsync(id);
-    }
-
-    const [expandedComments, setExpandedComments] = useState({});
     const [expandedModalComments, setExpandedModalComments] = useState({});
-
-    const toggleExpand = (commentId) => {
-        setExpandedComments((prevState) => ({
-            ...prevState,
-            [commentId]: !prevState[commentId],
-        }));
-    };
 
     const toggleExpandModal = (commentId) => {
         setExpandedModalComments((prevState) => ({
@@ -272,16 +249,12 @@ export default function Home() {
         return tempDiv.innerHTML;
     };
 
-    const handleNewComment = (updatedPost) => {
-        setPosts((prevPosts) => prevPosts.map((post) => (post.id === updatedPost.id ? updatedPost : post)));
-    };
-
     return (
         <div className="container mx-auto py-4 px-4">
             {isLoggedIn ? (
                 <>
                     {isLoading && (
-                        <div className="flex justify-center items-center pb-">
+                        <div className="flex justify-center items-center">
                             <div className="inline-flex flex-col items-center space-y-3 py-4 px-8 bg-gray-900 rounded-lg shadow-2xl">
                                 <div className="w-6 h-6 border-4 border-t-transparent border-gray-300 rounded-full animate-spin"></div>
                                 <div className="text-white font-mono text-xl tracking-wide animate-pulse">Loading content, please wait...</div>
@@ -290,12 +263,12 @@ export default function Home() {
                     )}
 
                     {!isLoading && (
-                        <>
+                        <div className="flex justify-center items-center gap-5">
                             {/* Add Post Button */}
-                            <div className="flex justify-center">
+                            <div className="">
                                 <Link
                                     to={RoutesNames.POST_NEW}
-                                    className="flex mb-5 md:mb-0 items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-gray-200 font-medium rounded-full shadow-lg transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl focus:ring-0"
+                                    className="flex mb-5 md:mb-0 items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-gray-200 font-medium rounded-md shadow-lg transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl focus:ring-0"
                                 >
                                     <MdOutlinePostAdd size={20} className="mr-3" />
                                     <span className="text-lg">Create New Post</span>
@@ -303,7 +276,7 @@ export default function Home() {
                             </div>
 
                             {/* Search */}
-                            <div className="flex flex-row justify-start gap-6 mb-2">
+                            <div className="flex items-center">
                                 <div className="relative w-fit">
                                     <input
                                         type="text"
@@ -324,7 +297,7 @@ export default function Home() {
                                     </svg>
                                 </div>
                             </div>
-                        </>
+                        </div>
                     )}
 
                     <InfiniteScroll
@@ -350,16 +323,14 @@ export default function Home() {
                                             d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"
                                         />
                                     </svg>
-                                    <p className="mb-2 text-lg font-semibold text-gray-200">You've reached the end!</p>
-                                    <p className="text-sm text-gray-400">That's all for now. Check back later for more updates or explore other sections.</p>
+                                    <p className="mb-2 text-lg font-semibold text-gray-200">You reached the end!</p>
+                                    <p className="text-sm text-gray-400">That all for now. Check back later for more updates or explore other sections.</p>
                                 </div>
                             )
                         }
                     >
-                        <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
-                            {!isLoading && error && (
-                                <div className="col-span-full bg-red-500 py-4 px-6 rounded-xl text-center text-white font-bold mb-6">{error}</div>
-                            )}
+                        <div className="grid gap-5 grid-cols-2 justify-center mt-5">
+                            {!isLoading && error && <div className="col-span-full bg-red-500 py-4 px-6 text-center text-gray-200 font-bold mb-6">{error}</div>}
 
                             {posts
                                 .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -367,20 +338,25 @@ export default function Home() {
                                     const processedPostContent = sanitizeHtmlWithClasses(post.content);
 
                                     return (
-                                        <div
+                                        <a
+                                            href={`/${post.user.username.toLowerCase()}/status/${post.id}`}
                                             key={index}
-                                            className="bg-gray-800 shadow-xl rounded-2xl p-6 transition-all duration-300 transform hover:scale-102 hover:shadow-2xl text-white"
+                                            className="cursor-pointer hover:bg-opacity-20 transition-all bg-gray-800 shadow-md rounded-md p-5 duration-300 transform hover:shadow-xl text-gray-200"
                                         >
                                             {/* Post Header */}
                                             <div className="flex items-center mb-4">
-                                                <div className="profile-avatar w-20 h-20 rounded-full overflow-hidden">
+                                                <div className="profile-avatar w-12 h-12 rounded-full overflow-hidden">
                                                     <img src={image(post.user.image)} alt="User Profile Picture" className="object-cover w-full h-full" />
                                                 </div>
                                                 <div className="flex flex-col ml-4">
                                                     <div className="flex items-center space-x-2">
                                                         {post.user.id != currentUserID && (
                                                             <button
-                                                                onClick={() => handleFollowToggle(post.userID)}
+                                                                onClick={(e) => {
+                                                                    e.stopPropagation();
+                                                                    e.preventDefault();
+                                                                    handleFollowToggle(post.userID);
+                                                                }}
                                                                 className={`px-2 text-xs rounded-md font-semibold transition duration-300 ease-in-out ${
                                                                     followStatus[post.userID]
                                                                         ? "bg-red-500 hover:bg-red-600 text-gray-200"
@@ -406,9 +382,9 @@ export default function Home() {
                                                         )}
                                                     </div>
                                                     <div className="flex items-center space-x-1">
-                                                        <span className="text-sm font-bold text-teal-400">{post.user.firstName + " " + post.user.lastName}</span>
+                                                        <span className="text-sm font-bold text-gray-200">{post.user.firstName + " " + post.user.lastName}</span>
+                                                        <span className="text-xs text-gray-400">@{post.user.username || "Loading..."}</span>
                                                     </div>
-                                                    <span className="text-xs text-gray-400">@{post.user.username || "Loading..."}</span>
                                                     <time className="text-[11px] text-gray-400">{getRelativeTime(post.createdAt)}</time>
                                                 </div>
                                             </div>
@@ -418,118 +394,28 @@ export default function Home() {
                                                 <div dangerouslySetInnerHTML={{ __html: processedPostContent }} />
                                             </div>
 
-                                            {/* Likes */}
-                                            <div>
-                                                <p className="text-sm text-gray-200 flex items-center gap-1">
-                                                    <FcLike />
-                                                    {post.likes} likes
-                                                </p>
+                                            <div className="flex items-center text-gray-200 space-x-5 font-bold">
+                                                <span className="flex items-center gap-1.5">
+                                                    <FaRegHeart />
+                                                    {post.likes.toLocaleString()}
+                                                </span>
+
+                                                {post.comments && (
+                                                    <button
+                                                        className={`${post.comments.length > 0 ? "hover:text-cyan-400 transition duration-300 ease-out" : ""}`}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            e.preventDefault();
+                                                            post.comments.length > 0 && openModal(post.id);
+                                                        }}
+                                                    >
+                                                        <span className="flex items-center gap-1.5">
+                                                            <FaRegComments /> {post.comments.length}
+                                                        </span>
+                                                    </button>
+                                                )}
                                             </div>
-
-                                            {/* Comments Section */}
-                                            {post.comments && post.comments.length > 0 && (
-                                                <div className="mt-2">
-                                                    <h3 className="text-sm font-semibold mb-2 text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
-                                                        Comments
-                                                    </h3>
-                                                    <div className="space-y-3">
-                                                        {post.comments
-                                                            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-                                                            .slice(0, 3)
-                                                            .map((comment, idx) => {
-                                                                const isExpanded = expandedComments[comment.id] || false;
-                                                                const isTruncated = comment.content.length > 1000;
-                                                                const processedContent = sanitizeHtmlWithClasses(comment.content);
-
-                                                                return (
-                                                                    <div
-                                                                        key={comment.id || idx}
-                                                                        className="flex items-start bg-gray-700 p-4 rounded-lg"
-                                                                        onClick={() => toggleExpand(comment.id)}
-                                                                    >
-                                                                        {/* Profile Avatar */}
-                                                                        <div className="profile-avatar w-10 h-10 mb-4 rounded-full overflow-hidden">
-                                                                            <img
-                                                                                src={image(comment.user?.image)}
-                                                                                alt="User Profile Picture"
-                                                                                className="object-cover w-full h-full"
-                                                                                onError={(e) => (e.target.src = defaultImage)}
-                                                                            />
-                                                                        </div>
-
-                                                                        <div className="ml-3 flex-1">
-                                                                            {/* User Information */}
-                                                                            <div className="relative flex justify-between items-start">
-                                                                                <div className="flex flex-col">
-                                                                                    <span className="text-sm text-teal-400 font-semibold">
-                                                                                        {comment.user?.firstName + " " + comment.user?.lastName}
-                                                                                        {/* Show fallback only if firstName is undefined */}
-                                                                                    </span>
-                                                                                    <span className="text-xs text-gray-400">
-                                                                                        @{comment.user?.username || "Loading..."}{" "}
-                                                                                        {/* Show fallback only if username is undefined */}
-                                                                                    </span>
-                                                                                    <time className="text-[11px] text-gray-400">
-                                                                                        {getRelativeTime(comment.createdAt)}
-                                                                                    </time>
-                                                                                </div>
-
-                                                                                {/* Delete button for comments by the logged-in user */}
-                                                                                {comment.userID == currentUserID && (
-                                                                                    <button
-                                                                                        className="btn-delete absolute -right-3 -top-3"
-                                                                                        onClick={() => removeCommentId(comment.id)}
-                                                                                        title="Delete Comment"
-                                                                                    >
-                                                                                        <RiDeleteBin6Line size={16} />
-                                                                                    </button>
-                                                                                )}
-                                                                            </div>
-
-                                                                            {/* Comment Content with expandable option */}
-                                                                            <div className="text-sm text-gray-200 mt-2 leading-relaxed">
-                                                                                {isExpanded ? (
-                                                                                    <div dangerouslySetInnerHTML={{ __html: processedContent }} />
-                                                                                ) : (
-                                                                                    <div>
-                                                                                        <div
-                                                                                            dangerouslySetInnerHTML={{
-                                                                                                __html: processedContent.slice(0, 1000),
-                                                                                            }}
-                                                                                        />
-                                                                                        {isTruncated && "..."}
-                                                                                    </div>
-                                                                                )}
-                                                                            </div>
-
-                                                                            {/* "Read more" / "Read less" button */}
-                                                                            {isTruncated && (
-                                                                                <button className="text-xs text-teal-400 mt-1 focus:outline-none">
-                                                                                    {isExpanded ? "Read less" : "Read more"}
-                                                                                </button>
-                                                                            )}
-
-                                                                            <p className="text-xs mt-2 text-gray-200 flex items-center gap-1">
-                                                                                <FcLike />
-                                                                                {comment.likes} likes
-                                                                            </p>
-                                                                        </div>
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                    </div>
-
-                                                    {post.comments.length > 3 && (
-                                                        <button className="mt-4 w-fit text-white text-sm font-medium" onClick={() => openModal(post.id)}>
-                                                            View all comments ({post.comments.length})
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            )}
-
-                                            {/* Comment form to add a new comment for the specific post */}
-                                            <PostComment post={post} postId={post.id} onNewComment={handleNewComment} mode="comment" />
-                                        </div>
+                                        </a>
                                     );
                                 })}
                         </div>
@@ -676,22 +562,21 @@ export default function Home() {
                 </>
             ) : (
                 <>
-                    <div className="w-full max-w-4xl mx-auto">
-                        {/* Main call to action for Sign In and Create New Account */}
-                        <div className="text-center w-full py-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-500 ease-in-out flex flex-col justify-center items-center space-y-8">
-                            <div>
+                    <div className="mt-10 max-w-4xl mx-auto">
+                        <div className="text-center bg-gray-900 bg-opacity-80 w-full py-5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-500 ease-in-out flex flex-col justify-center items-center space-y-8">
+                            <div className="flex flex-col items-center">
                                 <img
                                     alt="Social Media Logo"
                                     src="/logo.png"
                                     className={`-rotate-3 h-16 w-auto rounded-lg hover:rotate-3 transition-all duration-1000 ease-in-out hover:scale-125`}
                                 />
-                                <p className="text-sm text-gray-500">Connect, share, and explore with friends!</p>
+                                <p className="text-sm text-gray-500">Connecting people, empowering voices, and shaping the future of social.</p>
                             </div>
                             <p className="text-md text-gray-200 max-w-lg px-6 lg:px-0">
                                 Sign in to connect, share ideas, and engage with our vibrant community. Don’t have an account? Create one in just a few clicks!
                             </p>
 
-                            <div className="flex flex-col space-y-1 w-full max-w-sm items-center">
+                            <div className="w-fit">
                                 <button
                                     onClick={() => navigate(RoutesNames.LOGIN)}
                                     className="w-full py-3 px-6 rounded-lg bg-blue-600 text-gray-200 flex items-center justify-center gap-3 hover:bg-blue-700 transition-all duration-500 ease-in-out"
@@ -700,7 +585,7 @@ export default function Home() {
                                     Sign In with Email
                                 </button>
                                 <div className="flex items-center space-x-2 text-gray-400">
-                                    <span>Don't have an account?</span>
+                                    <span>Don’t have an account?</span>
                                     <button onClick={() => navigate(RoutesNames.USER_NEW)} className="underline text-blue-400 hover:text-blue-500">
                                         Sign up
                                     </button>

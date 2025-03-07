@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { EditorState, convertToRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -12,7 +12,6 @@ import CommentService from "../services/CommentService";
 import { RoutesNames } from "../constants";
 import { useNavigate, useParams } from "react-router-dom";
 import useError from "../hooks/useError";
-import moment from "moment";
 import { stateFromHTML } from "draft-js-import-html";
 
 const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = false }) => {
@@ -20,9 +19,7 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
     const { authToken } = useContext(AuthContext);
     const [currentUserID, setUserID] = useState(null);
     const { showError } = useError();
-    const [contentID, setContentID] = useState(null);
     const [originalUserID, setOriginalUserID] = useState(null);
-    const [createdAt, setCreatedAt] = useState(null);
     const navigate = useNavigate();
     const { id } = useParams();
     const routeParams = useParams();
@@ -50,16 +47,14 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
 
             if (response.message) {
                 const postContent = response.message.content;
-                setContentID(response.message.id);
                 setOriginalUserID(response.message.userID);
-                setCreatedAt(moment.utc(response.message.createdAt).format("yyyy-MM-DD"));
 
                 // Parse HTML content into ContentState
                 const contentState = stateFromHTML(postContent);
                 setEditorState(EditorState.createWithContent(contentState));
             }
         } catch (error) {
-            showError("Error loading post for editing.");
+            showError("Error loading post for editing: " + error.message);
         }
     };
 
@@ -69,16 +64,14 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
 
             if (response.message) {
                 const commentContent = response.message.content;
-                setContentID(response.message.id);
                 setOriginalUserID(response.message.userID);
-                setCreatedAt(moment.utc(response.message.createdAt).format("yyyy-MM-DD"));
 
                 // Parse HTML content into ContentState
                 const contentState = stateFromHTML(commentContent);
                 setEditorState(EditorState.createWithContent(contentState));
             }
         } catch (error) {
-            showError("Error loading comment for editing.");
+            showError("Error loading comment for editing: " + error.message);
         }
     };
 
@@ -151,7 +144,7 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
             setEditorState(EditorState.createEmpty());
             navigate(RoutesNames.COMMENT_OVERVIEW);
         } catch (error) {
-            showError("Error updating comment.");
+            showError("Error updating comment: " + error.message);
         }
     };
 
@@ -160,10 +153,27 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
             const response = await CommentService.add(commentData);
             if (response.message && response.message.id) {
                 setEditorState(EditorState.createEmpty());
-                onNewComment && onNewComment({ ...post, comments: [...post.comments, { ...commentData, id: response.message.id }] });
+                const token = parseJwt(authToken);
+
+                // Update the local state immediately
+                const newComment = {
+                    ...response.message,
+                    user: {
+                        id: currentUserID,
+                        firstName: token.FirstName,
+                        lastName: token.LastName,
+                        username: token.Username,
+                        image: `/images/users/${currentUserID}.png`,
+                    },
+                };
+
+                // Update parent component state
+                if (onNewComment) {
+                    onNewComment(newComment);
+                }
             }
         } catch (error) {
-            showError("Error posting comment.");
+            showError("Error posting comment: " + error.message);
         }
     };
 
@@ -173,7 +183,7 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
             setEditorState(EditorState.createEmpty());
             navigate(RoutesNames.POST_OVERVIEW);
         } catch (error) {
-            showError("Error updating post.");
+            showError("Error updating post: " + error.message);
         }
     };
 
@@ -185,7 +195,7 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
                 navigate(RoutesNames.HOME);
             }
         } catch (error) {
-            showError("Error posting post.");
+            showError("Error posting post: " + error.message);
         }
     };
 
@@ -200,7 +210,7 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
     };
 
     return (
-        <form onSubmit={handleSubmit} className="mt-4">
+        <form onSubmit={handleSubmit} className="mb-2">
             <Editor
                 editorState={editorState}
                 onEditorStateChange={handleEditorChange}
@@ -210,7 +220,7 @@ const PostComment = ({ postId, onNewComment, post, mode = "comment", editMode = 
                 }}
                 placeholder={mode === "post" ? "Make a new post..." : "Write a comment..."}
             />
-            <div className="flex justify-between mt-4">
+            <div className="flex justify-between mt-2">
                 {(mode === "post" || (editMode && mode === "comment")) && (
                     <button type="button" className="btn-cancel flex items-center" onClick={handleCancel}>
                         <MdCancel className="mr-1" />

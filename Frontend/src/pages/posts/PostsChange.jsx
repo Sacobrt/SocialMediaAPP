@@ -1,10 +1,9 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Service from "../../services/PostService";
 import PostComment from "../../components/PostComment";
 
 export default function PostsChange() {
-    const navigate = useNavigate();
     const routeParams = useParams();
     const [post, setPost] = useState({});
     const [error, setError] = useState(null);
@@ -19,7 +18,7 @@ export default function PostsChange() {
             }
             setPost(response.message);
         } catch (error) {
-            setError("Error fetching post data");
+            setError("Error fetching post data: " + error.message);
         }
     }
 

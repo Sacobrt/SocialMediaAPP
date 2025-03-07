@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import { AuthContext } from "./AuthContext";
 import { parseJwt } from "../hooks/parseJwt";
 import { APP_URL } from "../constants";

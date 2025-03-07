@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Service from "../../services/PostService";
 import UserService from "../../services/UserService";
-import { APP_URL, RoutesNames } from "../../constants";
-import { MdDriveFileRenameOutline, MdOutlinePostAdd } from "react-icons/md";
+import { APP_URL } from "../../constants";
+import { MdDriveFileRenameOutline } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import getRelativeTime from "../../hooks/getRelativeTime";
 import defaultImage from "../../assets/defaultImage.png";

@@ -40,7 +40,6 @@ export default function NetworkGraph({ customHeight = "100%" }) {
                     },
                 };
                 const dynamicLinks = [];
-                let i = 0;
 
                 users.forEach((user) => {
                     dynamicNodes[user.username] = {

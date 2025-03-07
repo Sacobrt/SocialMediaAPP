@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Highcharts from "highcharts";
 import StatisticsService from "../services/StatisticsService";
 import moment from "moment";
@@ -6,15 +6,10 @@ import NetworkGraph from "../components/NetworkGraph";
 import TotalData from "../components/TotalData";
 
 export default function Statistics() {
-    const [statsData, setStatsData] = useState({});
-    const [recentUsers, setRecentUsers] = useState([]);
-
     async function getTotalData() {
         await StatisticsService.topUserStats()
             .then((response) => {
-                setStatsData(response);
                 createCharts(response);
-                setRecentUsers(response.mostRecentUsers);
                 createRecentUsersChart(response.mostRecentUsers);
             })
             .catch((e) => {
@@ -317,29 +312,29 @@ export default function Statistics() {
     }
 
     return (
-        <div className="container mx-auto pb-10 space-y-10">
+        <div className="container mx-auto px-10 pb-10 space-y-5">
             <TotalData />
             <NetworkGraph customHeight="50%" />
-            <div className="grid grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
                 <div
-                    className="p-4 rounded-lg shadow-lg hover:shadow-xl hover:scale-110 border border-gray-700 transition-all duration-500 ease-in-out"
+                    className="p-4 rounded-lg shadow-lg border border-gray-700 transition-all duration-500 ease-in-out"
                     id="recentUsersChart"
                     style={{ width: "100%", height: "400px" }}
                 ></div>
                 <div
-                    className="p-4 rounded-lg shadow-lg hover:shadow-xl hover:scale-110 border border-gray-700 transition-all duration-500 ease-in-out"
+                    className="p-4 rounded-lg shadow-lg border border-gray-700 transition-all duration-500 ease-in-out"
                     id="mostLikedContent"
                     style={{ width: "100%", height: "400px" }}
                 ></div>
             </div>
-            <div className="grid grid-cols-2 gap-10">
+            <div className="grid grid-cols-1 gap-5 xl:grid-cols-2">
                 <div
-                    className="p-4 rounded-lg shadow-lg hover:shadow-xl hover:scale-110 border border-gray-700 transition-all duration-500 ease-in-out"
+                    className="p-4 rounded-lg shadow-lg border border-gray-700 transition-all duration-500 ease-in-out"
                     id="topUsersByPosts"
                     style={{ width: "100%", height: "400px" }}
                 ></div>
                 <div
-                    className="p-4 rounded-lg shadow-lg hover:shadow-xl hover:scale-110 border border-gray-700 transition-all duration-500 ease-in-out"
+                    className="p-4 rounded-lg shadow-lg border border-gray-700 transition-all duration-500 ease-in-out"
                     id="topUsersByComments"
                     style={{ width: "100%", height: "400px" }}
                 ></div>

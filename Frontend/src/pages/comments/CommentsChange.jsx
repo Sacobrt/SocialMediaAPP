@@ -21,7 +21,7 @@ export default function CommentsChange() {
             }
             setComment(response.message);
         } catch (error) {
-            setError("Error fetching comment data");
+            setError("Error fetching comment data: " + error.message);
         }
     }
 

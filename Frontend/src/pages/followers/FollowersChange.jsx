@@ -98,6 +98,15 @@ export default function FollowersChange() {
         navigate(RoutesNames.FOLLOWER_OVERVIEW);
     }
 
+    useEffect(() => {
+        if (error) {
+            const interval = setInterval(() => {
+                setError(null);
+            }, 5000);
+            return () => clearInterval(interval);
+        }
+    }, [error]);
+
     function handleSubmit(e) {
         e.preventDefault();
         const localDate = new Date();
@@ -118,7 +127,7 @@ export default function FollowersChange() {
             </h1>
 
             {error && (
-                <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold animate-bounce">
+                <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-gray-200 font-semibold animate-bounce">
                     {error.map((errMsg, index) => (
                         <p key={index}>{errMsg}</p>
                     ))}
