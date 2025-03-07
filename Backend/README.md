@@ -1,191 +1,191 @@
 <a name='assembly'></a>
-# CSHARP_SocialMediaAPP
+# SocialMediaAPP
 
 ## Contents
 
-- [AgeValidator](#T-CSHARP_SocialMediaAPP-Validations-AgeValidator 'CSHARP_SocialMediaAPP.Validations.AgeValidator')
-  - [#ctor(minimumAge)](#M-CSHARP_SocialMediaAPP-Validations-AgeValidator-#ctor-System-Int32- 'CSHARP_SocialMediaAPP.Validations.AgeValidator.#ctor(System.Int32)')
-  - [IsValid(value,validationContext)](#M-CSHARP_SocialMediaAPP-Validations-AgeValidator-IsValid-System-Object,System-ComponentModel-DataAnnotations-ValidationContext- 'CSHARP_SocialMediaAPP.Validations.AgeValidator.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)')
-- [AuthorizationController](#T-CSHARP_SocialMediaAPP-Controllers-AuthorizationController 'CSHARP_SocialMediaAPP.Controllers.AuthorizationController')
-  - [#ctor(context,mapper)](#M-CSHARP_SocialMediaAPP-Controllers-AuthorizationController-#ctor-CSHARP_SocialMediaAPP-Data-SocialMediaContext,AutoMapper-IMapper- 'CSHARP_SocialMediaAPP.Controllers.AuthorizationController.#ctor(CSHARP_SocialMediaAPP.Data.SocialMediaContext,AutoMapper.IMapper)')
-  - [GenerateToken(opt)](#M-CSHARP_SocialMediaAPP-Controllers-AuthorizationController-GenerateToken-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO- 'CSHARP_SocialMediaAPP.Controllers.AuthorizationController.GenerateToken(CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO)')
-- [CellData](#T-CSHARP_SocialMediaAPP-Controllers-CellData 'CSHARP_SocialMediaAPP.Controllers.CellData')
-  - [CellBgColor](#P-CSHARP_SocialMediaAPP-Controllers-CellData-CellBgColor 'CSHARP_SocialMediaAPP.Controllers.CellData.CellBgColor')
-  - [CellDown](#P-CSHARP_SocialMediaAPP-Controllers-CellData-CellDown 'CSHARP_SocialMediaAPP.Controllers.CellData.CellDown')
-  - [CellLeft](#P-CSHARP_SocialMediaAPP-Controllers-CellData-CellLeft 'CSHARP_SocialMediaAPP.Controllers.CellData.CellLeft')
-  - [CellNumber](#P-CSHARP_SocialMediaAPP-Controllers-CellData-CellNumber 'CSHARP_SocialMediaAPP.Controllers.CellData.CellNumber')
-  - [CellRight](#P-CSHARP_SocialMediaAPP-Controllers-CellData-CellRight 'CSHARP_SocialMediaAPP.Controllers.CellData.CellRight')
-  - [CellUp](#P-CSHARP_SocialMediaAPP-Controllers-CellData-CellUp 'CSHARP_SocialMediaAPP.Controllers.CellData.CellUp')
-- [Comment](#T-CSHARP_SocialMediaAPP-Models-Comment 'CSHARP_SocialMediaAPP.Models.Comment')
-  - [Content](#P-CSHARP_SocialMediaAPP-Models-Comment-Content 'CSHARP_SocialMediaAPP.Models.Comment.Content')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-Comment-CreatedAt 'CSHARP_SocialMediaAPP.Models.Comment.CreatedAt')
-  - [Likes](#P-CSHARP_SocialMediaAPP-Models-Comment-Likes 'CSHARP_SocialMediaAPP.Models.Comment.Likes')
-  - [Post](#P-CSHARP_SocialMediaAPP-Models-Comment-Post 'CSHARP_SocialMediaAPP.Models.Comment.Post')
-  - [User](#P-CSHARP_SocialMediaAPP-Models-Comment-User 'CSHARP_SocialMediaAPP.Models.Comment.User')
-- [CommentController](#T-CSHARP_SocialMediaAPP-Controllers-CommentController 'CSHARP_SocialMediaAPP.Controllers.CommentController')
-  - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.CommentController.Delete(System.Int32)')
-  - [GenerateComments(amount)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-GenerateComments-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.CommentController.GenerateComments(System.Int32)')
-  - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-Get 'CSHARP_SocialMediaAPP.Controllers.CommentController.Get')
-  - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.CommentController.GetById(System.Int32)')
-  - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.CommentController.Pagination(System.Int32,System.String)')
-  - [Post(dto)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-Post-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.CommentController.Post(CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate)')
-  - [Put(id,dto)](#M-CSHARP_SocialMediaAPP-Controllers-CommentController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.CommentController.Put(System.Int32,CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate)')
-- [CommentDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate')
-  - [#ctor(UserID,PostID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime- 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.#ctor(System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime)')
-  - [Content](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-Content 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.Content')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.CreatedAt')
-  - [Likes](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-Likes 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.Likes')
-  - [PostID](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-PostID 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.PostID')
-  - [UserID](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-UserID 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.UserID')
-- [CommentDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead')
-  - [#ctor(ID,UserID,PostID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-#ctor-System-Int32,System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,CSHARP_SocialMediaAPP-Models-DTO-UserDTORead- 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime,CSHARP_SocialMediaAPP.Models.DTO.UserDTORead)')
-  - [Content](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-Content 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.Content')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.CreatedAt')
-  - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.ID')
-  - [Likes](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-Likes 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.Likes')
-  - [PostID](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-PostID 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.PostID')
-  - [UserID](#P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-UserID 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead.UserID')
-- [CyclicController](#T-CSHARP_SocialMediaAPP-Controllers-CyclicController 'CSHARP_SocialMediaAPP.Controllers.CyclicController')
-  - [ConvertToJson()](#M-CSHARP_SocialMediaAPP-Controllers-CyclicController-ConvertToJson-CSHARP_SocialMediaAPP-Controllers-CellData[0-,0-]- 'CSHARP_SocialMediaAPP.Controllers.CyclicController.ConvertToJson(CSHARP_SocialMediaAPP.Controllers.CellData[0:,0:])')
-  - [CreateCyclic(rows,columns)](#M-CSHARP_SocialMediaAPP-Controllers-CyclicController-CreateCyclic-System-Int32,System-Int32- 'CSHARP_SocialMediaAPP.Controllers.CyclicController.CreateCyclic(System.Int32,System.Int32)')
-  - [GetCyclic(rows,columns)](#M-CSHARP_SocialMediaAPP-Controllers-CyclicController-GetCyclic-System-String,System-String- 'CSHARP_SocialMediaAPP.Controllers.CyclicController.GetCyclic(System.String,System.String)')
-- [Entity](#T-CSHARP_SocialMediaAPP-Models-Entity 'CSHARP_SocialMediaAPP.Models.Entity')
-  - [ID](#P-CSHARP_SocialMediaAPP-Models-Entity-ID 'CSHARP_SocialMediaAPP.Models.Entity.ID')
-- [Follower](#T-CSHARP_SocialMediaAPP-Models-Follower 'CSHARP_SocialMediaAPP.Models.Follower')
-  - [FollowedAt](#P-CSHARP_SocialMediaAPP-Models-Follower-FollowedAt 'CSHARP_SocialMediaAPP.Models.Follower.FollowedAt')
-  - [FollowerUser](#P-CSHARP_SocialMediaAPP-Models-Follower-FollowerUser 'CSHARP_SocialMediaAPP.Models.Follower.FollowerUser')
-  - [User](#P-CSHARP_SocialMediaAPP-Models-Follower-User 'CSHARP_SocialMediaAPP.Models.Follower.User')
-- [FollowerController](#T-CSHARP_SocialMediaAPP-Controllers-FollowerController 'CSHARP_SocialMediaAPP.Controllers.FollowerController')
-  - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Delete(System.Int32)')
-  - [GenerateFollowers(amount)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GenerateFollowers-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.GenerateFollowers(System.Int32)')
-  - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Get 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Get')
-  - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.GetById(System.Int32)')
-  - [GetFollowStatuses(currentUserId,followedUserIds)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetFollowStatuses-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.GetFollowStatuses(System.Int32,System.String)')
-  - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Pagination(System.Int32,System.String)')
-  - [Post(dto)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Post-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Post(CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate)')
-  - [Put(id,dto)](#M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.FollowerController.Put(System.Int32,CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate)')
-- [FollowerDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate')
-  - [#ctor(UserID,FollowerUserID,FollowedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-#ctor-System-Int32,System-Int32,System-DateTime- 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate.#ctor(System.Int32,System.Int32,System.DateTime)')
-  - [FollowedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-FollowedAt 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate.FollowedAt')
-  - [FollowerUserID](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-FollowerUserID 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate.FollowerUserID')
-  - [UserID](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-UserID 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate.UserID')
-- [FollowerDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead')
-  - [#ctor(ID,User,FollowerUser,FollowedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-#ctor-System-Int32,System-String,System-String,System-DateTime- 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.#ctor(System.Int32,System.String,System.String,System.DateTime)')
-  - [FollowedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-FollowedAt 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.FollowedAt')
-  - [FollowerUser](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-FollowerUser 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.FollowerUser')
-  - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.ID')
-  - [User](#P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-User 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead.User')
-- [ImageDTO](#T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO')
-  - [#ctor(Base64)](#M-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-#ctor-System-String- 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO.#ctor(System.String)')
-  - [Base64](#P-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-Base64 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO.Base64')
-- [MainMappingProfile](#T-CSHARP_SocialMediaAPP-Mapping-MainMappingProfile 'CSHARP_SocialMediaAPP.Mapping.MainMappingProfile')
-  - [#ctor()](#M-CSHARP_SocialMediaAPP-Mapping-MainMappingProfile-#ctor 'CSHARP_SocialMediaAPP.Mapping.MainMappingProfile.#ctor')
-  - [FilePath(e)](#M-CSHARP_SocialMediaAPP-Mapping-MainMappingProfile-FilePath-CSHARP_SocialMediaAPP-Models-User- 'CSHARP_SocialMediaAPP.Mapping.MainMappingProfile.FilePath(CSHARP_SocialMediaAPP.Models.User)')
-- [Operator](#T-CSHARP_SocialMediaAPP-Models-Operator 'CSHARP_SocialMediaAPP.Models.Operator')
-  - [Email](#P-CSHARP_SocialMediaAPP-Models-Operator-Email 'CSHARP_SocialMediaAPP.Models.Operator.Email')
-  - [Password](#P-CSHARP_SocialMediaAPP-Models-Operator-Password 'CSHARP_SocialMediaAPP.Models.Operator.Password')
-  - [User](#P-CSHARP_SocialMediaAPP-Models-Operator-User 'CSHARP_SocialMediaAPP.Models.Operator.User')
-  - [UserId](#P-CSHARP_SocialMediaAPP-Models-Operator-UserId 'CSHARP_SocialMediaAPP.Models.Operator.UserId')
-- [OperatorDTO](#T-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO 'CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO')
-  - [#ctor(Email,Password)](#M-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO-#ctor-System-String,System-String- 'CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO.#ctor(System.String,System.String)')
-  - [Email](#P-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO-Email 'CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO.Email')
-  - [Password](#P-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO-Password 'CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO.Password')
-- [Post](#T-CSHARP_SocialMediaAPP-Models-Post 'CSHARP_SocialMediaAPP.Models.Post')
-  - [Content](#P-CSHARP_SocialMediaAPP-Models-Post-Content 'CSHARP_SocialMediaAPP.Models.Post.Content')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-Post-CreatedAt 'CSHARP_SocialMediaAPP.Models.Post.CreatedAt')
-  - [Likes](#P-CSHARP_SocialMediaAPP-Models-Post-Likes 'CSHARP_SocialMediaAPP.Models.Post.Likes')
-  - [User](#P-CSHARP_SocialMediaAPP-Models-Post-User 'CSHARP_SocialMediaAPP.Models.Post.User')
-- [PostController](#T-CSHARP_SocialMediaAPP-Controllers-PostController 'CSHARP_SocialMediaAPP.Controllers.PostController')
-  - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.PostController.Delete(System.Int32)')
-  - [Generate(amount)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Generate-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.PostController.Generate(System.Int32)')
-  - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Get 'CSHARP_SocialMediaAPP.Controllers.PostController.Get')
-  - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.PostController.GetById(System.Int32)')
-  - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.PostController.Pagination(System.Int32,System.String)')
-  - [Post(dto)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Post-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.PostController.Post(CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate)')
-  - [Put(id,dto)](#M-CSHARP_SocialMediaAPP-Controllers-PostController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.PostController.Put(System.Int32,CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate)')
-- [PostDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate')
-  - [#ctor(UserID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-#ctor-System-Int32,System-String,System-Nullable{System-Int32},System-DateTime- 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.#ctor(System.Int32,System.String,System.Nullable{System.Int32},System.DateTime)')
-  - [Content](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Content 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.Content')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.CreatedAt')
-  - [Likes](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Likes 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.Likes')
-  - [UserID](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-UserID 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.UserID')
-- [PostDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead')
-  - [#ctor(ID,UserID,Content,Likes,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead},CSHARP_SocialMediaAPP-Models-DTO-UserDTORead- 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.#ctor(System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime,System.Collections.Generic.List{CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead},CSHARP_SocialMediaAPP.Models.DTO.UserDTORead)')
-  - [Content](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-Content 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.Content')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.CreatedAt')
-  - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.ID')
-  - [Likes](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-Likes 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.Likes')
-  - [UserID](#P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-UserID 'CSHARP_SocialMediaAPP.Models.DTO.PostDTORead.UserID')
-- [SocialMediaContext](#T-CSHARP_SocialMediaAPP-Data-SocialMediaContext 'CSHARP_SocialMediaAPP.Data.SocialMediaContext')
-  - [#ctor(options)](#M-CSHARP_SocialMediaAPP-Data-SocialMediaContext-#ctor-Microsoft-EntityFrameworkCore-DbContextOptions{CSHARP_SocialMediaAPP-Data-SocialMediaContext}- 'CSHARP_SocialMediaAPP.Data.SocialMediaContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{CSHARP_SocialMediaAPP.Data.SocialMediaContext})')
-  - [Comments](#P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Comments 'CSHARP_SocialMediaAPP.Data.SocialMediaContext.Comments')
-  - [Followers](#P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Followers 'CSHARP_SocialMediaAPP.Data.SocialMediaContext.Followers')
-  - [Operators](#P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Operators 'CSHARP_SocialMediaAPP.Data.SocialMediaContext.Operators')
-  - [Posts](#P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Posts 'CSHARP_SocialMediaAPP.Data.SocialMediaContext.Posts')
-  - [Users](#P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Users 'CSHARP_SocialMediaAPP.Data.SocialMediaContext.Users')
-  - [OnModelCreating(modelBuilder)](#M-CSHARP_SocialMediaAPP-Data-SocialMediaContext-OnModelCreating-Microsoft-EntityFrameworkCore-ModelBuilder- 'CSHARP_SocialMediaAPP.Data.SocialMediaContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)')
-- [SocialMediaController](#T-CSHARP_SocialMediaAPP-Controllers-SocialMediaController 'CSHARP_SocialMediaAPP.Controllers.SocialMediaController')
-  - [#ctor()](#M-CSHARP_SocialMediaAPP-Controllers-SocialMediaController-#ctor-CSHARP_SocialMediaAPP-Data-SocialMediaContext,AutoMapper-IMapper- 'CSHARP_SocialMediaAPP.Controllers.SocialMediaController.#ctor(CSHARP_SocialMediaAPP.Data.SocialMediaContext,AutoMapper.IMapper)')
-  - [_context](#F-CSHARP_SocialMediaAPP-Controllers-SocialMediaController-_context 'CSHARP_SocialMediaAPP.Controllers.SocialMediaController._context')
-  - [_mapper](#F-CSHARP_SocialMediaAPP-Controllers-SocialMediaController-_mapper 'CSHARP_SocialMediaAPP.Controllers.SocialMediaController._mapper')
-- [SocialMediaExtensions](#T-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions 'CSHARP_SocialMediaAPP.Extensions.SocialMediaExtensions')
-  - [AddSocialMediaCORS(services)](#M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaCORS-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'CSHARP_SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaCORS(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
-  - [AddSocialMediaSecurity(services)](#M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSecurity-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'CSHARP_SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaSecurity(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
-  - [AddSocialMediaSwaggerGen(services)](#M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSwaggerGen-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'CSHARP_SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaSwaggerGen(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
-- [StatisticsController](#T-CSHARP_SocialMediaAPP-Controllers-StatisticsController 'CSHARP_SocialMediaAPP.Controllers.StatisticsController')
-  - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.StatisticsController.Pagination(System.Int32,System.String)')
-  - [RandomUsers()](#M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-RandomUsers 'CSHARP_SocialMediaAPP.Controllers.StatisticsController.RandomUsers')
-  - [TopUserStats()](#M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-TopUserStats 'CSHARP_SocialMediaAPP.Controllers.StatisticsController.TopUserStats')
-  - [TotalData()](#M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-TotalData 'CSHARP_SocialMediaAPP.Controllers.StatisticsController.TotalData')
-- [User](#T-CSHARP_SocialMediaAPP-Models-User 'CSHARP_SocialMediaAPP.Models.User')
-  - [BirthDate](#P-CSHARP_SocialMediaAPP-Models-User-BirthDate 'CSHARP_SocialMediaAPP.Models.User.BirthDate')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-User-CreatedAt 'CSHARP_SocialMediaAPP.Models.User.CreatedAt')
-  - [Email](#P-CSHARP_SocialMediaAPP-Models-User-Email 'CSHARP_SocialMediaAPP.Models.User.Email')
-  - [FirstName](#P-CSHARP_SocialMediaAPP-Models-User-FirstName 'CSHARP_SocialMediaAPP.Models.User.FirstName')
-  - [LastName](#P-CSHARP_SocialMediaAPP-Models-User-LastName 'CSHARP_SocialMediaAPP.Models.User.LastName')
-  - [Password](#P-CSHARP_SocialMediaAPP-Models-User-Password 'CSHARP_SocialMediaAPP.Models.User.Password')
-  - [Username](#P-CSHARP_SocialMediaAPP-Models-User-Username 'CSHARP_SocialMediaAPP.Models.User.Username')
-- [UserController](#T-CSHARP_SocialMediaAPP-Controllers-UserController 'CSHARP_SocialMediaAPP.Controllers.UserController')
-  - [Delete(id)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Delete-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.UserController.Delete(System.Int32)')
-  - [Generate(amount)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Generate-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.UserController.Generate(System.Int32)')
-  - [Get()](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Get 'CSHARP_SocialMediaAPP.Controllers.UserController.Get')
-  - [GetById(id)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-GetById-System-Int32- 'CSHARP_SocialMediaAPP.Controllers.UserController.GetById(System.Int32)')
-  - [Pagination(page,condition)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Pagination-System-Int32,System-String- 'CSHARP_SocialMediaAPP.Controllers.UserController.Pagination(System.Int32,System.String)')
-  - [Post(dto)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Post-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.UserController.Post(CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate)')
-  - [Put(id,dto)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate- 'CSHARP_SocialMediaAPP.Controllers.UserController.Put(System.Int32,CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate)')
-  - [SetImage(id,image)](#M-CSHARP_SocialMediaAPP-Controllers-UserController-SetImage-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-ImageDTO- 'CSHARP_SocialMediaAPP.Controllers.UserController.SetImage(System.Int32,CSHARP_SocialMediaAPP.Models.DTO.ImageDTO)')
-- [UserDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate')
-  - [#ctor(Username,Password,Email,FirstName,LastName,BirthDate,CreatedAt)](#M-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-#ctor-System-String,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime- 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.#ctor(System.String,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime)')
-  - [BirthDate](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-BirthDate 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.BirthDate')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.CreatedAt')
-  - [Email](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Email 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Email')
-  - [FirstName](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-FirstName 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.FirstName')
-  - [LastName](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-LastName 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.LastName')
-  - [Password](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Password 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Password')
-  - [Username](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Username 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Username')
-- [UserDTORead](#T-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead')
-  - [#ctor(ID,Username,Email,FirstName,LastName,BirthDate,CreatedAt,Image)](#M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime,System-String- 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime,System.String)')
-  - [BirthDate](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-BirthDate 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.BirthDate')
-  - [CreatedAt](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-CreatedAt 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.CreatedAt')
-  - [Email](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Email 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.Email')
-  - [FirstName](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-FirstName 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.FirstName')
-  - [ID](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-ID 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.ID')
-  - [Image](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Image 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.Image')
-  - [LastName](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-LastName 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.LastName')
-  - [Username](#P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Username 'CSHARP_SocialMediaAPP.Models.DTO.UserDTORead.Username')
+- [AgeValidator](#T-SocialMediaAPP-Validations-AgeValidator 'SocialMediaAPP.Validations.AgeValidator')
+  - [#ctor(minimumAge)](#M-SocialMediaAPP-Validations-AgeValidator-#ctor-System-Int32- 'SocialMediaAPP.Validations.AgeValidator.#ctor(System.Int32)')
+  - [IsValid(value,validationContext)](#M-SocialMediaAPP-Validations-AgeValidator-IsValid-System-Object,System-ComponentModel-DataAnnotations-ValidationContext- 'SocialMediaAPP.Validations.AgeValidator.IsValid(System.Object,System.ComponentModel.DataAnnotations.ValidationContext)')
+- [AuthorizationController](#T-SocialMediaAPP-Controllers-AuthorizationController 'SocialMediaAPP.Controllers.AuthorizationController')
+  - [#ctor(context,mapper)](#M-SocialMediaAPP-Controllers-AuthorizationController-#ctor-SocialMediaAPP-Data-SocialMediaContext,AutoMapper-IMapper- 'SocialMediaAPP.Controllers.AuthorizationController.#ctor(SocialMediaAPP.Data.SocialMediaContext,AutoMapper.IMapper)')
+  - [GenerateToken(opt)](#M-SocialMediaAPP-Controllers-AuthorizationController-GenerateToken-SocialMediaAPP-Models-DTO-OperatorDTO- 'SocialMediaAPP.Controllers.AuthorizationController.GenerateToken(SocialMediaAPP.Models.DTO.OperatorDTO)')
+- [CellData](#T-SocialMediaAPP-Controllers-CellData 'SocialMediaAPP.Controllers.CellData')
+  - [CellBgColor](#P-SocialMediaAPP-Controllers-CellData-CellBgColor 'SocialMediaAPP.Controllers.CellData.CellBgColor')
+  - [CellDown](#P-SocialMediaAPP-Controllers-CellData-CellDown 'SocialMediaAPP.Controllers.CellData.CellDown')
+  - [CellLeft](#P-SocialMediaAPP-Controllers-CellData-CellLeft 'SocialMediaAPP.Controllers.CellData.CellLeft')
+  - [CellNumber](#P-SocialMediaAPP-Controllers-CellData-CellNumber 'SocialMediaAPP.Controllers.CellData.CellNumber')
+  - [CellRight](#P-SocialMediaAPP-Controllers-CellData-CellRight 'SocialMediaAPP.Controllers.CellData.CellRight')
+  - [CellUp](#P-SocialMediaAPP-Controllers-CellData-CellUp 'SocialMediaAPP.Controllers.CellData.CellUp')
+- [Comment](#T-SocialMediaAPP-Models-Comment 'SocialMediaAPP.Models.Comment')
+  - [Content](#P-SocialMediaAPP-Models-Comment-Content 'SocialMediaAPP.Models.Comment.Content')
+  - [CreatedAt](#P-SocialMediaAPP-Models-Comment-CreatedAt 'SocialMediaAPP.Models.Comment.CreatedAt')
+  - [Likes](#P-SocialMediaAPP-Models-Comment-Likes 'SocialMediaAPP.Models.Comment.Likes')
+  - [Post](#P-SocialMediaAPP-Models-Comment-Post 'SocialMediaAPP.Models.Comment.Post')
+  - [User](#P-SocialMediaAPP-Models-Comment-User 'SocialMediaAPP.Models.Comment.User')
+- [CommentController](#T-SocialMediaAPP-Controllers-CommentController 'SocialMediaAPP.Controllers.CommentController')
+  - [Delete(id)](#M-SocialMediaAPP-Controllers-CommentController-Delete-System-Int32- 'SocialMediaAPP.Controllers.CommentController.Delete(System.Int32)')
+  - [GenerateComments(amount)](#M-SocialMediaAPP-Controllers-CommentController-GenerateComments-System-Int32- 'SocialMediaAPP.Controllers.CommentController.GenerateComments(System.Int32)')
+  - [Get()](#M-SocialMediaAPP-Controllers-CommentController-Get 'SocialMediaAPP.Controllers.CommentController.Get')
+  - [GetById(id)](#M-SocialMediaAPP-Controllers-CommentController-GetById-System-Int32- 'SocialMediaAPP.Controllers.CommentController.GetById(System.Int32)')
+  - [Pagination(page,condition)](#M-SocialMediaAPP-Controllers-CommentController-Pagination-System-Int32,System-String- 'SocialMediaAPP.Controllers.CommentController.Pagination(System.Int32,System.String)')
+  - [Post(dto)](#M-SocialMediaAPP-Controllers-CommentController-Post-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate- 'SocialMediaAPP.Controllers.CommentController.Post(SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate)')
+  - [Put(id,dto)](#M-SocialMediaAPP-Controllers-CommentController-Put-System-Int32,SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate- 'SocialMediaAPP.Controllers.CommentController.Put(System.Int32,SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate)')
+- [CommentDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate')
+  - [#ctor(UserID,PostID,Content,Likes,CreatedAt)](#M-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime- 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.#ctor(System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime)')
+  - [Content](#P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-Content 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.Content')
+  - [CreatedAt](#P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-CreatedAt 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.CreatedAt')
+  - [Likes](#P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-Likes 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.Likes')
+  - [PostID](#P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-PostID 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.PostID')
+  - [UserID](#P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-UserID 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate.UserID')
+- [CommentDTORead](#T-SocialMediaAPP-Models-DTO-CommentDTORead 'SocialMediaAPP.Models.DTO.CommentDTORead')
+  - [#ctor(ID,UserID,PostID,Content,Likes,CreatedAt)](#M-SocialMediaAPP-Models-DTO-CommentDTORead-#ctor-System-Int32,System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,SocialMediaAPP-Models-DTO-UserDTORead- 'SocialMediaAPP.Models.DTO.CommentDTORead.#ctor(System.Int32,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime,SocialMediaAPP.Models.DTO.UserDTORead)')
+  - [Content](#P-SocialMediaAPP-Models-DTO-CommentDTORead-Content 'SocialMediaAPP.Models.DTO.CommentDTORead.Content')
+  - [CreatedAt](#P-SocialMediaAPP-Models-DTO-CommentDTORead-CreatedAt 'SocialMediaAPP.Models.DTO.CommentDTORead.CreatedAt')
+  - [ID](#P-SocialMediaAPP-Models-DTO-CommentDTORead-ID 'SocialMediaAPP.Models.DTO.CommentDTORead.ID')
+  - [Likes](#P-SocialMediaAPP-Models-DTO-CommentDTORead-Likes 'SocialMediaAPP.Models.DTO.CommentDTORead.Likes')
+  - [PostID](#P-SocialMediaAPP-Models-DTO-CommentDTORead-PostID 'SocialMediaAPP.Models.DTO.CommentDTORead.PostID')
+  - [UserID](#P-SocialMediaAPP-Models-DTO-CommentDTORead-UserID 'SocialMediaAPP.Models.DTO.CommentDTORead.UserID')
+- [CyclicController](#T-SocialMediaAPP-Controllers-CyclicController 'SocialMediaAPP.Controllers.CyclicController')
+  - [ConvertToJson()](#M-SocialMediaAPP-Controllers-CyclicController-ConvertToJson-SocialMediaAPP-Controllers-CellData[0-,0-]- 'SocialMediaAPP.Controllers.CyclicController.ConvertToJson(SocialMediaAPP.Controllers.CellData[0:,0:])')
+  - [CreateCyclic(rows,columns)](#M-SocialMediaAPP-Controllers-CyclicController-CreateCyclic-System-Int32,System-Int32- 'SocialMediaAPP.Controllers.CyclicController.CreateCyclic(System.Int32,System.Int32)')
+  - [GetCyclic(rows,columns)](#M-SocialMediaAPP-Controllers-CyclicController-GetCyclic-System-String,System-String- 'SocialMediaAPP.Controllers.CyclicController.GetCyclic(System.String,System.String)')
+- [Entity](#T-SocialMediaAPP-Models-Entity 'SocialMediaAPP.Models.Entity')
+  - [ID](#P-SocialMediaAPP-Models-Entity-ID 'SocialMediaAPP.Models.Entity.ID')
+- [Follower](#T-SocialMediaAPP-Models-Follower 'SocialMediaAPP.Models.Follower')
+  - [FollowedAt](#P-SocialMediaAPP-Models-Follower-FollowedAt 'SocialMediaAPP.Models.Follower.FollowedAt')
+  - [FollowerUser](#P-SocialMediaAPP-Models-Follower-FollowerUser 'SocialMediaAPP.Models.Follower.FollowerUser')
+  - [User](#P-SocialMediaAPP-Models-Follower-User 'SocialMediaAPP.Models.Follower.User')
+- [FollowerController](#T-SocialMediaAPP-Controllers-FollowerController 'SocialMediaAPP.Controllers.FollowerController')
+  - [Delete(id)](#M-SocialMediaAPP-Controllers-FollowerController-Delete-System-Int32- 'SocialMediaAPP.Controllers.FollowerController.Delete(System.Int32)')
+  - [GenerateFollowers(amount)](#M-SocialMediaAPP-Controllers-FollowerController-GenerateFollowers-System-Int32- 'SocialMediaAPP.Controllers.FollowerController.GenerateFollowers(System.Int32)')
+  - [Get()](#M-SocialMediaAPP-Controllers-FollowerController-Get 'SocialMediaAPP.Controllers.FollowerController.Get')
+  - [GetById(id)](#M-SocialMediaAPP-Controllers-FollowerController-GetById-System-Int32- 'SocialMediaAPP.Controllers.FollowerController.GetById(System.Int32)')
+  - [GetFollowStatuses(currentUserId,followedUserIds)](#M-SocialMediaAPP-Controllers-FollowerController-GetFollowStatuses-System-Int32,System-String- 'SocialMediaAPP.Controllers.FollowerController.GetFollowStatuses(System.Int32,System.String)')
+  - [Pagination(page,condition)](#M-SocialMediaAPP-Controllers-FollowerController-Pagination-System-Int32,System-String- 'SocialMediaAPP.Controllers.FollowerController.Pagination(System.Int32,System.String)')
+  - [Post(dto)](#M-SocialMediaAPP-Controllers-FollowerController-Post-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate- 'SocialMediaAPP.Controllers.FollowerController.Post(SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate)')
+  - [Put(id,dto)](#M-SocialMediaAPP-Controllers-FollowerController-Put-System-Int32,SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate- 'SocialMediaAPP.Controllers.FollowerController.Put(System.Int32,SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate)')
+- [FollowerDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate 'SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate')
+  - [#ctor(UserID,FollowerUserID,FollowedAt)](#M-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-#ctor-System-Int32,System-Int32,System-DateTime- 'SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate.#ctor(System.Int32,System.Int32,System.DateTime)')
+  - [FollowedAt](#P-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-FollowedAt 'SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate.FollowedAt')
+  - [FollowerUserID](#P-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-FollowerUserID 'SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate.FollowerUserID')
+  - [UserID](#P-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-UserID 'SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate.UserID')
+- [FollowerDTORead](#T-SocialMediaAPP-Models-DTO-FollowerDTORead 'SocialMediaAPP.Models.DTO.FollowerDTORead')
+  - [#ctor(ID,User,FollowerUser,FollowedAt)](#M-SocialMediaAPP-Models-DTO-FollowerDTORead-#ctor-System-Int32,System-String,System-String,System-DateTime- 'SocialMediaAPP.Models.DTO.FollowerDTORead.#ctor(System.Int32,System.String,System.String,System.DateTime)')
+  - [FollowedAt](#P-SocialMediaAPP-Models-DTO-FollowerDTORead-FollowedAt 'SocialMediaAPP.Models.DTO.FollowerDTORead.FollowedAt')
+  - [FollowerUser](#P-SocialMediaAPP-Models-DTO-FollowerDTORead-FollowerUser 'SocialMediaAPP.Models.DTO.FollowerDTORead.FollowerUser')
+  - [ID](#P-SocialMediaAPP-Models-DTO-FollowerDTORead-ID 'SocialMediaAPP.Models.DTO.FollowerDTORead.ID')
+  - [User](#P-SocialMediaAPP-Models-DTO-FollowerDTORead-User 'SocialMediaAPP.Models.DTO.FollowerDTORead.User')
+- [ImageDTO](#T-SocialMediaAPP-Models-DTO-ImageDTO 'SocialMediaAPP.Models.DTO.ImageDTO')
+  - [#ctor(Base64)](#M-SocialMediaAPP-Models-DTO-ImageDTO-#ctor-System-String- 'SocialMediaAPP.Models.DTO.ImageDTO.#ctor(System.String)')
+  - [Base64](#P-SocialMediaAPP-Models-DTO-ImageDTO-Base64 'SocialMediaAPP.Models.DTO.ImageDTO.Base64')
+- [MainMappingProfile](#T-SocialMediaAPP-Mapping-MainMappingProfile 'SocialMediaAPP.Mapping.MainMappingProfile')
+  - [#ctor()](#M-SocialMediaAPP-Mapping-MainMappingProfile-#ctor 'SocialMediaAPP.Mapping.MainMappingProfile.#ctor')
+  - [FilePath(e)](#M-SocialMediaAPP-Mapping-MainMappingProfile-FilePath-SocialMediaAPP-Models-User- 'SocialMediaAPP.Mapping.MainMappingProfile.FilePath(SocialMediaAPP.Models.User)')
+- [Operator](#T-SocialMediaAPP-Models-Operator 'SocialMediaAPP.Models.Operator')
+  - [Email](#P-SocialMediaAPP-Models-Operator-Email 'SocialMediaAPP.Models.Operator.Email')
+  - [Password](#P-SocialMediaAPP-Models-Operator-Password 'SocialMediaAPP.Models.Operator.Password')
+  - [User](#P-SocialMediaAPP-Models-Operator-User 'SocialMediaAPP.Models.Operator.User')
+  - [UserId](#P-SocialMediaAPP-Models-Operator-UserId 'SocialMediaAPP.Models.Operator.UserId')
+- [OperatorDTO](#T-SocialMediaAPP-Models-DTO-OperatorDTO 'SocialMediaAPP.Models.DTO.OperatorDTO')
+  - [#ctor(Email,Password)](#M-SocialMediaAPP-Models-DTO-OperatorDTO-#ctor-System-String,System-String- 'SocialMediaAPP.Models.DTO.OperatorDTO.#ctor(System.String,System.String)')
+  - [Email](#P-SocialMediaAPP-Models-DTO-OperatorDTO-Email 'SocialMediaAPP.Models.DTO.OperatorDTO.Email')
+  - [Password](#P-SocialMediaAPP-Models-DTO-OperatorDTO-Password 'SocialMediaAPP.Models.DTO.OperatorDTO.Password')
+- [Post](#T-SocialMediaAPP-Models-Post 'SocialMediaAPP.Models.Post')
+  - [Content](#P-SocialMediaAPP-Models-Post-Content 'SocialMediaAPP.Models.Post.Content')
+  - [CreatedAt](#P-SocialMediaAPP-Models-Post-CreatedAt 'SocialMediaAPP.Models.Post.CreatedAt')
+  - [Likes](#P-SocialMediaAPP-Models-Post-Likes 'SocialMediaAPP.Models.Post.Likes')
+  - [User](#P-SocialMediaAPP-Models-Post-User 'SocialMediaAPP.Models.Post.User')
+- [PostController](#T-SocialMediaAPP-Controllers-PostController 'SocialMediaAPP.Controllers.PostController')
+  - [Delete(id)](#M-SocialMediaAPP-Controllers-PostController-Delete-System-Int32- 'SocialMediaAPP.Controllers.PostController.Delete(System.Int32)')
+  - [Generate(amount)](#M-SocialMediaAPP-Controllers-PostController-Generate-System-Int32- 'SocialMediaAPP.Controllers.PostController.Generate(System.Int32)')
+  - [Get()](#M-SocialMediaAPP-Controllers-PostController-Get 'SocialMediaAPP.Controllers.PostController.Get')
+  - [GetById(id)](#M-SocialMediaAPP-Controllers-PostController-GetById-System-Int32- 'SocialMediaAPP.Controllers.PostController.GetById(System.Int32)')
+  - [Pagination(page,condition)](#M-SocialMediaAPP-Controllers-PostController-Pagination-System-Int32,System-String- 'SocialMediaAPP.Controllers.PostController.Pagination(System.Int32,System.String)')
+  - [Post(dto)](#M-SocialMediaAPP-Controllers-PostController-Post-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate- 'SocialMediaAPP.Controllers.PostController.Post(SocialMediaAPP.Models.DTO.PostDTOInsertUpdate)')
+  - [Put(id,dto)](#M-SocialMediaAPP-Controllers-PostController-Put-System-Int32,SocialMediaAPP-Models-DTO-PostDTOInsertUpdate- 'SocialMediaAPP.Controllers.PostController.Put(System.Int32,SocialMediaAPP.Models.DTO.PostDTOInsertUpdate)')
+- [PostDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate 'SocialMediaAPP.Models.DTO.PostDTOInsertUpdate')
+  - [#ctor(UserID,Content,Likes,CreatedAt)](#M-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-#ctor-System-Int32,System-String,System-Nullable{System-Int32},System-DateTime- 'SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.#ctor(System.Int32,System.String,System.Nullable{System.Int32},System.DateTime)')
+  - [Content](#P-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Content 'SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.Content')
+  - [CreatedAt](#P-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-CreatedAt 'SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.CreatedAt')
+  - [Likes](#P-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Likes 'SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.Likes')
+  - [UserID](#P-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-UserID 'SocialMediaAPP.Models.DTO.PostDTOInsertUpdate.UserID')
+- [PostDTORead](#T-SocialMediaAPP-Models-DTO-PostDTORead 'SocialMediaAPP.Models.DTO.PostDTORead')
+  - [#ctor(ID,UserID,Content,Likes,CreatedAt)](#M-SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{SocialMediaAPP-Models-DTO-CommentDTORead},SocialMediaAPP-Models-DTO-UserDTORead- 'SocialMediaAPP.Models.DTO.PostDTORead.#ctor(System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.DateTime,System.Collections.Generic.List{SocialMediaAPP.Models.DTO.CommentDTORead},SocialMediaAPP.Models.DTO.UserDTORead)')
+  - [Content](#P-SocialMediaAPP-Models-DTO-PostDTORead-Content 'SocialMediaAPP.Models.DTO.PostDTORead.Content')
+  - [CreatedAt](#P-SocialMediaAPP-Models-DTO-PostDTORead-CreatedAt 'SocialMediaAPP.Models.DTO.PostDTORead.CreatedAt')
+  - [ID](#P-SocialMediaAPP-Models-DTO-PostDTORead-ID 'SocialMediaAPP.Models.DTO.PostDTORead.ID')
+  - [Likes](#P-SocialMediaAPP-Models-DTO-PostDTORead-Likes 'SocialMediaAPP.Models.DTO.PostDTORead.Likes')
+  - [UserID](#P-SocialMediaAPP-Models-DTO-PostDTORead-UserID 'SocialMediaAPP.Models.DTO.PostDTORead.UserID')
+- [SocialMediaContext](#T-SocialMediaAPP-Data-SocialMediaContext 'SocialMediaAPP.Data.SocialMediaContext')
+  - [#ctor(options)](#M-SocialMediaAPP-Data-SocialMediaContext-#ctor-Microsoft-EntityFrameworkCore-DbContextOptions{SocialMediaAPP-Data-SocialMediaContext}- 'SocialMediaAPP.Data.SocialMediaContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{SocialMediaAPP.Data.SocialMediaContext})')
+  - [Comments](#P-SocialMediaAPP-Data-SocialMediaContext-Comments 'SocialMediaAPP.Data.SocialMediaContext.Comments')
+  - [Followers](#P-SocialMediaAPP-Data-SocialMediaContext-Followers 'SocialMediaAPP.Data.SocialMediaContext.Followers')
+  - [Operators](#P-SocialMediaAPP-Data-SocialMediaContext-Operators 'SocialMediaAPP.Data.SocialMediaContext.Operators')
+  - [Posts](#P-SocialMediaAPP-Data-SocialMediaContext-Posts 'SocialMediaAPP.Data.SocialMediaContext.Posts')
+  - [Users](#P-SocialMediaAPP-Data-SocialMediaContext-Users 'SocialMediaAPP.Data.SocialMediaContext.Users')
+  - [OnModelCreating(modelBuilder)](#M-SocialMediaAPP-Data-SocialMediaContext-OnModelCreating-Microsoft-EntityFrameworkCore-ModelBuilder- 'SocialMediaAPP.Data.SocialMediaContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)')
+- [SocialMediaController](#T-SocialMediaAPP-Controllers-SocialMediaController 'SocialMediaAPP.Controllers.SocialMediaController')
+  - [#ctor()](#M-SocialMediaAPP-Controllers-SocialMediaController-#ctor-SocialMediaAPP-Data-SocialMediaContext,AutoMapper-IMapper- 'SocialMediaAPP.Controllers.SocialMediaController.#ctor(SocialMediaAPP.Data.SocialMediaContext,AutoMapper.IMapper)')
+  - [_context](#F-SocialMediaAPP-Controllers-SocialMediaController-_context 'SocialMediaAPP.Controllers.SocialMediaController._context')
+  - [_mapper](#F-SocialMediaAPP-Controllers-SocialMediaController-_mapper 'SocialMediaAPP.Controllers.SocialMediaController._mapper')
+- [SocialMediaExtensions](#T-SocialMediaAPP-Extensions-SocialMediaExtensions 'SocialMediaAPP.Extensions.SocialMediaExtensions')
+  - [AddSocialMediaCORS(services)](#M-SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaCORS-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaCORS(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
+  - [AddSocialMediaSecurity(services)](#M-SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSecurity-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaSecurity(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
+  - [AddSocialMediaSwaggerGen(services)](#M-SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSwaggerGen-Microsoft-Extensions-DependencyInjection-IServiceCollection- 'SocialMediaAPP.Extensions.SocialMediaExtensions.AddSocialMediaSwaggerGen(Microsoft.Extensions.DependencyInjection.IServiceCollection)')
+- [StatisticsController](#T-SocialMediaAPP-Controllers-StatisticsController 'SocialMediaAPP.Controllers.StatisticsController')
+  - [Pagination(page,condition)](#M-SocialMediaAPP-Controllers-StatisticsController-Pagination-System-Int32,System-String- 'SocialMediaAPP.Controllers.StatisticsController.Pagination(System.Int32,System.String)')
+  - [RandomUsers()](#M-SocialMediaAPP-Controllers-StatisticsController-RandomUsers 'SocialMediaAPP.Controllers.StatisticsController.RandomUsers')
+  - [TopUserStats()](#M-SocialMediaAPP-Controllers-StatisticsController-TopUserStats 'SocialMediaAPP.Controllers.StatisticsController.TopUserStats')
+  - [TotalData()](#M-SocialMediaAPP-Controllers-StatisticsController-TotalData 'SocialMediaAPP.Controllers.StatisticsController.TotalData')
+- [User](#T-SocialMediaAPP-Models-User 'SocialMediaAPP.Models.User')
+  - [BirthDate](#P-SocialMediaAPP-Models-User-BirthDate 'SocialMediaAPP.Models.User.BirthDate')
+  - [CreatedAt](#P-SocialMediaAPP-Models-User-CreatedAt 'SocialMediaAPP.Models.User.CreatedAt')
+  - [Email](#P-SocialMediaAPP-Models-User-Email 'SocialMediaAPP.Models.User.Email')
+  - [FirstName](#P-SocialMediaAPP-Models-User-FirstName 'SocialMediaAPP.Models.User.FirstName')
+  - [LastName](#P-SocialMediaAPP-Models-User-LastName 'SocialMediaAPP.Models.User.LastName')
+  - [Password](#P-SocialMediaAPP-Models-User-Password 'SocialMediaAPP.Models.User.Password')
+  - [Username](#P-SocialMediaAPP-Models-User-Username 'SocialMediaAPP.Models.User.Username')
+- [UserController](#T-SocialMediaAPP-Controllers-UserController 'SocialMediaAPP.Controllers.UserController')
+  - [Delete(id)](#M-SocialMediaAPP-Controllers-UserController-Delete-System-Int32- 'SocialMediaAPP.Controllers.UserController.Delete(System.Int32)')
+  - [Generate(amount)](#M-SocialMediaAPP-Controllers-UserController-Generate-System-Int32- 'SocialMediaAPP.Controllers.UserController.Generate(System.Int32)')
+  - [Get()](#M-SocialMediaAPP-Controllers-UserController-Get 'SocialMediaAPP.Controllers.UserController.Get')
+  - [GetById(id)](#M-SocialMediaAPP-Controllers-UserController-GetById-System-Int32- 'SocialMediaAPP.Controllers.UserController.GetById(System.Int32)')
+  - [Pagination(page,condition)](#M-SocialMediaAPP-Controllers-UserController-Pagination-System-Int32,System-String- 'SocialMediaAPP.Controllers.UserController.Pagination(System.Int32,System.String)')
+  - [Post(dto)](#M-SocialMediaAPP-Controllers-UserController-Post-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate- 'SocialMediaAPP.Controllers.UserController.Post(SocialMediaAPP.Models.DTO.UserDTOInsertUpdate)')
+  - [Put(id,dto)](#M-SocialMediaAPP-Controllers-UserController-Put-System-Int32,SocialMediaAPP-Models-DTO-UserDTOInsertUpdate- 'SocialMediaAPP.Controllers.UserController.Put(System.Int32,SocialMediaAPP.Models.DTO.UserDTOInsertUpdate)')
+  - [SetImage(id,image)](#M-SocialMediaAPP-Controllers-UserController-SetImage-System-Int32,SocialMediaAPP-Models-DTO-ImageDTO- 'SocialMediaAPP.Controllers.UserController.SetImage(System.Int32,SocialMediaAPP.Models.DTO.ImageDTO)')
+- [UserDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate')
+  - [#ctor(Username,Password,Email,FirstName,LastName,BirthDate,CreatedAt)](#M-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-#ctor-System-String,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime- 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.#ctor(System.String,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime)')
+  - [BirthDate](#P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-BirthDate 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.BirthDate')
+  - [CreatedAt](#P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-CreatedAt 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.CreatedAt')
+  - [Email](#P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Email 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Email')
+  - [FirstName](#P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-FirstName 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.FirstName')
+  - [LastName](#P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-LastName 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.LastName')
+  - [Password](#P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Password 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Password')
+  - [Username](#P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Username 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate.Username')
+- [UserDTORead](#T-SocialMediaAPP-Models-DTO-UserDTORead 'SocialMediaAPP.Models.DTO.UserDTORead')
+  - [#ctor(ID,Username,Email,FirstName,LastName,BirthDate,CreatedAt,Image)](#M-SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime,System-String- 'SocialMediaAPP.Models.DTO.UserDTORead.#ctor(System.Int32,System.String,System.String,System.String,System.String,System.DateTime,System.DateTime,System.String)')
+  - [BirthDate](#P-SocialMediaAPP-Models-DTO-UserDTORead-BirthDate 'SocialMediaAPP.Models.DTO.UserDTORead.BirthDate')
+  - [CreatedAt](#P-SocialMediaAPP-Models-DTO-UserDTORead-CreatedAt 'SocialMediaAPP.Models.DTO.UserDTORead.CreatedAt')
+  - [Email](#P-SocialMediaAPP-Models-DTO-UserDTORead-Email 'SocialMediaAPP.Models.DTO.UserDTORead.Email')
+  - [FirstName](#P-SocialMediaAPP-Models-DTO-UserDTORead-FirstName 'SocialMediaAPP.Models.DTO.UserDTORead.FirstName')
+  - [ID](#P-SocialMediaAPP-Models-DTO-UserDTORead-ID 'SocialMediaAPP.Models.DTO.UserDTORead.ID')
+  - [Image](#P-SocialMediaAPP-Models-DTO-UserDTORead-Image 'SocialMediaAPP.Models.DTO.UserDTORead.Image')
+  - [LastName](#P-SocialMediaAPP-Models-DTO-UserDTORead-LastName 'SocialMediaAPP.Models.DTO.UserDTORead.LastName')
+  - [Username](#P-SocialMediaAPP-Models-DTO-UserDTORead-Username 'SocialMediaAPP.Models.DTO.UserDTORead.Username')
 
-<a name='T-CSHARP_SocialMediaAPP-Validations-AgeValidator'></a>
+<a name='T-SocialMediaAPP-Validations-AgeValidator'></a>
 ## AgeValidator `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Validations
+SocialMediaAPP.Validations
 
 ##### Summary
 
 Custom validation attribute to ensure a user's age is at least a specified minimum.
 
-<a name='M-CSHARP_SocialMediaAPP-Validations-AgeValidator-#ctor-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Validations-AgeValidator-#ctor-System-Int32-'></a>
 ### #ctor(minimumAge) `constructor`
 
 ##### Summary
@@ -198,7 +198,7 @@ Initializes a new instance of the AgeValidator class with a specified minimum ag
 | ---- | ---- | ----------- |
 | minimumAge | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The minimum age required for validation. |
 
-<a name='M-CSHARP_SocialMediaAPP-Validations-AgeValidator-IsValid-System-Object,System-ComponentModel-DataAnnotations-ValidationContext-'></a>
+<a name='M-SocialMediaAPP-Validations-AgeValidator-IsValid-System-Object,System-ComponentModel-DataAnnotations-ValidationContext-'></a>
 ### IsValid(value,validationContext) `method`
 
 ##### Summary
@@ -216,18 +216,18 @@ A ValidationResult indicating success or failure of the validation.
 | value | [System.Object](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Object 'System.Object') | The value being validated, expected to be a DateTime representing the user's birth date. |
 | validationContext | [System.ComponentModel.DataAnnotations.ValidationContext](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.ComponentModel.DataAnnotations.ValidationContext 'System.ComponentModel.DataAnnotations.ValidationContext') | The context within which the validation is executed. |
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-AuthorizationController'></a>
+<a name='T-SocialMediaAPP-Controllers-AuthorizationController'></a>
 ## AuthorizationController `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
 Handles authorization and authentication for operators by validating credentials and generating JWT tokens.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-AuthorizationController-#ctor-CSHARP_SocialMediaAPP-Data-SocialMediaContext,AutoMapper-IMapper-'></a>
+<a name='M-SocialMediaAPP-Controllers-AuthorizationController-#ctor-SocialMediaAPP-Data-SocialMediaContext,AutoMapper-IMapper-'></a>
 ### #ctor(context,mapper) `constructor`
 
 ##### Summary
@@ -238,10 +238,10 @@ Initializes a new instance of the AuthorizationController class.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| context | [CSHARP_SocialMediaAPP.Data.SocialMediaContext](#T-CSHARP_SocialMediaAPP-Data-SocialMediaContext 'CSHARP_SocialMediaAPP.Data.SocialMediaContext') | The database context used to interact with the application's data. |
+| context | [SocialMediaAPP.Data.SocialMediaContext](#T-SocialMediaAPP-Data-SocialMediaContext 'SocialMediaAPP.Data.SocialMediaContext') | The database context used to interact with the application's data. |
 | mapper | [AutoMapper.IMapper](#T-AutoMapper-IMapper 'AutoMapper.IMapper') | The AutoMapper instance used to map database models to DTOs. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-AuthorizationController-GenerateToken-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO-'></a>
+<a name='M-SocialMediaAPP-Controllers-AuthorizationController-GenerateToken-SocialMediaAPP-Models-DTO-OperatorDTO-'></a>
 ### GenerateToken(opt) `method`
 
 ##### Summary
@@ -256,7 +256,7 @@ A JWT token and the authenticated user's details.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| opt | [CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO](#T-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO 'CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO') | The operator's credentials (email and password). |
+| opt | [SocialMediaAPP.Models.DTO.OperatorDTO](#T-SocialMediaAPP-Models-DTO-OperatorDTO 'SocialMediaAPP.Models.DTO.OperatorDTO') | The operator's credentials (email and password). |
 
 ##### Remarks
 
@@ -284,12 +284,12 @@ POST /api/v1/Authorization/token
 }
 ```
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-CellData'></a>
+<a name='T-SocialMediaAPP-Controllers-CellData'></a>
 ## CellData `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
@@ -297,7 +297,7 @@ Represents the data structure of a cell in the cyclic matrix.
 Each cell has a number, potential connections to its neighboring cells (up, down, left, right), 
 and a background color.
 
-<a name='P-CSHARP_SocialMediaAPP-Controllers-CellData-CellBgColor'></a>
+<a name='P-SocialMediaAPP-Controllers-CellData-CellBgColor'></a>
 ### CellBgColor `property`
 
 ##### Summary
@@ -305,54 +305,54 @@ and a background color.
 Gets or sets the background color of the cell.
 The background color is represented as a hex code. Default is `#333`.
 
-<a name='P-CSHARP_SocialMediaAPP-Controllers-CellData-CellDown'></a>
+<a name='P-SocialMediaAPP-Controllers-CellData-CellDown'></a>
 ### CellDown `property`
 
 ##### Summary
 
 Indicates whether the cell has a downward connection.
 
-<a name='P-CSHARP_SocialMediaAPP-Controllers-CellData-CellLeft'></a>
+<a name='P-SocialMediaAPP-Controllers-CellData-CellLeft'></a>
 ### CellLeft `property`
 
 ##### Summary
 
 Indicates whether the cell has a leftward connection.
 
-<a name='P-CSHARP_SocialMediaAPP-Controllers-CellData-CellNumber'></a>
+<a name='P-SocialMediaAPP-Controllers-CellData-CellNumber'></a>
 ### CellNumber `property`
 
 ##### Summary
 
 Gets or sets the number of the cell in the matrix.
 
-<a name='P-CSHARP_SocialMediaAPP-Controllers-CellData-CellRight'></a>
+<a name='P-SocialMediaAPP-Controllers-CellData-CellRight'></a>
 ### CellRight `property`
 
 ##### Summary
 
 Indicates whether the cell has a rightward connection.
 
-<a name='P-CSHARP_SocialMediaAPP-Controllers-CellData-CellUp'></a>
+<a name='P-SocialMediaAPP-Controllers-CellData-CellUp'></a>
 ### CellUp `property`
 
 ##### Summary
 
 Indicates whether the cell has an upward connection.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-Comment'></a>
+<a name='T-SocialMediaAPP-Models-Comment'></a>
 ## Comment `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models
+SocialMediaAPP.Models
 
 ##### Summary
 
 Represents a comment made by a user on a post in the Social Media application.
 Inherits from the base Entity class.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Comment-Content'></a>
+<a name='P-SocialMediaAPP-Models-Comment-Content'></a>
 ### Content `property`
 
 ##### Summary
@@ -360,21 +360,21 @@ Inherits from the base Entity class.
 The actual content of the comment.
 Stored in the "comment" column in the database.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Comment-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-Comment-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
 
 The date and time when the comment was created.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Comment-Likes'></a>
+<a name='P-SocialMediaAPP-Models-Comment-Likes'></a>
 ### Likes `property`
 
 ##### Summary
 
 The number of likes that the comment has received.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Comment-Post'></a>
+<a name='P-SocialMediaAPP-Models-Comment-Post'></a>
 ### Post `property`
 
 ##### Summary
@@ -382,7 +382,7 @@ The number of likes that the comment has received.
 The post to which the comment is related. 
 This is a required relationship, represented by a foreign key to the Post entity.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Comment-User'></a>
+<a name='P-SocialMediaAPP-Models-Comment-User'></a>
 ### User `property`
 
 ##### Summary
@@ -390,19 +390,19 @@ This is a required relationship, represented by a foreign key to the Post entity
 The user who created the comment. 
 This is a required relationship, represented by a foreign key to the User entity.
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-CommentController'></a>
+<a name='T-SocialMediaAPP-Controllers-CommentController'></a>
 ## CommentController `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
 API Controller for handling comment-related operations.
 Provides endpoints for creating, retrieving, updating, and deleting comments within the social media platform.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-Delete-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-CommentController-Delete-System-Int32-'></a>
 ### Delete(id) `method`
 
 ##### Summary
@@ -419,7 +419,7 @@ HTTP 200 OK status if the deletion is successful.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the comment to delete. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-GenerateComments-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-CommentController-GenerateComments-System-Int32-'></a>
 ### GenerateComments(amount) `method`
 
 ##### Summary
@@ -437,7 +437,7 @@ A list of generated comments with their details or an error message if the amoun
 | ---- | ---- | ----------- |
 | amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of comments to generate. Must be between 1 and 500. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-Get'></a>
+<a name='M-SocialMediaAPP-Controllers-CommentController-Get'></a>
 ### Get() `method`
 
 ##### Summary
@@ -452,7 +452,7 @@ A list of CommentDTORead objects containing comment details.
 
 This method has no parameters.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-GetById-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-CommentController-GetById-System-Int32-'></a>
 ### GetById(id) `method`
 
 ##### Summary
@@ -469,7 +469,7 @@ The CommentDTOInsertUpdate object with the comment details if found.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the comment to retrieve. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-Pagination-System-Int32,System-String-'></a>
+<a name='M-SocialMediaAPP-Controllers-CommentController-Pagination-System-Int32,System-String-'></a>
 ### Pagination(page,condition) `method`
 
 ##### Summary
@@ -487,7 +487,7 @@ A paginated list of CommentDTORead objects with HTTP 200 OK status.
 | page | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The page number to retrieve. |
 | condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional condition for filtering (e.g., comment content or user information). |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-Post-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-'></a>
+<a name='M-SocialMediaAPP-Controllers-CommentController-Post-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-'></a>
 ### Post(dto) `method`
 
 ##### Summary
@@ -502,9 +502,9 @@ HTTP 201 Created status with the created comment details if successful.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| dto | [CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate') | The CommentDTOInsertUpdate object containing the comment's data. |
+| dto | [SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate') | The CommentDTOInsertUpdate object containing the comment's data. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CommentController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-'></a>
+<a name='M-SocialMediaAPP-Controllers-CommentController-Put-System-Int32,SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-'></a>
 ### Put(id,dto) `method`
 
 ##### Summary
@@ -520,14 +520,14 @@ HTTP 200 OK status if the update is successful.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the comment to update. |
-| dto | [CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate') | The CommentDTOInsertUpdate object containing the updated comment data. |
+| dto | [SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate 'SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate') | The CommentDTOInsertUpdate object containing the updated comment data. |
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate'></a>
+<a name='T-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate'></a>
 ## CommentDTOInsertUpdate `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -539,9 +539,9 @@ comment content, and the date it was created. Optional fields like likes are als
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| UserID | [T:CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate](#T-T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate 'T:CSHARP_SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate') | The unique identifier of the user making the comment. This field is required. |
+| UserID | [T:SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate](#T-T-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate 'T:SocialMediaAPP.Models.DTO.CommentDTOInsertUpdate') | The unique identifier of the user making the comment. This field is required. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime-'></a>
 ### #ctor(UserID,PostID,Content,Likes,CreatedAt) `constructor`
 
 ##### Summary
@@ -560,47 +560,47 @@ comment content, and the date it was created. Optional fields like likes are als
 | Likes | [System.Nullable{System.Int32}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Int32}') | The number of likes the comment has received. This field is optional and can be null. |
 | CreatedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the comment was created. This field is required and should be provided in UTC. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-Content'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-Content'></a>
 ### Content `property`
 
 ##### Summary
 
 The textual content of the comment. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
 
 The timestamp indicating when the comment was created. This field is required and should be provided in UTC.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-Likes'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-Likes'></a>
 ### Likes `property`
 
 ##### Summary
 
 The number of likes the comment has received. This field is optional and can be null.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-PostID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-PostID'></a>
 ### PostID `property`
 
 ##### Summary
 
 The unique identifier of the post the comment is related to. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-UserID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTOInsertUpdate-UserID'></a>
 ### UserID `property`
 
 ##### Summary
 
 The unique identifier of the user making the comment. This field is required.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead'></a>
+<a name='T-SocialMediaAPP-Models-DTO-CommentDTORead'></a>
 ## CommentDTORead `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -613,9 +613,9 @@ the content of the comment, the number of likes, and the date it was created.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| ID | [T:CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.CommentDTORead') | The unique identifier of the comment. |
+| ID | [T:SocialMediaAPP.Models.DTO.CommentDTORead](#T-T-SocialMediaAPP-Models-DTO-CommentDTORead 'T:SocialMediaAPP.Models.DTO.CommentDTORead') | The unique identifier of the comment. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-#ctor-System-Int32,System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-CommentDTORead-#ctor-System-Int32,System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,SocialMediaAPP-Models-DTO-UserDTORead-'></a>
 ### #ctor(ID,UserID,PostID,Content,Likes,CreatedAt) `constructor`
 
 ##### Summary
@@ -636,61 +636,61 @@ the content of the comment, the number of likes, and the date it was created.
 | Likes | [System.Nullable{System.Int32}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Int32}') | The number of likes the comment has received. Can be null if the comment has no likes yet. |
 | CreatedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the comment was created. Stored as UTC. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-Content'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTORead-Content'></a>
 ### Content `property`
 
 ##### Summary
 
 The textual content of the comment.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTORead-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
 
 The timestamp indicating when the comment was created. Stored as UTC.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-ID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTORead-ID'></a>
 ### ID `property`
 
 ##### Summary
 
 The unique identifier of the comment.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-Likes'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTORead-Likes'></a>
 ### Likes `property`
 
 ##### Summary
 
 The number of likes the comment has received. Can be null if the comment has no likes yet.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-PostID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTORead-PostID'></a>
 ### PostID `property`
 
 ##### Summary
 
 The unique identifier of the post the comment is associated with.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead-UserID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-CommentDTORead-UserID'></a>
 ### UserID `property`
 
 ##### Summary
 
 The unique identifier of the user who made the comment.
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-CyclicController'></a>
+<a name='T-SocialMediaAPP-Controllers-CyclicController'></a>
 ## CyclicController `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
 API Controller for creating and returning a cyclic matrix based on the provided rows and columns.
 A cyclic matrix follows a specific cyclic pattern where cells are connected to neighboring cells.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CyclicController-ConvertToJson-CSHARP_SocialMediaAPP-Controllers-CellData[0-,0-]-'></a>
+<a name='M-SocialMediaAPP-Controllers-CyclicController-ConvertToJson-SocialMediaAPP-Controllers-CellData[0-,0-]-'></a>
 ### ConvertToJson() `method`
 
 ##### Summary
@@ -699,13 +699,13 @@ Converts the two-dimensional matrix into a JSON-friendly list of lists.
 
 ##### Returns
 
-A list of lists of [CellData](#T-CSHARP_SocialMediaAPP-Controllers-CellData 'CSHARP_SocialMediaAPP.Controllers.CellData'), where each list represents a row in the matrix.
+A list of lists of [CellData](#T-SocialMediaAPP-Controllers-CellData 'SocialMediaAPP.Controllers.CellData'), where each list represents a row in the matrix.
 
 ##### Parameters
 
 This method has no parameters.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CyclicController-CreateCyclic-System-Int32,System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-CyclicController-CreateCyclic-System-Int32,System-Int32-'></a>
 ### CreateCyclic(rows,columns) `method`
 
 ##### Summary
@@ -724,7 +724,7 @@ A two-dimensional array of CellData representing the cyclic matrix.
 | rows | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of rows in the matrix. |
 | columns | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of columns in the matrix. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-CyclicController-GetCyclic-System-String,System-String-'></a>
+<a name='M-SocialMediaAPP-Controllers-CyclicController-GetCyclic-System-String,System-String-'></a>
 ### GetCyclic(rows,columns) `method`
 
 ##### Summary
@@ -742,19 +742,19 @@ A JSON object containing the generated cyclic matrix or an error message.
 | rows | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The number of rows in the matrix (between 1 and 10). |
 | columns | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The number of columns in the matrix (between 1 and 10). |
 
-<a name='T-CSHARP_SocialMediaAPP-Models-Entity'></a>
+<a name='T-SocialMediaAPP-Models-Entity'></a>
 ## Entity `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models
+SocialMediaAPP.Models
 
 ##### Summary
 
 Abstract base class representing a common entity with an optional ID.
 This class serves as a base for other entities in the Social Media application.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Entity-ID'></a>
+<a name='P-SocialMediaAPP-Models-Entity-ID'></a>
 ### ID `property`
 
 ##### Summary
@@ -762,26 +762,26 @@ This class serves as a base for other entities in the Social Media application.
 The unique identifier (ID) for the entity.
 It is an optional field, allowing for nullable IDs in cases like newly created objects before they are persisted in the database.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-Follower'></a>
+<a name='T-SocialMediaAPP-Models-Follower'></a>
 ## Follower `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models
+SocialMediaAPP.Models
 
 ##### Summary
 
 Represents a follower relationship between two users in the Social Media application.
 Inherits from the base Entity class.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Follower-FollowedAt'></a>
+<a name='P-SocialMediaAPP-Models-Follower-FollowedAt'></a>
 ### FollowedAt `property`
 
 ##### Summary
 
 The date and time when the follow relationship was created.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Follower-FollowerUser'></a>
+<a name='P-SocialMediaAPP-Models-Follower-FollowerUser'></a>
 ### FollowerUser `property`
 
 ##### Summary
@@ -789,7 +789,7 @@ The date and time when the follow relationship was created.
 The user who is following. 
 This is a required relationship, represented by a foreign key to the User entity.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Follower-User'></a>
+<a name='P-SocialMediaAPP-Models-Follower-User'></a>
 ### User `property`
 
 ##### Summary
@@ -797,19 +797,19 @@ This is a required relationship, represented by a foreign key to the User entity
 The user who is being followed. 
 This is a required relationship, represented by a foreign key to the User entity.
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-FollowerController'></a>
+<a name='T-SocialMediaAPP-Controllers-FollowerController'></a>
 ## FollowerController `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
 API Controller to manage follower relationships between users.
 This controller handles operations for creating, retrieving, updating, and deleting followers.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Delete-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-FollowerController-Delete-System-Int32-'></a>
 ### Delete(id) `method`
 
 ##### Summary
@@ -826,7 +826,7 @@ HTTP 200 OK if the deletion is successful, or an error message if the follower r
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the follower relationship to delete. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GenerateFollowers-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-FollowerController-GenerateFollowers-System-Int32-'></a>
 ### GenerateFollowers(amount) `method`
 
 ##### Summary
@@ -843,7 +843,7 @@ A success message and a list of the generated follower relationships, or a \`400
 | ---- | ---- | ----------- |
 | amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of follower relationships to generate (between 1 and 500). |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Get'></a>
+<a name='M-SocialMediaAPP-Controllers-FollowerController-Get'></a>
 ### Get() `method`
 
 ##### Summary
@@ -858,7 +858,7 @@ A list of follower relationships with HTTP 200 OK status, or an error message wi
 
 This method has no parameters.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetById-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-FollowerController-GetById-System-Int32-'></a>
 ### GetById(id) `method`
 
 ##### Summary
@@ -875,7 +875,7 @@ The follower relationship if found, or an error message if not found.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the follower relationship. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-GetFollowStatuses-System-Int32,System-String-'></a>
+<a name='M-SocialMediaAPP-Controllers-FollowerController-GetFollowStatuses-System-Int32,System-String-'></a>
 ### GetFollowStatuses(currentUserId,followedUserIds) `method`
 
 ##### Summary
@@ -901,7 +901,7 @@ If the string is empty or improperly formatted, the API will respond with a BadR
 The method checks which users from the provided list the current user follows, and returns
 a dictionary where each entry contains a boolean \`isFollowing\` flag and the follower's ID.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Pagination-System-Int32,System-String-'></a>
+<a name='M-SocialMediaAPP-Controllers-FollowerController-Pagination-System-Int32,System-String-'></a>
 ### Pagination(page,condition) `method`
 
 ##### Summary
@@ -919,7 +919,7 @@ A paginated list of follower relationships or an error message.
 | page | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The page number to retrieve. |
 | condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional filter condition for the search (e.g., username). |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Post-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-'></a>
+<a name='M-SocialMediaAPP-Controllers-FollowerController-Post-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-'></a>
 ### Post(dto) `method`
 
 ##### Summary
@@ -934,9 +934,9 @@ HTTP 201 Created if successful, or an error message if validation or creation fa
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| dto | [CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate') | The DTO containing follower relationship data. |
+| dto | [SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate 'SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate') | The DTO containing follower relationship data. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-FollowerController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-'></a>
+<a name='M-SocialMediaAPP-Controllers-FollowerController-Put-System-Int32,SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-'></a>
 ### Put(id,dto) `method`
 
 ##### Summary
@@ -952,14 +952,14 @@ HTTP 200 OK if the update is successful, otherwise an error message.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the follower relationship to update. |
-| dto | [CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate') | The updated follower data. |
+| dto | [SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate 'SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate') | The updated follower data. |
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate'></a>
+<a name='T-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate'></a>
 ## FollowerDTOInsertUpdate `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -970,9 +970,9 @@ Represents the relationship between a user and their follower, including the dat
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| UserID | [T:CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate](#T-T-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate 'T:CSHARP_SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate') | The unique identifier of the user being followed. This field is required. |
+| UserID | [T:SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate](#T-T-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate 'T:SocialMediaAPP.Models.DTO.FollowerDTOInsertUpdate') | The unique identifier of the user being followed. This field is required. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-#ctor-System-Int32,System-Int32,System-DateTime-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-#ctor-System-Int32,System-Int32,System-DateTime-'></a>
 ### #ctor(UserID,FollowerUserID,FollowedAt) `constructor`
 
 ##### Summary
@@ -988,33 +988,33 @@ Represents the relationship between a user and their follower, including the dat
 | FollowerUserID | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the user who is following. This field is required. |
 | FollowedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the follow action occurred. This field is required and should be in UTC. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-FollowedAt'></a>
+<a name='P-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-FollowedAt'></a>
 ### FollowedAt `property`
 
 ##### Summary
 
 The timestamp indicating when the follow action occurred. This field is required and should be in UTC.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-FollowerUserID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-FollowerUserID'></a>
 ### FollowerUserID `property`
 
 ##### Summary
 
 The unique identifier of the user who is following. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-UserID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-FollowerDTOInsertUpdate-UserID'></a>
 ### UserID `property`
 
 ##### Summary
 
 The unique identifier of the user being followed. This field is required.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead'></a>
+<a name='T-SocialMediaAPP-Models-DTO-FollowerDTORead'></a>
 ## FollowerDTORead `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -1026,9 +1026,9 @@ including details about the users involved and the date the follow action occurr
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| ID | [T:CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.FollowerDTORead') | The unique identifier of the follower relationship. |
+| ID | [T:SocialMediaAPP.Models.DTO.FollowerDTORead](#T-T-SocialMediaAPP-Models-DTO-FollowerDTORead 'T:SocialMediaAPP.Models.DTO.FollowerDTORead') | The unique identifier of the follower relationship. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-#ctor-System-Int32,System-String,System-String,System-DateTime-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-FollowerDTORead-#ctor-System-Int32,System-String,System-String,System-DateTime-'></a>
 ### #ctor(ID,User,FollowerUser,FollowedAt) `constructor`
 
 ##### Summary
@@ -1046,40 +1046,40 @@ including details about the users involved and the date the follow action occurr
 | FollowerUser | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The username of the user who is following. |
 | FollowedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the follow action occurred. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-FollowedAt'></a>
+<a name='P-SocialMediaAPP-Models-DTO-FollowerDTORead-FollowedAt'></a>
 ### FollowedAt `property`
 
 ##### Summary
 
 The timestamp indicating when the follow action occurred.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-FollowerUser'></a>
+<a name='P-SocialMediaAPP-Models-DTO-FollowerDTORead-FollowerUser'></a>
 ### FollowerUser `property`
 
 ##### Summary
 
 The username of the user who is following.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-ID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-FollowerDTORead-ID'></a>
 ### ID `property`
 
 ##### Summary
 
 The unique identifier of the follower relationship.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-FollowerDTORead-User'></a>
+<a name='P-SocialMediaAPP-Models-DTO-FollowerDTORead-User'></a>
 ### User `property`
 
 ##### Summary
 
 The username of the user being followed.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO'></a>
+<a name='T-SocialMediaAPP-Models-DTO-ImageDTO'></a>
 ## ImageDTO `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -1091,9 +1091,9 @@ as part of API requests.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| Base64 | [T:CSHARP_SocialMediaAPP.Models.DTO.ImageDTO](#T-T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO 'T:CSHARP_SocialMediaAPP.Models.DTO.ImageDTO') | The Base64 encoded string representing the image. This field is required. |
+| Base64 | [T:SocialMediaAPP.Models.DTO.ImageDTO](#T-T-SocialMediaAPP-Models-DTO-ImageDTO 'T:SocialMediaAPP.Models.DTO.ImageDTO') | The Base64 encoded string representing the image. This field is required. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-#ctor-System-String-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-ImageDTO-#ctor-System-String-'></a>
 ### #ctor(Base64) `constructor`
 
 ##### Summary
@@ -1108,25 +1108,25 @@ as part of API requests.
 | ---- | ---- | ----------- |
 | Base64 | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The Base64 encoded string representing the image. This field is required. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-Base64'></a>
+<a name='P-SocialMediaAPP-Models-DTO-ImageDTO-Base64'></a>
 ### Base64 `property`
 
 ##### Summary
 
 The Base64 encoded string representing the image. This field is required.
 
-<a name='T-CSHARP_SocialMediaAPP-Mapping-MainMappingProfile'></a>
+<a name='T-SocialMediaAPP-Mapping-MainMappingProfile'></a>
 ## MainMappingProfile `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Mapping
+SocialMediaAPP.Mapping
 
 ##### Summary
 
 Defines the AutoMapper profile for mapping between domain models and DTOs used in the application.
 
-<a name='M-CSHARP_SocialMediaAPP-Mapping-MainMappingProfile-#ctor'></a>
+<a name='M-SocialMediaAPP-Mapping-MainMappingProfile-#ctor'></a>
 ### #ctor() `constructor`
 
 ##### Summary
@@ -1138,7 +1138,7 @@ Sets up mappings between entities and their corresponding DTOs.
 
 This constructor has no parameters.
 
-<a name='M-CSHARP_SocialMediaAPP-Mapping-MainMappingProfile-FilePath-CSHARP_SocialMediaAPP-Models-User-'></a>
+<a name='M-SocialMediaAPP-Mapping-MainMappingProfile-FilePath-SocialMediaAPP-Models-User-'></a>
 ### FilePath(e) `method`
 
 ##### Summary
@@ -1153,21 +1153,21 @@ The file path of the user's image, or null if the image does not exist.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| e | [CSHARP_SocialMediaAPP.Models.User](#T-CSHARP_SocialMediaAPP-Models-User 'CSHARP_SocialMediaAPP.Models.User') | The User object. |
+| e | [SocialMediaAPP.Models.User](#T-SocialMediaAPP-Models-User 'SocialMediaAPP.Models.User') | The User object. |
 
-<a name='T-CSHARP_SocialMediaAPP-Models-Operator'></a>
+<a name='T-SocialMediaAPP-Models-Operator'></a>
 ## Operator `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models
+SocialMediaAPP.Models
 
 ##### Summary
 
 Represents an operator in the Social Media application, responsible for administrative or system-level tasks.
 Inherits from the base Entity class.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Operator-Email'></a>
+<a name='P-SocialMediaAPP-Models-Operator-Email'></a>
 ### Email `property`
 
 ##### Summary
@@ -1175,7 +1175,7 @@ Inherits from the base Entity class.
 The email address of the operator.
 This is optional and may be used for authentication or contact purposes.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Operator-Password'></a>
+<a name='P-SocialMediaAPP-Models-Operator-Password'></a>
 ### Password `property`
 
 ##### Summary
@@ -1183,7 +1183,7 @@ This is optional and may be used for authentication or contact purposes.
 The password for the operator, used for authentication.
 This is optional and can be null if authentication is handled differently.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Operator-User'></a>
+<a name='P-SocialMediaAPP-Models-Operator-User'></a>
 ### User `property`
 
 ##### Summary
@@ -1191,19 +1191,19 @@ This is optional and can be null if authentication is handled differently.
 The associated User entity, representing the operator's corresponding user information.
 This is optional and may be null.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Operator-UserId'></a>
+<a name='P-SocialMediaAPP-Models-Operator-UserId'></a>
 ### UserId `property`
 
 ##### Summary
 
 The ID of the associated user, linked to the User entity.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO'></a>
+<a name='T-SocialMediaAPP-Models-DTO-OperatorDTO'></a>
 ## OperatorDTO `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -1214,9 +1214,9 @@ Contains the necessary fields for an operator to log in to the system, including
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| Email | [T:CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO](#T-T-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO 'T:CSHARP_SocialMediaAPP.Models.DTO.OperatorDTO') | The email address of the operator. This field is required for authentication. |
+| Email | [T:SocialMediaAPP.Models.DTO.OperatorDTO](#T-T-SocialMediaAPP-Models-DTO-OperatorDTO 'T:SocialMediaAPP.Models.DTO.OperatorDTO') | The email address of the operator. This field is required for authentication. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO-#ctor-System-String,System-String-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-OperatorDTO-#ctor-System-String,System-String-'></a>
 ### #ctor(Email,Password) `constructor`
 
 ##### Summary
@@ -1231,33 +1231,33 @@ Contains the necessary fields for an operator to log in to the system, including
 | Email | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The email address of the operator. This field is required for authentication. |
 | Password | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The password of the operator. This field is required for authentication. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO-Email'></a>
+<a name='P-SocialMediaAPP-Models-DTO-OperatorDTO-Email'></a>
 ### Email `property`
 
 ##### Summary
 
 The email address of the operator. This field is required for authentication.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-OperatorDTO-Password'></a>
+<a name='P-SocialMediaAPP-Models-DTO-OperatorDTO-Password'></a>
 ### Password `property`
 
 ##### Summary
 
 The password of the operator. This field is required for authentication.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-Post'></a>
+<a name='T-SocialMediaAPP-Models-Post'></a>
 ## Post `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models
+SocialMediaAPP.Models
 
 ##### Summary
 
 Represents a post created by a user in the Social Media application.
 Inherits from the base Entity class.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Post-Content'></a>
+<a name='P-SocialMediaAPP-Models-Post-Content'></a>
 ### Content `property`
 
 ##### Summary
@@ -1265,21 +1265,21 @@ Inherits from the base Entity class.
 The content of the post.
 Stored in the "post" column in the database.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Post-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-Post-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
 
 The date and time when the post was created.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Post-Likes'></a>
+<a name='P-SocialMediaAPP-Models-Post-Likes'></a>
 ### Likes `property`
 
 ##### Summary
 
 The number of likes that the post has received.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-Post-User'></a>
+<a name='P-SocialMediaAPP-Models-Post-User'></a>
 ### User `property`
 
 ##### Summary
@@ -1287,19 +1287,19 @@ The number of likes that the post has received.
 The user who created the post.
 This is a required relationship, represented by a foreign key to the User entity.
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-PostController'></a>
+<a name='T-SocialMediaAPP-Controllers-PostController'></a>
 ## PostController `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
 API Controller to manage user posts in the social media platform.
 Provides CRUD operations and pagination functionalities for posts.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-Delete-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-PostController-Delete-System-Int32-'></a>
 ### Delete(id) `method`
 
 ##### Summary
@@ -1316,7 +1316,7 @@ HTTP 200 OK if the deletion is successful, otherwise an error message.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the post to delete. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-Generate-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-PostController-Generate-System-Int32-'></a>
 ### Generate(amount) `method`
 
 ##### Summary
@@ -1334,7 +1334,7 @@ A list of generated posts with their details or an error message if the amount i
 | ---- | ---- | ----------- |
 | amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of posts to generate. Must be between 1 and 500. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-Get'></a>
+<a name='M-SocialMediaAPP-Controllers-PostController-Get'></a>
 ### Get() `method`
 
 ##### Summary
@@ -1349,7 +1349,7 @@ A list of PostDTORead objects with HTTP 200 OK status, or an error message.
 
 This method has no parameters.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-GetById-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-PostController-GetById-System-Int32-'></a>
 ### GetById(id) `method`
 
 ##### Summary
@@ -1358,7 +1358,7 @@ Retrieves a specific post by its ID.
 
 ##### Returns
 
-A PostDTOInsertUpdate object with the post details if found, 
+A PostDTORead object with the post details if found, 
 or an error message if the post is not found.
 
 ##### Parameters
@@ -1367,7 +1367,7 @@ or an error message if the post is not found.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the post to retrieve. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-Pagination-System-Int32,System-String-'></a>
+<a name='M-SocialMediaAPP-Controllers-PostController-Pagination-System-Int32,System-String-'></a>
 ### Pagination(page,condition) `method`
 
 ##### Summary
@@ -1385,7 +1385,7 @@ A paginated list of PostDTORead objects with HTTP 200 OK status, or an error mes
 | page | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The page number to retrieve. |
 | condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional filter condition (e.g., content, username). |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-Post-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-'></a>
+<a name='M-SocialMediaAPP-Controllers-PostController-Post-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-'></a>
 ### Post(dto) `method`
 
 ##### Summary
@@ -1400,9 +1400,9 @@ HTTP 201 Created with the created post details if successful, otherwise an error
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| dto | [CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate') | The PostDTOInsertUpdate object containing the post data. |
+| dto | [SocialMediaAPP.Models.DTO.PostDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate 'SocialMediaAPP.Models.DTO.PostDTOInsertUpdate') | The PostDTOInsertUpdate object containing the post data. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-PostController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-'></a>
+<a name='M-SocialMediaAPP-Controllers-PostController-Put-System-Int32,SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-'></a>
 ### Put(id,dto) `method`
 
 ##### Summary
@@ -1418,14 +1418,14 @@ HTTP 200 OK if the update is successful, otherwise an error message.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The ID of the post to update. |
-| dto | [CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate') | The PostDTOInsertUpdate object containing the updated post data. |
+| dto | [SocialMediaAPP.Models.DTO.PostDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate 'SocialMediaAPP.Models.DTO.PostDTOInsertUpdate') | The PostDTOInsertUpdate object containing the updated post data. |
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate'></a>
+<a name='T-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate'></a>
 ## PostDTOInsertUpdate `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -1436,9 +1436,9 @@ Contains the necessary fields for creating or updating a post in the social medi
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| UserID | [T:CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate](#T-T-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate 'T:CSHARP_SocialMediaAPP.Models.DTO.PostDTOInsertUpdate') | The unique identifier of the user who is creating or updating the post. This field is required. |
+| UserID | [T:SocialMediaAPP.Models.DTO.PostDTOInsertUpdate](#T-T-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate 'T:SocialMediaAPP.Models.DTO.PostDTOInsertUpdate') | The unique identifier of the user who is creating or updating the post. This field is required. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-#ctor-System-Int32,System-String,System-Nullable{System-Int32},System-DateTime-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-#ctor-System-Int32,System-String,System-Nullable{System-Int32},System-DateTime-'></a>
 ### #ctor(UserID,Content,Likes,CreatedAt) `constructor`
 
 ##### Summary
@@ -1455,40 +1455,40 @@ Contains the necessary fields for creating or updating a post in the social medi
 | Likes | [System.Nullable{System.Int32}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Int32}') | The number of likes the post has received. This field is optional and can be null if no likes are recorded. |
 | CreatedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the post was created. This field is required. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Content'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Content'></a>
 ### Content `property`
 
 ##### Summary
 
 The content of the post. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
 
 The timestamp indicating when the post was created. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Likes'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-Likes'></a>
 ### Likes `property`
 
 ##### Summary
 
 The number of likes the post has received. This field is optional and can be null if no likes are recorded.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-UserID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTOInsertUpdate-UserID'></a>
 ### UserID `property`
 
 ##### Summary
 
 The unique identifier of the user who is creating or updating the post. This field is required.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead'></a>
+<a name='T-SocialMediaAPP-Models-DTO-PostDTORead'></a>
 ## PostDTORead `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -1500,9 +1500,9 @@ the user who created it, its content, the number of likes, and the date it was c
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| ID | [T:CSHARP_SocialMediaAPP.Models.DTO.PostDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.PostDTORead') | The unique identifier of the post. |
+| ID | [T:SocialMediaAPP.Models.DTO.PostDTORead](#T-T-SocialMediaAPP-Models-DTO-PostDTORead 'T:SocialMediaAPP.Models.DTO.PostDTORead') | The unique identifier of the post. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{CSHARP_SocialMediaAPP-Models-DTO-CommentDTORead},CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-PostDTORead-#ctor-System-Int32,System-Int32,System-String,System-Nullable{System-Int32},System-DateTime,System-Collections-Generic-List{SocialMediaAPP-Models-DTO-CommentDTORead},SocialMediaAPP-Models-DTO-UserDTORead-'></a>
 ### #ctor(ID,UserID,Content,Likes,CreatedAt) `constructor`
 
 ##### Summary
@@ -1521,54 +1521,54 @@ the user who created it, its content, the number of likes, and the date it was c
 | Likes | [System.Nullable{System.Int32}](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Nullable 'System.Nullable{System.Int32}') | The number of likes the post has received. This field is optional and can be null if no likes are recorded. |
 | CreatedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the post was created. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-Content'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTORead-Content'></a>
 ### Content `property`
 
 ##### Summary
 
 The content of the post.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTORead-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
 
 The timestamp indicating when the post was created.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-ID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTORead-ID'></a>
 ### ID `property`
 
 ##### Summary
 
 The unique identifier of the post.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-Likes'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTORead-Likes'></a>
 ### Likes `property`
 
 ##### Summary
 
 The number of likes the post has received. This field is optional and can be null if no likes are recorded.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-PostDTORead-UserID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-PostDTORead-UserID'></a>
 ### UserID `property`
 
 ##### Summary
 
 The unique identifier of the user who created the post.
 
-<a name='T-CSHARP_SocialMediaAPP-Data-SocialMediaContext'></a>
+<a name='T-SocialMediaAPP-Data-SocialMediaContext'></a>
 ## SocialMediaContext `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Data
+SocialMediaAPP.Data
 
 ##### Summary
 
 Database context for the SocialMediaApp, responsible for managing entities and database interactions.
 Inherits from the DbContext class.
 
-<a name='M-CSHARP_SocialMediaAPP-Data-SocialMediaContext-#ctor-Microsoft-EntityFrameworkCore-DbContextOptions{CSHARP_SocialMediaAPP-Data-SocialMediaContext}-'></a>
+<a name='M-SocialMediaAPP-Data-SocialMediaContext-#ctor-Microsoft-EntityFrameworkCore-DbContextOptions{SocialMediaAPP-Data-SocialMediaContext}-'></a>
 ### #ctor(options) `constructor`
 
 ##### Summary
@@ -1579,44 +1579,44 @@ Initializes a new instance of the SocialMediaContext class.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| options | [Microsoft.EntityFrameworkCore.DbContextOptions{CSHARP_SocialMediaAPP.Data.SocialMediaContext}](#T-Microsoft-EntityFrameworkCore-DbContextOptions{CSHARP_SocialMediaAPP-Data-SocialMediaContext} 'Microsoft.EntityFrameworkCore.DbContextOptions{CSHARP_SocialMediaAPP.Data.SocialMediaContext}') | The options to configure the database context. |
+| options | [Microsoft.EntityFrameworkCore.DbContextOptions{SocialMediaAPP.Data.SocialMediaContext}](#T-Microsoft-EntityFrameworkCore-DbContextOptions{SocialMediaAPP-Data-SocialMediaContext} 'Microsoft.EntityFrameworkCore.DbContextOptions{SocialMediaAPP.Data.SocialMediaContext}') | The options to configure the database context. |
 
-<a name='P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Comments'></a>
+<a name='P-SocialMediaAPP-Data-SocialMediaContext-Comments'></a>
 ### Comments `property`
 
 ##### Summary
 
 Gets or sets the Comments table, representing comments on posts.
 
-<a name='P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Followers'></a>
+<a name='P-SocialMediaAPP-Data-SocialMediaContext-Followers'></a>
 ### Followers `property`
 
 ##### Summary
 
 Gets or sets the Followers table, representing the relationship between users and their followers.
 
-<a name='P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Operators'></a>
+<a name='P-SocialMediaAPP-Data-SocialMediaContext-Operators'></a>
 ### Operators `property`
 
 ##### Summary
 
 Gets or sets the Operators table, representing system operators.
 
-<a name='P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Posts'></a>
+<a name='P-SocialMediaAPP-Data-SocialMediaContext-Posts'></a>
 ### Posts `property`
 
 ##### Summary
 
 Gets or sets the Posts table.
 
-<a name='P-CSHARP_SocialMediaAPP-Data-SocialMediaContext-Users'></a>
+<a name='P-SocialMediaAPP-Data-SocialMediaContext-Users'></a>
 ### Users `property`
 
 ##### Summary
 
 Gets or sets the Users table.
 
-<a name='M-CSHARP_SocialMediaAPP-Data-SocialMediaContext-OnModelCreating-Microsoft-EntityFrameworkCore-ModelBuilder-'></a>
+<a name='M-SocialMediaAPP-Data-SocialMediaContext-OnModelCreating-Microsoft-EntityFrameworkCore-ModelBuilder-'></a>
 ### OnModelCreating(modelBuilder) `method`
 
 ##### Summary
@@ -1629,12 +1629,12 @@ Configures the entity relationships and constraints in the database using the mo
 | ---- | ---- | ----------- |
 | modelBuilder | [Microsoft.EntityFrameworkCore.ModelBuilder](#T-Microsoft-EntityFrameworkCore-ModelBuilder 'Microsoft.EntityFrameworkCore.ModelBuilder') | The model builder used to configure entities. |
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-SocialMediaController'></a>
+<a name='T-SocialMediaAPP-Controllers-SocialMediaController'></a>
 ## SocialMediaController `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
@@ -1642,7 +1642,7 @@ Abstract base controller for all controllers in the SocialMediaApp.
 Provides shared functionality and services such as database context and object mapping.
 Requires authorization for all derived controllers.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-SocialMediaController-#ctor-CSHARP_SocialMediaAPP-Data-SocialMediaContext,AutoMapper-IMapper-'></a>
+<a name='M-SocialMediaAPP-Controllers-SocialMediaController-#ctor-SocialMediaAPP-Data-SocialMediaContext,AutoMapper-IMapper-'></a>
 ### #ctor() `constructor`
 
 ##### Summary
@@ -1655,32 +1655,32 @@ Requires authorization for all derived controllers.
 
 This constructor has no parameters.
 
-<a name='F-CSHARP_SocialMediaAPP-Controllers-SocialMediaController-_context'></a>
+<a name='F-SocialMediaAPP-Controllers-SocialMediaController-_context'></a>
 ### _context `constants`
 
 ##### Summary
 
 Database context for accessing social media data.
 
-<a name='F-CSHARP_SocialMediaAPP-Controllers-SocialMediaController-_mapper'></a>
+<a name='F-SocialMediaAPP-Controllers-SocialMediaController-_mapper'></a>
 ### _mapper `constants`
 
 ##### Summary
 
 Mapper service for converting between models and DTOs.
 
-<a name='T-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions'></a>
+<a name='T-SocialMediaAPP-Extensions-SocialMediaExtensions'></a>
 ## SocialMediaExtensions `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Extensions
+SocialMediaAPP.Extensions
 
 ##### Summary
 
 Provides extension methods for configuring Swagger, CORS, and security (JWT authentication) for the Social Media API.
 
-<a name='M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaCORS-Microsoft-Extensions-DependencyInjection-IServiceCollection-'></a>
+<a name='M-SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaCORS-Microsoft-Extensions-DependencyInjection-IServiceCollection-'></a>
 ### AddSocialMediaCORS(services) `method`
 
 ##### Summary
@@ -1693,7 +1693,7 @@ Adds and configures Cross-Origin Resource Sharing (CORS) policies for the Social
 | ---- | ---- | ----------- |
 | services | [Microsoft.Extensions.DependencyInjection.IServiceCollection](#T-Microsoft-Extensions-DependencyInjection-IServiceCollection 'Microsoft.Extensions.DependencyInjection.IServiceCollection') | The IServiceCollection to add CORS policies to. |
 
-<a name='M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSecurity-Microsoft-Extensions-DependencyInjection-IServiceCollection-'></a>
+<a name='M-SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSecurity-Microsoft-Extensions-DependencyInjection-IServiceCollection-'></a>
 ### AddSocialMediaSecurity(services) `method`
 
 ##### Summary
@@ -1706,7 +1706,7 @@ Adds and configures JWT authentication for the Social Media API.
 | ---- | ---- | ----------- |
 | services | [Microsoft.Extensions.DependencyInjection.IServiceCollection](#T-Microsoft-Extensions-DependencyInjection-IServiceCollection 'Microsoft.Extensions.DependencyInjection.IServiceCollection') | The IServiceCollection to add JWT security to. |
 
-<a name='M-CSHARP_SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSwaggerGen-Microsoft-Extensions-DependencyInjection-IServiceCollection-'></a>
+<a name='M-SocialMediaAPP-Extensions-SocialMediaExtensions-AddSocialMediaSwaggerGen-Microsoft-Extensions-DependencyInjection-IServiceCollection-'></a>
 ### AddSocialMediaSwaggerGen(services) `method`
 
 ##### Summary
@@ -1719,18 +1719,18 @@ Adds and configures Swagger/OpenAPI documentation for the Social Media API.
 | ---- | ---- | ----------- |
 | services | [Microsoft.Extensions.DependencyInjection.IServiceCollection](#T-Microsoft-Extensions-DependencyInjection-IServiceCollection 'Microsoft.Extensions.DependencyInjection.IServiceCollection') | The IServiceCollection to add SwaggerGen to. |
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-StatisticsController'></a>
+<a name='T-SocialMediaAPP-Controllers-StatisticsController'></a>
 ## StatisticsController `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
 API Controller responsible for handling home-related operations for the social media application.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-Pagination-System-Int32,System-String-'></a>
+<a name='M-SocialMediaAPP-Controllers-StatisticsController-Pagination-System-Int32,System-String-'></a>
 ### Pagination(page,condition) `method`
 
 ##### Summary
@@ -1750,7 +1750,7 @@ In the case of an error, a \`400 Bad Request\` is returned with the error messag
 | condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | An optional search term used to filter posts. The search will match the post content, username, first name, or last name.
 If no condition is provided, all posts are retrieved. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-RandomUsers'></a>
+<a name='M-SocialMediaAPP-Controllers-StatisticsController-RandomUsers'></a>
 ### RandomUsers() `method`
 
 ##### Summary
@@ -1765,7 +1765,7 @@ This method has no parameters.
 
 This endpoint returns a random set of users shuffled and limited to 50 users.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-TopUserStats'></a>
+<a name='M-SocialMediaAPP-Controllers-StatisticsController-TopUserStats'></a>
 ### TopUserStats() `method`
 
 ##### Summary
@@ -1787,7 +1787,7 @@ This API returns the following data:
 - The user with the most followers.
 - A count of registered users grouped by date for the last 30 days.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-StatisticsController-TotalData'></a>
+<a name='M-SocialMediaAPP-Controllers-StatisticsController-TotalData'></a>
 ### TotalData() `method`
 
 ##### Summary
@@ -1798,19 +1798,19 @@ Retrieves total counts of users, posts, and comments.
 
 This method has no parameters.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-User'></a>
+<a name='T-SocialMediaAPP-Models-User'></a>
 ## User `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models
+SocialMediaAPP.Models
 
 ##### Summary
 
 Represents a user in the Social Media application.
 Inherits from the base Entity class, providing a unique identifier for each user.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-User-BirthDate'></a>
+<a name='P-SocialMediaAPP-Models-User-BirthDate'></a>
 ### BirthDate `property`
 
 ##### Summary
@@ -1818,7 +1818,7 @@ Inherits from the base Entity class, providing a unique identifier for each user
 The birthdate of the user.
 This field is optional and may be used for age-related features.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-User-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-User-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
@@ -1826,7 +1826,7 @@ This field is optional and may be used for age-related features.
 The date and time when the user account was created.
 This field is optional.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-User-Email'></a>
+<a name='P-SocialMediaAPP-Models-User-Email'></a>
 ### Email `property`
 
 ##### Summary
@@ -1834,7 +1834,7 @@ This field is optional.
 The email address of the user.
 This field is optional and may be used for communication and login purposes.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-User-FirstName'></a>
+<a name='P-SocialMediaAPP-Models-User-FirstName'></a>
 ### FirstName `property`
 
 ##### Summary
@@ -1842,7 +1842,7 @@ This field is optional and may be used for communication and login purposes.
 The first name of the user.
 This field is optional.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-User-LastName'></a>
+<a name='P-SocialMediaAPP-Models-User-LastName'></a>
 ### LastName `property`
 
 ##### Summary
@@ -1850,7 +1850,7 @@ This field is optional.
 The last name of the user.
 This field is optional.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-User-Password'></a>
+<a name='P-SocialMediaAPP-Models-User-Password'></a>
 ### Password `property`
 
 ##### Summary
@@ -1858,7 +1858,7 @@ This field is optional.
 The password of the user, used for authentication.
 This field is optional and should be securely stored.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-User-Username'></a>
+<a name='P-SocialMediaAPP-Models-User-Username'></a>
 ### Username `property`
 
 ##### Summary
@@ -1866,19 +1866,19 @@ This field is optional and should be securely stored.
 The username of the user, which can be used for login or display purposes.
 This field is optional.
 
-<a name='T-CSHARP_SocialMediaAPP-Controllers-UserController'></a>
+<a name='T-SocialMediaAPP-Controllers-UserController'></a>
 ## UserController `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Controllers
+SocialMediaAPP.Controllers
 
 ##### Summary
 
 API Controller for managing users in the social media application.
 Provides CRUD operations, image management, and pagination functionalities for users.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Delete-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-UserController-Delete-System-Int32-'></a>
 ### Delete(id) `method`
 
 ##### Summary
@@ -1896,7 +1896,7 @@ A status code indicating success or failure.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the user to delete. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Generate-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-UserController-Generate-System-Int32-'></a>
 ### Generate(amount) `method`
 
 ##### Summary
@@ -1913,7 +1913,7 @@ A success message and a list of the generated users with their details, or a \`4
 | ---- | ---- | ----------- |
 | amount | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The number of users to generate (between 1 and 500). |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Get'></a>
+<a name='M-SocialMediaAPP-Controllers-UserController-Get'></a>
 ### Get() `method`
 
 ##### Summary
@@ -1928,7 +1928,7 @@ A list of UserDTORead objects representing all users.
 
 This method has no parameters.
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-GetById-System-Int32-'></a>
+<a name='M-SocialMediaAPP-Controllers-UserController-GetById-System-Int32-'></a>
 ### GetById(id) `method`
 
 ##### Summary
@@ -1945,7 +1945,7 @@ A UserDTORead object representing the user if found.
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the user to retrieve. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Pagination-System-Int32,System-String-'></a>
+<a name='M-SocialMediaAPP-Controllers-UserController-Pagination-System-Int32,System-String-'></a>
 ### Pagination(page,condition) `method`
 
 ##### Summary
@@ -1964,7 +1964,7 @@ A paginated list of users matching the condition.
 | page | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The page number to retrieve. (Starting from 1) |
 | condition | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | Optional search condition to filter users by name or username. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Post-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-'></a>
+<a name='M-SocialMediaAPP-Controllers-UserController-Post-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-'></a>
 ### Post(dto) `method`
 
 ##### Summary
@@ -1980,9 +1980,9 @@ A status code indicating success or failure.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| dto | [CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate') | The UserDTOInsertUpdate object containing user details for the new user. |
+| dto | [SocialMediaAPP.Models.DTO.UserDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate') | The UserDTOInsertUpdate object containing user details for the new user. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-Put-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-'></a>
+<a name='M-SocialMediaAPP-Controllers-UserController-Put-System-Int32,SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-'></a>
 ### Put(id,dto) `method`
 
 ##### Summary
@@ -1999,9 +1999,9 @@ A status code indicating success or failure.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the user to update. |
-| dto | [CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate](#T-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate 'CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate') | The UserDTOInsertUpdate object containing updated user details. |
+| dto | [SocialMediaAPP.Models.DTO.UserDTOInsertUpdate](#T-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate 'SocialMediaAPP.Models.DTO.UserDTOInsertUpdate') | The UserDTOInsertUpdate object containing updated user details. |
 
-<a name='M-CSHARP_SocialMediaAPP-Controllers-UserController-SetImage-System-Int32,CSHARP_SocialMediaAPP-Models-DTO-ImageDTO-'></a>
+<a name='M-SocialMediaAPP-Controllers-UserController-SetImage-System-Int32,SocialMediaAPP-Models-DTO-ImageDTO-'></a>
 ### SetImage(id,image) `method`
 
 ##### Summary
@@ -2017,14 +2017,14 @@ A status code indicating success or failure.
 | Name | Type | Description |
 | ---- | ---- | ----------- |
 | id | [System.Int32](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.Int32 'System.Int32') | The unique identifier of the user to update the image for. |
-| image | [CSHARP_SocialMediaAPP.Models.DTO.ImageDTO](#T-CSHARP_SocialMediaAPP-Models-DTO-ImageDTO 'CSHARP_SocialMediaAPP.Models.DTO.ImageDTO') | The ImageDTO containing the Base64 encoded image. |
+| image | [SocialMediaAPP.Models.DTO.ImageDTO](#T-SocialMediaAPP-Models-DTO-ImageDTO 'SocialMediaAPP.Models.DTO.ImageDTO') | The ImageDTO containing the Base64 encoded image. |
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate'></a>
+<a name='T-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate'></a>
 ## UserDTOInsertUpdate `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -2036,9 +2036,9 @@ email, and date of birth. Optional fields include the first and last name.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| Username | [T:CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate](#T-T-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate 'T:CSHARP_SocialMediaAPP.Models.DTO.UserDTOInsertUpdate') | The unique username of the user. This field is required. |
+| Username | [T:SocialMediaAPP.Models.DTO.UserDTOInsertUpdate](#T-T-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate 'T:SocialMediaAPP.Models.DTO.UserDTOInsertUpdate') | The unique username of the user. This field is required. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-#ctor-System-String,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-#ctor-System-String,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime-'></a>
 ### #ctor(Username,Password,Email,FirstName,LastName,BirthDate,CreatedAt) `constructor`
 
 ##### Summary
@@ -2059,61 +2059,61 @@ email, and date of birth. Optional fields include the first and last name.
 | BirthDate | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The date of birth of the user. This field is required and must pass the custom age validation, ensuring the user is at least 10 years old. |
 | CreatedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the user account was created. This field is required. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-BirthDate'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-BirthDate'></a>
 ### BirthDate `property`
 
 ##### Summary
 
 The date of birth of the user. This field is required and must pass the custom age validation, ensuring the user is at least 10 years old.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
 
 The timestamp indicating when the user account was created. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Email'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Email'></a>
 ### Email `property`
 
 ##### Summary
 
 The email address of the user. This field is required and must be in a valid email format.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-FirstName'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-FirstName'></a>
 ### FirstName `property`
 
 ##### Summary
 
 The first name of the user. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-LastName'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-LastName'></a>
 ### LastName `property`
 
 ##### Summary
 
 The last name of the user. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Password'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Password'></a>
 ### Password `property`
 
 ##### Summary
 
 The password of the user. This field is required.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Username'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTOInsertUpdate-Username'></a>
 ### Username `property`
 
 ##### Summary
 
 The unique username of the user. This field is required.
 
-<a name='T-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead'></a>
+<a name='T-SocialMediaAPP-Models-DTO-UserDTORead'></a>
 ## UserDTORead `type`
 
 ##### Namespace
 
-CSHARP_SocialMediaAPP.Models.DTO
+SocialMediaAPP.Models.DTO
 
 ##### Summary
 
@@ -2125,9 +2125,9 @@ names, birth date, profile image, and creation timestamp.
 
 | Name | Type | Description |
 | ---- | ---- | ----------- |
-| ID | [T:CSHARP_SocialMediaAPP.Models.DTO.UserDTORead](#T-T-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead 'T:CSHARP_SocialMediaAPP.Models.DTO.UserDTORead') | The unique identifier of the user. |
+| ID | [T:SocialMediaAPP.Models.DTO.UserDTORead](#T-T-SocialMediaAPP-Models-DTO-UserDTORead 'T:SocialMediaAPP.Models.DTO.UserDTORead') | The unique identifier of the user. |
 
-<a name='M-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime,System-String-'></a>
+<a name='M-SocialMediaAPP-Models-DTO-UserDTORead-#ctor-System-Int32,System-String,System-String,System-String,System-String,System-DateTime,System-DateTime,System-String-'></a>
 ### #ctor(ID,Username,Email,FirstName,LastName,BirthDate,CreatedAt,Image) `constructor`
 
 ##### Summary
@@ -2149,56 +2149,56 @@ names, birth date, profile image, and creation timestamp.
 | CreatedAt | [System.DateTime](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.DateTime 'System.DateTime') | The timestamp indicating when the user was created. |
 | Image | [System.String](http://msdn.microsoft.com/query/dev14.query?appId=Dev14IDEF1&l=EN-US&k=k:System.String 'System.String') | The path or URL to the user's profile image. This field is optional. |
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-BirthDate'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTORead-BirthDate'></a>
 ### BirthDate `property`
 
 ##### Summary
 
 The date of birth of the user.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-CreatedAt'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTORead-CreatedAt'></a>
 ### CreatedAt `property`
 
 ##### Summary
 
 The timestamp indicating when the user was created.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Email'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTORead-Email'></a>
 ### Email `property`
 
 ##### Summary
 
 The email address of the user.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-FirstName'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTORead-FirstName'></a>
 ### FirstName `property`
 
 ##### Summary
 
 The first name of the user.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-ID'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTORead-ID'></a>
 ### ID `property`
 
 ##### Summary
 
 The unique identifier of the user.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Image'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTORead-Image'></a>
 ### Image `property`
 
 ##### Summary
 
 The path or URL to the user's profile image. This field is optional.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-LastName'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTORead-LastName'></a>
 ### LastName `property`
 
 ##### Summary
 
 The last name of the user.
 
-<a name='P-CSHARP_SocialMediaAPP-Models-DTO-UserDTORead-Username'></a>
+<a name='P-SocialMediaAPP-Models-DTO-UserDTORead-Username'></a>
 ### Username `property`
 
 ##### Summary
