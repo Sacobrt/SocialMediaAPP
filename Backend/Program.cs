@@ -2,6 +2,7 @@ using SocialMediaAPP.Data;
 using SocialMediaAPP.Extensions;
 using SocialMediaAPP.Mapping;
 using Microsoft.EntityFrameworkCore;
+using SocialMediaAPP.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,9 @@ builder.Services.AddAutoMapper(typeof(MainMappingProfile));
 // Adds JWT-based authentication and authorization.
 builder.Services.AddSocialMediaSecurity();
 builder.Services.AddAuthorization();
+
+// Register the hosted service to start the frontend
+builder.Services.AddHostedService<FrontendStarterHostedService>();
 
 var app = builder.Build();
 
