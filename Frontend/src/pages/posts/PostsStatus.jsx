@@ -12,6 +12,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import CommentService from "../../services/CommentService";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { FaRegComments, FaRegHeart } from "react-icons/fa";
+import { BiErrorCircle } from "react-icons/bi";
 
 export default function PostsStatus() {
     const { id } = useParams();
@@ -46,6 +47,7 @@ export default function PostsStatus() {
 
                 if (response.error) {
                     setError(response.message);
+                    navigate(RoutesNames.HOME);
                     return;
                 }
                 setPost(response.message);
@@ -73,16 +75,6 @@ export default function PostsStatus() {
 
         return tempDiv.innerHTML;
     };
-
-    if (error) {
-        return (
-            <div className="container mx-auto max-w-3xl mt-10 px-5 py-10 rounded-3xl shadow-2xl border-2 border-gray-600">
-                <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold">
-                    <p>{error}</p>
-                </div>
-            </div>
-        );
-    }
 
     if (!post) {
         return (
@@ -145,10 +137,18 @@ export default function PostsStatus() {
 
     return (
         <div className="container mx-auto max-w-3xl py-5 px-5">
+            {error && (
+                <div className="mb-2 bg-red-500 p-4 rounded-md text-gray-200 font-semibold">
+                    <div className="flex items-center gap-2 justify-center">
+                        <BiErrorCircle size={24} />
+                        <p>{error}</p>
+                    </div>
+                </div>
+            )}
             <div className="relative flex items-center gap-2">
                 <button
                     onClick={() => navigate(RoutesNames.HOME)}
-                    className="transition-colors duration-300 ease-linear hover:bg-gray-700 p-2 rounded-full text-gray-200"
+                    className="cursor-pointer transition-colors duration-300 ease-linear hover:bg-gray-700 p-2 rounded-full text-gray-200"
                 >
                     <IoMdArrowRoundBack size={24} />
                 </button>
@@ -264,7 +264,7 @@ export default function PostsStatus() {
 
                                                 {/* "Read more" / "Read less" button */}
                                                 {isTruncated && (
-                                                    <button className="text-xs text-teal-400 mt-1 focus:outline-none">
+                                                    <button className="text-xs text-teal-400 mt-1 focus:outline-hidden">
                                                         {isExpanded ? "Read less" : "Read more"}
                                                     </button>
                                                 )}
