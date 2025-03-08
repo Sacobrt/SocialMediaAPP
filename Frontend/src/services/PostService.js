@@ -26,7 +26,7 @@ async function remove(id) {
             return { error: false, message: response.data.message };
         })
         .catch((e) => {
-            return { error: true, message: e.response.data };
+            return { error: true, message: e.response.data.message };
         });
 }
 
