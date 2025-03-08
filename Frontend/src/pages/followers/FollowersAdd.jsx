@@ -106,7 +106,7 @@ export default function FollowersAdd() {
 
     return (
         <div className="container mx-auto px-5 py-12 max-w-4xl">
-            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-400">
                 Add New Follower
             </h1>
 
@@ -130,7 +130,7 @@ export default function FollowersAdd() {
                             id="userID"
                             value={userSearchTerm}
                             onChange={(e) => setUserSearchTerm(e.target.value)}
-                            className="block w-full px-4 py-3 bg-gray-700 text-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-all"
+                            className="block w-full px-4 py-3 bg-gray-700 text-gray-200 rounded-lg focus:border-blue-500 focus:outline-hidden transition-all"
                             placeholder="Search for a user"
                         />
                         {userDropdownVisible && (
@@ -166,7 +166,7 @@ export default function FollowersAdd() {
                             id="followerUserID"
                             value={followerSearchTerm}
                             onChange={(e) => setFollowerSearchTerm(e.target.value)}
-                            className="block w-full px-4 py-3 bg-gray-700 text-gray-200 rounded-lg focus:border-blue-500 focus:outline-none transition-all"
+                            className="block w-full px-4 py-3 bg-gray-700 text-gray-200 rounded-lg focus:border-blue-500 focus:outline-hidden transition-all"
                             placeholder="Search for a user to follow"
                         />
                         {followerDropdownVisible && (

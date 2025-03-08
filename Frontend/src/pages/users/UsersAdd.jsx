@@ -51,7 +51,7 @@ export default function UsersAdd() {
 
     return (
         <div className="container mx-auto border-2 border-gray-600 max-w-4xl px-6 py-12 shadow-xl glow-neon mt-12 rounded-3xl overflow-hidden">
-            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 ">
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-400 ">
                 Create New Account
             </h1>
 
@@ -85,7 +85,7 @@ export default function UsersAdd() {
                                     type={field === "password" ? "password" : field === "birthDate" ? "date" : "text"}
                                     name={field}
                                     id={field}
-                                    className="px-4 py-3 w-full bg-gray-700 text-white rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                                    className="px-4 py-3 w-full bg-gray-700 text-white rounded-lg border border-transparent focus:outline-hidden focus:ring-2 focus:ring-indigo-500 transition-all"
                                     required
                                 />
                             </div>

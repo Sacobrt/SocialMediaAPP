@@ -39,7 +39,7 @@ export default function PostsAdd() {
             )}
 
             <div className="space-y-4">
-                <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 ">
+                <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-400 ">
                     Make a Post
                 </h1>
 

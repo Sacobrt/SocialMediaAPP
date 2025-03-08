@@ -85,7 +85,7 @@ export default function FollowersOverview() {
             {!isLoading && (
                 <div className="space-y-6">
                     <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-                        <h2 className="text-2xl font-bold text-white bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Followers</h2>
+                        <h2 className="text-2xl font-bold text-white bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-400">Followers</h2>
 
                         {/* Search and Pagination */}
                         <div className="flex flex-row justify-between gap-4">
@@ -96,7 +96,7 @@ export default function FollowersOverview() {
                                     placeholder="Search..."
                                     maxLength={32}
                                     onKeyUp={changeCondition}
-                                    className="w-fit p-2 pl-10 bg-gray-800 text-white border border-gray-700 rounded-full transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                                    className="w-fit p-2 pl-10 bg-gray-800 text-white border border-gray-700 rounded-full transition-all duration-300 focus:outline-hidden focus:ring-1 focus:ring-blue-400"
                                 />
                                 <svg
                                     className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"

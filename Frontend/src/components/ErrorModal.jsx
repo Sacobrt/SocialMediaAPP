@@ -5,7 +5,7 @@ export default function ErrorModal({ show, onHide, errors }) {
     if (!show) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-xs">
             <div className="bg-gray-800 rounded-2xl shadow-xl w-full max-w-lg mx-4">
                 <div className="flex items-center justify-between p-5 border-b border-gray-600">
                     <h2 className="text-2xl font-bold text-gray-200">Oops!</h2>

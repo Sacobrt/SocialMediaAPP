@@ -268,7 +268,7 @@ export default function Home() {
                             <div className="">
                                 <Link
                                     to={RoutesNames.POST_NEW}
-                                    className="flex mb-5 md:mb-0 items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-gray-200 font-medium rounded-md shadow-lg transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl focus:ring-0"
+                                    className="flex mb-5 md:mb-0 items-center px-6 py-3 bg-linear-to-r from-blue-500 to-purple-600 text-gray-200 font-medium rounded-md shadow-lg transition-all duration-500 ease-in-out hover:scale-105 hover:shadow-xl focus:ring-0"
                                 >
                                     <MdOutlinePostAdd size={20} className="mr-3" />
                                     <span className="text-lg">Create New Post</span>
@@ -284,7 +284,7 @@ export default function Home() {
                                         placeholder="Search..."
                                         maxLength={32}
                                         onKeyUp={changeCondition}
-                                        className="w-fit p-2 pl-10 bg-gray-800 text-white border border-gray-700 rounded-full transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                                        className="w-fit p-2 pl-10 bg-gray-800 text-white border border-gray-700 rounded-full transition-all duration-300 focus:outline-hidden focus:ring-1 focus:ring-blue-400"
                                     />
                                     <svg
                                         className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"
@@ -357,7 +357,7 @@ export default function Home() {
                                                                     e.preventDefault();
                                                                     handleFollowToggle(post.userID);
                                                                 }}
-                                                                className={`px-2 text-xs rounded-md font-semibold transition duration-300 ease-in-out ${
+                                                                className={`cursor-pointer px-2 text-xs rounded-md font-semibold transition duration-300 ease-in-out ${
                                                                     followStatus[post.userID]
                                                                         ? "bg-red-500 hover:bg-red-600 text-gray-200"
                                                                         : "bg-teal-500 hover:bg-teal-600 text-gray-700"
@@ -402,7 +402,9 @@ export default function Home() {
 
                                                 {post.comments && (
                                                     <button
-                                                        className={`${post.comments.length > 0 ? "hover:text-cyan-400 transition duration-300 ease-out" : ""}`}
+                                                        className={`${
+                                                            post.comments.length > 0 ? "cursor-pointer hover:text-cyan-400 transition duration-300 ease-out" : ""
+                                                        }`}
                                                         onClick={(e) => {
                                                             e.stopPropagation();
                                                             e.preventDefault();
@@ -422,7 +424,7 @@ export default function Home() {
                         {showTopBtn && (
                             <button
                                 onClick={goToTop}
-                                className="fixed right-10 bottom-10 bg-teal-500 text-white p-3 rounded-full shadow-lg z-10 transition-all ease-in-out duration-300 hover:bg-teal-600 focus:outline-none"
+                                className="fixed right-10 bottom-10 bg-teal-500 text-white p-3 rounded-full shadow-lg z-10 transition-all ease-in-out duration-300 hover:bg-teal-600 focus:outline-hidden"
                             >
                                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
@@ -512,9 +514,9 @@ export default function Home() {
                                                             <img
                                                                 src={image(comment.user.image)}
                                                                 alt="Commenter's Profile"
-                                                                className="w-12 h-12 rounded-full shadow-sm overflow-hidden mr-2"
+                                                                className="w-12 h-12 rounded-full shadow-xs overflow-hidden mr-2"
                                                             />
-                                                            <div className="flex-1 bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-sm mb-4">
+                                                            <div className="flex-1 bg-gray-800 p-4 rounded-xl border border-gray-700 shadow-xs mb-4">
                                                                 <div className="grid items-center">
                                                                     <span className="text-md font-bold text-teal-400">
                                                                         {comment.user.firstName + " " + comment.user.lastName}
@@ -541,7 +543,7 @@ export default function Home() {
 
                                                                 {/* "Read more" / "Read less" button */}
                                                                 {isTruncated && (
-                                                                    <button className="text-xs text-teal-400 mt-1 focus:outline-none">
+                                                                    <button className="text-xs text-teal-400 mt-1 focus:outline-hidden">
                                                                         {isExpanded ? "Read less" : "Read more"}
                                                                     </button>
                                                                 )}

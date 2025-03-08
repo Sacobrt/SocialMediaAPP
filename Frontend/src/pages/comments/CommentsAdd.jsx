@@ -75,7 +75,7 @@ export default function CommentsAdd() {
 
     return (
         <div className="max-w-2xl mx-auto mt-10 p-8 rounded-3xl border-2 border-gray-600">
-            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Leave a Comment</h1>
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-400">Leave a Comment</h1>
 
             {error && (
                 <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold animate-bounce">
@@ -95,7 +95,7 @@ export default function CommentsAdd() {
                             id="userID"
                             name="userID"
                             onChange={(e) => setUsersID(e.target.value)}
-                            className="block w-full px-4 py-3 bg-gray-700 border-2 border-transparent text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
+                            className="block w-full px-4 py-3 bg-gray-700 border-2 border-transparent text-white rounded-full focus:border-blue-500 focus:outline-hidden transition-all"
                         >
                             {users.map((user, index) => (
                                 <option key={index} value={user.id}>
@@ -113,7 +113,7 @@ export default function CommentsAdd() {
                             id="postID"
                             name="postID"
                             onChange={(e) => setPostsID(e.target.value)}
-                            className="block w-full px-4 py-3 bg-gray-700 border-2 border-transparent text-white rounded-full focus:border-blue-500 focus:outline-none transition-all"
+                            className="block w-full px-4 py-3 bg-gray-700 border-2 border-transparent text-white rounded-full focus:border-blue-500 focus:outline-hidden transition-all"
                         >
                             {posts.map((post, index) => (
                                 <option key={index} value={post.id}>
@@ -132,7 +132,7 @@ export default function CommentsAdd() {
                             name="content"
                             rows="4"
                             placeholder="Write your comment..."
-                            className="block w-full text-white py-3 px-4 bg-gray-700 border-2 border-transparent rounded-2xl focus:border-blue-500 focus:outline-none resize-none transition-all"
+                            className="block w-full text-white py-3 px-4 bg-gray-700 border-2 border-transparent rounded-2xl focus:border-blue-500 focus:outline-hidden resize-none transition-all"
                         ></textarea>
                     </div>
                 </div>

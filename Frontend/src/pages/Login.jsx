@@ -28,10 +28,10 @@ export default function Login() {
                 alt="Social Media Logo"
             />
             <div className="mt-5 grid gap-2 text-gray-700">
-                <p className="bg-gradient-to-r from-blue-100 to-gray-100 p-3 rounded-md text-center font-medium shadow-inner">
+                <p className="bg-linear-to-r from-blue-100 to-gray-100 p-3 rounded-md text-center font-medium shadow-inner">
                     <strong>Email:</strong> demo@demo.com
                 </p>
-                <p className="bg-gradient-to-r from-blue-100 to-gray-100 p-3 rounded-md text-center font-medium shadow-inner">
+                <p className="bg-linear-to-r from-blue-100 to-gray-100 p-3 rounded-md text-center font-medium shadow-inner">
                     <strong>Password:</strong> demo
                 </p>
             </div>
@@ -47,7 +47,7 @@ export default function Login() {
                         placeholder="demo@demo.com"
                         maxLength={255}
                         required
-                        className="w-full p-4 bg-gray-700 text-gray-200 border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 placeholder-gray-400 focus:shadow-lg"
+                        className="w-full p-4 bg-gray-700 text-gray-200 border-none rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-400 transition-all duration-300 placeholder-gray-400 focus:shadow-lg"
                     />
                 </div>
                 <div className="mb-8">
@@ -60,7 +60,7 @@ export default function Login() {
                         id="password"
                         placeholder="Enter your password"
                         required
-                        className="w-full p-4 bg-gray-700 text-gray-200 border-none rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all duration-300 placeholder-gray-400 focus:shadow-lg"
+                        className="w-full p-4 bg-gray-700 text-gray-200 border-none rounded-md focus:outline-hidden focus:ring-2 focus:ring-blue-400 transition-all duration-300 placeholder-gray-400 focus:shadow-lg"
                     />
                 </div>
                 <div className="flex gap-2 justify-end">

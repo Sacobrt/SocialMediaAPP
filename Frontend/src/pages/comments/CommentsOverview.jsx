@@ -163,7 +163,7 @@ export default function CommentsOverview() {
                                     placeholder="Search..."
                                     maxLength={32}
                                     onKeyUp={changeCondition}
-                                    className="w-fit p-2 pl-10 bg-gray-800 text-white border border-gray-700 rounded-full transition-all duration-300 focus:outline-none focus:ring-1 focus:ring-blue-400"
+                                    className="w-fit p-2 pl-10 bg-gray-800 text-white border border-gray-700 rounded-full transition-all duration-300 focus:outline-hidden focus:ring-1 focus:ring-blue-400"
                                 />
                                 <svg
                                     className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5"

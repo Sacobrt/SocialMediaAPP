@@ -28,7 +28,7 @@ export default function PostsChange() {
 
     return (
         <div className="container mx-auto max-w-3xl mt-10 px-5 py-10 rounded-3xl shadow-2xl border-2 border-gray-600">
-            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Edit Post</h1>
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-400">Edit Post</h1>
             {error && (
                 <div className="mb-6 bg-red-600 p-4 rounded-lg text-center text-white font-semibold">
                     <p>{error}</p>

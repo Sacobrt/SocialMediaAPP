@@ -123,7 +123,7 @@ export default function UsersChange() {
 
     return (
         <div className="container mx-auto px-6 py-12 shadow-lg mt-10 rounded-3xl hover:shadow-xl border-2 border-gray-600 transition-all duration-300 ease-in-out">
-            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Edit Profile</h1>
+            <h1 className="text-3xl font-extrabold mb-8 text-center bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-purple-400">Edit Profile</h1>
 
             {/* Error Display */}
             {error && (
@@ -143,7 +143,7 @@ export default function UsersChange() {
                         {currentImage ? (
                             <img src={currentImage} alt="Profile" className="object-cover w-full h-full cursor-pointer" />
                         ) : (
-                            <div className="flex items-center justify-center w-full h-full bg-gradient-to-b from-purple-600 to-indigo-500 text-6xl text-white">
+                            <div className="flex items-center justify-center w-full h-full bg-linear-to-b from-purple-600 to-indigo-500 text-6xl text-white">
                                 {user.username?.charAt(0) || "?"}
                             </div>
                         )}
@@ -215,7 +215,7 @@ export default function UsersChange() {
                                     name={field}
                                     id={field}
                                     defaultValue={user[field]}
-                                    className="px-4 py-3 w-full bg-gray-700 text-white rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                                    className="px-4 py-3 w-full bg-gray-700 text-white rounded-lg border border-transparent focus:outline-hidden focus:ring-2 focus:ring-indigo-500 transition-all"
                                     required={field !== "firstName" && field !== "lastName"}
                                 />
                             </div>

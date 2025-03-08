@@ -124,7 +124,7 @@ export default function NavBar() {
                                         <div className="grid grid-flow-col items-center space-x-1">
                                             <button
                                                 onClick={logout}
-                                                className="text-gray-200 text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
+                                                className="cursor-pointer text-gray-200 text-sm rounded-md font-semibold focus:outline-hidden hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
                                             >
                                                 <div className="flex items-center gap-1.5">
                                                     <FaSignOutAlt />
@@ -133,7 +133,7 @@ export default function NavBar() {
                                             </button>
                                             <button
                                                 onClick={() => navigate(RoutesNames.STATISTICS)}
-                                                className="text-gray-200 text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
+                                                className="cursor-pointer text-gray-200 text-sm rounded-md font-semibold focus:outline-hidden hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
                                             >
                                                 <div className="flex items-center gap-1.5">
                                                     <ImStatsDots />
@@ -141,8 +141,8 @@ export default function NavBar() {
                                                 </div>
                                             </button>
                                             <Menu as="div" className="relative">
-                                                <MenuButton className="text-gray-200 text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2">
-                                                    <div className="flex items-center gap-1.5">
+                                                <MenuButton className="text-gray-200 text-sm rounded-md font-semibold focus:outline-hidden hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2">
+                                                    <div className="cursor-pointer flex items-center gap-1.5">
                                                         <RiAdminFill />
                                                         Admin
                                                     </div>
@@ -228,7 +228,7 @@ export default function NavBar() {
                                     <>
                                         <button
                                             onClick={() => navigate(RoutesNames.LOGIN)}
-                                            className="text-gray-200 text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 px-4 py-2"
+                                            className="text-gray-200 text-sm rounded-md font-semibold focus:outline-hidden hover:bg-gray-700 hover:text-white transition-all duration-300 px-4 py-2"
                                         >
                                             <div className="flex items-center gap-1.5">
                                                 <FaSignInAlt />
@@ -239,7 +239,7 @@ export default function NavBar() {
                                 )}
                             </div>
                             <div className="md:hidden absolute right-5 top-5">
-                                <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-0 transition-all duration-300 ease-in-out">
+                                <DisclosureButton className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-hidden focus:ring-0 transition-all duration-300 ease-in-out">
                                     <span className="sr-only">Open main menu</span>
                                     {open ? <XMarkIcon className="block h-6 w-6" aria-hidden="true" /> : <Bars3Icon className="block h-6 w-6" aria-hidden="true" />}
                                 </DisclosureButton>
@@ -285,7 +285,7 @@ export default function NavBar() {
                                 <Menu as="div" className="relative space-y-2">
                                     <button
                                         onClick={logout}
-                                        className="text-gray-200 w-full text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
+                                        className="text-gray-200 w-full text-sm rounded-md font-semibold focus:outline-hidden hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
                                     >
                                         <div className="flex items-center gap-1.5">
                                             <FaSignOutAlt />
@@ -294,7 +294,7 @@ export default function NavBar() {
                                     </button>
                                     <button
                                         onClick={() => navigate(RoutesNames.STATISTICS)}
-                                        className="text-gray-200 w-full text-sm rounded-md font-semibold focus:outline-none hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
+                                        className="text-gray-200 w-full text-sm rounded-md font-semibold focus:outline-hidden hover:bg-gray-700 hover:text-white transition-all duration-300 ease-in-out px-4 py-2"
                                     >
                                         <div className="flex items-center gap-1.5">
                                             <ImStatsDots />
